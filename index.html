@@ -14,7 +14,72 @@
 
 <!-- FONTS -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+* =============================
+PREMIUM UI UPGRADE
+============================= */
 
+/* Glass effect */
+.card{
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+/* Glow hover */
+.card:hover{
+  transform:translateY(-8px) scale(1.02);
+  box-shadow:0 20px 60px rgba(0,0,0,0.4);
+}
+
+/* Buttons upgrade */
+.btn{
+  transition:all 0.3s ease;
+}
+
+.btn-gold{
+  box-shadow:0 0 20px rgba(200,168,75,0.4);
+}
+
+.btn-gold:hover{
+  transform:translateY(-3px);
+  box-shadow:0 0 40px rgba(200,168,75,0.8);
+}
+
+/* Animated gradient background */
+body::before{
+  content:"";
+  position:fixed;
+  width:600px;
+  height:600px;
+  background:radial-gradient(circle, rgba(30,77,183,0.25), transparent);
+  top:-100px;
+  left:-100px;
+  animation:floatBg 10s infinite alternate;
+  z-index:0;
+}
+
+@keyframes floatBg{
+  0%{transform:translate(0,0);}
+  100%{transform:translate(200px,200px);}
+}
+
+/* Section reveal */
+.reveal{
+  opacity:0;
+  transform:translateY(40px);
+  transition:all 0.8s ease;
+}
+
+.reveal.active{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* Smooth nav */
+html{
+  scroll-behavior:smooth;
+}
+  
 <style>
 
 /* ==============================
@@ -255,74 +320,7 @@ HERO SECTION (PREMIUM + ANIMATED)
 
     <input placeholder="Area (sq ft)" style="width:100%;margin:10px 0;padding:10px;">
 
-    <button class="btn btn-gold" style="width:100%;">Request Consultation</button>
-    
-/* =============================
-PREMIUM UI UPGRADE
-============================= */
-
-/* Glass effect */
-.card{
-  backdrop-filter: blur(10px);
-  background: rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.1);
-}
-
-/* Glow hover */
-.card:hover{
-  transform:translateY(-8px) scale(1.02);
-  box-shadow:0 20px 60px rgba(0,0,0,0.4);
-}
-
-/* Buttons upgrade */
-.btn{
-  transition:all 0.3s ease;
-}
-
-.btn-gold{
-  box-shadow:0 0 20px rgba(200,168,75,0.4);
-}
-
-.btn-gold:hover{
-  transform:translateY(-3px);
-  box-shadow:0 0 40px rgba(200,168,75,0.8);
-}
-
-/* Animated gradient background */
-body::before{
-  content:"";
-  position:fixed;
-  width:600px;
-  height:600px;
-  background:radial-gradient(circle, rgba(30,77,183,0.25), transparent);
-  top:-100px;
-  left:-100px;
-  animation:floatBg 10s infinite alternate;
-  z-index:0;
-}
-
-@keyframes floatBg{
-  0%{transform:translate(0,0);}
-  100%{transform:translate(200px,200px);}
-}
-
-/* Section reveal */
-.reveal{
-  opacity:0;
-  transform:translateY(40px);
-  transition:all 0.8s ease;
-}
-
-.reveal.active{
-  opacity:1;
-  transform:translateY(0);
-}
-
-/* Smooth nav */
-html{
-  scroll-behavior:smooth;
-}
-
+    <button class="btn btn-gold" style="width:100%;">Request Consultation</button>/
   </div>
 
 </div>
