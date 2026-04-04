@@ -1229,7 +1229,7 @@ setTimeout(()=>{
    ================================================================ */
 window.addEventListener('hashchange',()=>{ if(location.hash==='#admin') openAdmin(); });
 function openAdmin(){
-  const pw=prompt('Enter admin password:');
+  const pw=prompt('303303303:');
   if(pw!==CFG.adminPassword){ history.replaceState(null,'','#home'); navigate('home',false); return; }
   const leads=JSON.parse(localStorage.getItem('ac_leads_v2')||'[]');
   const win=window.open('','_blank');
@@ -1262,14 +1262,11 @@ function openAdmin(){
     const sorted=[...leads].reverse();
     win.document.write('<table><tr><th>#</th><th>Time</th><th>Name</th><th>Phone</th><th>Email</th><th>Service</th><th>Facility</th><th>Location</th><th>Source</th><th>Message</th></tr>');
     sorted.forEach((l,i)=>{
-      win.document.write(`<tr><td>${sorted.length-i}</td><td style="white-space:nowrap;font-size:.75rem;">${l.timestamp?new Date(l.timestamp).toLocaleString('en-IN'):''}</td><td><strong>${l.name||'\u2014'}</strong></td><td style="color:#4a90d9;white-space:nowrap;"><a href="tel:${(l.phone||'').replace(/\s/g,'')}" style="color:#4a90d9;">${l.phone||'\u2014'}</a></td><td style="font-size:.76rem;">${l.email||'\u2014'}</td><td>${l.service||l.requirement||'\u2014'}</td><td>${l.facility||l.propertyType||'\u2014'}</td><td>${l.location||'\u2014'}</td><td><span class="badge">${l.source||'\u2014'}</span></td><td style="max-width:200px;font-size:.76rem;">${l.message||'\u2014'}</td></tr>`);
-    });
-    win.document.write('</table>');
-  }
+      win.document.write(`<tr><td>${sorted.length-i}</td><td style="white-space:nowrap;font-size:.75rem;">${l.timestamp?new Date(l.timestamp).toLocaleString('en-IN'):''}</td><td><strong>${l.name||'\u2014'}</strong></td><td style="color:#4a90d9;white-space:nowrap;"><a href="tel:${(l.phone||'').replace(/\s/g,'')}" style="color:#4a90d9;">${l.phone||'\u2014'}</a></td><td style="font-size:.76rem;">${l.email||'\u2014'}</td><td>${l.service||l.requirement||'\u2014'}</td><td>${l.facility||l.propertyType||'\u2014'}</td><td>${l.location||'\u2014'}</td><td><span class="badge">${l.source||'\u2014'}</span></td><td style="max-width:200px;font-size:.76rem;">${l.message||'\u2014'}</td></tr>`);});
+    win.document.write('</table>');}
   const ld=JSON.stringify(leads);
   win.document.write(`<script>const LD=${ld};function dlCSV(){const h=['ID','Time','Name','Phone','Email','Service','Facility','Location','PropertyType','Message','Source'];const rows=LD.map((l,i)=>[i+1,l.timestamp,l.name,l.phone,l.email,l.service||l.requirement,'','','',l.message,l.source]);rows.unshift(h);let csvContent='data:text/csv;charset=utf-8,'+rows.map(e=>e.join(',')).join('\\n');const encodedUri=encodeURI(csvContent);const link=document.createElement('a');link.setAttribute('href',encodedUri);link.setAttribute('download','air-control-leads.csv');document.body.appendChild(link);link.click();link.remove();}<\/script>`);
-  win.document.write('</body></html>');
-}
+  win.document.write('</body></html>');}
 
 /* ================================================================
    FORM INTEGRATION — web3forms for contact forms + leads db
@@ -1294,7 +1291,7 @@ async function sendToWeb3Forms(lead){
   });
 }
 // Contact forms
-web3forms.init(CFG.w3fkey);
+web3forms.init(0b3287e6-ba3f-4a09-93ed-2212b40ea680);
 document.getElementById('contactForm').addEventListener('submit',async e=>{
   e.preventDefault();
   const name=e.target.name.value, phone=e.target.phone.value, email=e.target.email.value, service=e.target.service.value, facility=e.target.facility.value, location=e.target.location.value, message=e.target.message.value;
@@ -1302,8 +1299,7 @@ document.getElementById('contactForm').addEventListener('submit',async e=>{
   const lead={name,phone,email,service,facility,location,message,source:'contact-form',timestamp:new Date().toISOString()};
   await web3forms.submit(e.target);
   saveLead(lead);
-  sendMailtoNotification(lead);
-});
+  sendMailtoNotification(lead);});
 // Footer form (mini version) 
 document.getElementById('footerForm').addEventListener('submit',async e=>{
   e.preventDefault();
@@ -1312,15 +1308,13 @@ document.getElementById('footerForm').addEventListener('submit',async e=>{
   const lead={name,phone,service,source:'mini-form',timestamp:new Date().toISOString()};
   await web3forms.submit(e.target);
   saveLead(lead);
-  sendMailtoNotification(lead);
-});
+  sendMailtoNotification(lead);});
 function saveLead(lead){
   // Save to local storage
   let leads=JSON.parse(localStorage.getItem('ac_leads_v2')||'[]');
   leads.push(lead);
-  localStorage.setItem('ac_leads_v2',JSON.stringify(leads));
-}
-function sendMailtoNotification(lead){ window.open(`mailto:sales@aircontrol.in?subject=New Lead - ${lead.name}&body=${encodeURIComponent(`
+  localStorage.setItem('ac_leads_v2',JSON.stringify(leads));}
+//function sendMailtoNotification(lead){ window.open(`mailto:sales@aircontrol.in?subject=New Lead - ${lead.name}&body=${encodeURIComponent(`
 
 New Lead Notification
 ---------------------
@@ -1357,5 +1351,22 @@ else history.replaceState(null,'','#'+page);
 /* Reveal animations */
 const ro=new IntersectionObserver(els=>{[...els].forEach(el=>el.isIntersecting ? el.target.classList.add('visible') : el.target.classList.remove('visible'))});
 [...document.querySelectorAll('.reveal')].forEach(el=>ro.observe(el));
+/* ================================================================
+   PROCESS RAIL INTERACTION
+   ================================================================ */
+document.querySelectorAll('.ps-step').forEach((s,i)=>{
+  s.addEventListener('click',()=>{
+    document.querySelectorAll('.ps-step').forEach(x=>x.classList.remove('active'));
+    s.classList.add('active');
+  });
+});
+
+/* ================================================================
+   INIT
+   ================================================================ */
+setTimeout(initReveal, 120);
+</script>
+</body>
+</html>
 
 
