@@ -518,6 +518,20 @@ footer{background:var(--navy-deep);border-top:1px solid rgba(200,168,75,.12);pad
 /* Scanline depth texture — adds institutional gravitas */
 body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:99997;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.012) 3px,rgba(0,0,0,.012) 4px);}
 </style>
+<!-- =========================================================
+ADVANCED SEO META (HVAC DOMINATION)
+========================================================= -->
+
+<meta name="keywords" content="HVAC Delhi NCR, HVAC AMC Delhi, Air Conditioning Delhi, AC Services Delhi, HVAC Installation Delhi NCR, Commercial HVAC India, VRF AC Delhi, Central AC Delhi, HVAC Company Gurgaon, HVAC Company Noida, HVAC Company Faridabad, HVAC Repair Delhi NCR, HVAC Maintenance Delhi">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "LocalBusiness",
+ "name": "Air Control HVAC Delhi NCR",
+ "areaServed": ["Delhi", "Gurgaon", "Noida", "Faridabad", "Ghaziabad"]
+}
+</script>
 </head>
 <body>
 
@@ -575,7 +589,15 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:99997;
       <div class="hero-left">
         <div class="hero-badge reveal"><span class="pulse-dot"></span>Trusted Since 1987 · Delhi's #1 Institutional HVAC</div>
         <h1 class="display reveal d1">Where Air Conditioning Is<br><em>Engineered</em>,<br>Not Improvised</h1>
-        <p class="hero-sub reveal d2">Serving embassies, Fortune 500 companies, and premium establishments with uncompromised safety, precision, and long-term performance since 1987.</p>
+        <p class="hero-sub reveal d2">Professional HVAC installation, HVAC AMC, and air conditioning services across Delhi NCR including Gurgaon, Noida, Faridabad, and Ghaziabad.
+
+We specialize in commercial HVAC systems, industrial air conditioning, VRF systems, central AC installation, and long-term HVAC maintenance contracts.
+
+Trusted since 1987, Air Control delivers engineering-grade HVAC solutions for factories, commercial buildings, hospitals, and critical infrastructure where performance and safety cannot be compromised.
+</p>
+<p style="margin-top:12px;color:rgba(255,255,255,.55);font-size:14px;">
+HVAC Company in Delhi NCR providing AC services, HVAC AMC, installation, repair, and maintenance solutions for residential, commercial, and industrial clients.
+</p>
         <div class="hero-actions reveal d3">
           <button class="btn btn-gold btn-lg" onclick="openChatbot()">Get Free Assessment <span class="arrow-icon">→</span></button>
           <button class="btn btn-navy btn-lg" onclick="navigate('why')">Why It Matters</button>
@@ -903,49 +925,81 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:99997;
         <div class="srv-card reveal d1">
           <div class="srv-icon-wrap">📐</div>
           <h3>HVAC Consulting &amp; System Planning</h3>
-          <p>Before a single unit is ordered, our engineers conduct a full site assessment, heat-load calculation, and system design. No assumptions, no guesswork — engineering always comes first.</p>
+          Professional HVAC consulting services in Delhi NCR for commercial and industrial air conditioning projects including HVAC design, load calculation, ventilation planning, and system engineering.
+
+We design central air conditioning systems, VRF HVAC systems, ducted AC systems, and industrial cooling solutions based on accurate heat load calculations and building requirements.
+
+Our HVAC system planning ensures energy-efficient air conditioning, optimal airflow, and long-term performance for offices, factories, hospitals, and commercial buildings.</p>
           <div class="srv-tags"><span class="srv-tag">Site Survey</span><span class="srv-tag">Load Calculation</span><span class="srv-tag">System Design Report</span></div>
         </div>
         <div class="srv-card reveal d2">
           <div class="srv-icon-wrap">🏠</div>
           <h3>Residential Air Conditioning</h3>
-          <p>Premium home comfort systems designed with the same engineering discipline we bring to embassies. Your family deserves institutional-grade protection, not contractor-grade shortcuts.</p>
+          <p>Best residential AC installation services in Delhi NCR including split AC installation, ducted air conditioning, inverter AC systems, and multi-room HVAC solutions.
+
+We provide home air conditioning installation, AC servicing, and AMC maintenance for energy-efficient cooling and long-lasting performance.
+
+Our residential HVAC services ensure proper installation, gas charging, airflow balance, and cooling efficiency for apartments, villas, and modern homes.</p>
           <div class="srv-tags"><span class="srv-tag">Split AC</span><span class="srv-tag">Cassette</span><span class="srv-tag">Ducted Systems</span><span class="srv-tag">Multi-zone</span></div>
         </div>
         <div class="srv-card reveal d3">
           <div class="srv-icon-wrap">🏭</div>
           <h3>Commercial &amp; Industrial HVAC</h3>
-          <p>Large-scale climate control for offices, warehouses, hospitals, and industrial facilities. Engineered for zero downtime, maximum energy efficiency, and decades of reliability.</p>
+          <p>Commercial HVAC systems and industrial air conditioning services in Delhi NCR for offices, factories, warehouses, hospitals, and large commercial buildings.
+
+We install central air conditioning systems, AHU units, ventilation systems, and industrial HVAC solutions designed for high efficiency, continuous operation, and large cooling loads.
+
+Our commercial HVAC services include installation, maintenance, repair, and AMC contracts for long-term performance and reduced energy costs.</p>
           <div class="srv-tags"><span class="srv-tag">Central Plant</span><span class="srv-tag">AHU</span><span class="srv-tag">Precision Cooling</span></div>
         </div>
         <div class="srv-card reveal d4">
           <div class="srv-icon-wrap">❄</div>
           <h3>Split, VRF, VRV &amp; Chiller Installations</h3>
-          <p>The full technology spectrum, matched precisely to your building's thermal profile. We recommend only what's optimal for you — even if that's a less expensive solution.</p>
+          <p>Expert HVAC installation services for split AC, VRF systems, VRV air conditioning, and chiller-based cooling systems across Delhi NCR.
+
+We provide complete air conditioning installation including system design, piping, ducting, insulation, and commissioning for residential, commercial, and industrial projects.
+
+Our HVAC installation services cover Delhi, Gurgaon, Noida, Faridabad, and Ghaziabad with optimized cooling performance and energy efficiency.</p>
           <div class="srv-tags"><span class="srv-tag">VRF / VRV</span><span class="srv-tag">Chillers</span><span class="srv-tag">CRAC Units</span></div>
         </div>
         <div class="srv-card reveal d1">
           <div class="srv-icon-wrap">🛡</div>
           <h3>Annual Maintenance Contracts (AMC)</h3>
-          <p>Proactive care that prevents breakdowns before they happen. Our AMC clients average 40% fewer failures and significantly lower lifetime operating costs than the industry average.</p>
+          <p>HVAC AMC services in Delhi NCR for air conditioning maintenance, AC servicing, and preventive maintenance of HVAC systems.
+
+We provide annual maintenance contracts for VRF systems, central AC, chillers, split AC units, and ducted air conditioning systems.
+
+Our HVAC maintenance services reduce breakdowns, improve cooling efficiency, lower electricity consumption, and extend system life for commercial and industrial clients.</p>
           <div class="srv-tags"><span class="srv-tag">Preventive Maintenance</span><span class="srv-tag">Priority Response</span><span class="srv-tag">Safety Checks</span></div>
         </div>
         <div class="srv-card reveal d2">
           <div class="srv-icon-wrap">🔍</div>
           <h3>System Audits, Upgrades &amp; Retrofits</h3>
-          <p>Inherited an ageing HVAC system? We audit existing installations for hidden safety risks, energy waste, and performance gaps — delivering a clear upgrade roadmap with real ROI data.</p>
+          <p>HVAC system audit services in Delhi NCR for evaluating existing air conditioning systems, identifying inefficiencies, and improving performance.
+
+We provide HVAC upgrades, AC system retrofits, and energy optimization solutions for old HVAC installations in commercial and industrial spaces.
+
+Our HVAC audit services help reduce energy costs, improve cooling efficiency, and upgrade outdated air conditioning systems.</p>
           <div class="srv-tags"><span class="srv-tag">Energy Audit</span><span class="srv-tag">Retrofit Plan</span><span class="srv-tag">ROI Projection</span></div>
         </div>
         <div class="srv-card reveal d3">
           <div class="srv-icon-wrap">⚡</div>
           <h3>Safety &amp; Performance Optimization</h3>
-          <p>Full engineering review of your system's refrigerant integrity, safety compliance, electrical load, and cooling efficiency. Identify hidden risks before they surface into incidents.</p>
+          <p>HVAC safety inspection and performance optimization services for air conditioning systems in Delhi NCR.
+
+We check refrigerant levels, electrical systems, airflow distribution, and cooling efficiency to ensure safe and efficient HVAC operation.
+
+Our HVAC optimization services improve system performance, reduce energy usage, and prevent breakdowns in commercial and industrial environments.</p>
           <div class="srv-tags"><span class="srv-tag">Safety Audit</span><span class="srv-tag">Efficiency Report</span><span class="srv-tag">Compliance Check</span></div>
         </div>
         <div class="srv-card reveal d4">
           <div class="srv-icon-wrap">🚨</div>
           <h3>Emergency Support &amp; Diagnostics</h3>
-          <p>When a critical system fails, every hour costs you directly. Our emergency team responds within 2 hours across Delhi NCR — 24/7, without exception, even for non-AMC clients.</p>
+          <p>Emergency AC repair services and HVAC troubleshooting in Delhi NCR with fast response for breakdowns and urgent system failures.
+
+We provide air conditioning repair, gas refilling, compressor repair, and HVAC diagnostics for VRF systems, central AC, chillers, and industrial cooling systems.
+
+Our 24/7 HVAC repair services ensure minimal downtime and quick restoration of cooling systems for homes, offices, and commercial facilities.</p>
           <div class="srv-tags"><span class="srv-tag">2-Hour Response</span><span class="srv-tag">24 / 7</span><span class="srv-tag">All NCR</span></div>
         </div>
       </div>
@@ -991,7 +1045,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:99997;
     <div class="container">
       <div class="section-label text-gold reveal">Our Clients</div>
       <h1 class="headline text-white reveal d1">Trusted by Institutions<br>That <em>Cannot Afford Risk</em></h1>
-      <p class="reveal d2">When the Vatican Embassy, DHL India, and Tanishq Jewellers choose the same HVAC partner for 10–15 years — that isn't a coincidence. That's proof of a standard.</p>
+      <p class="reveal d2">When the Vatican Embassy, DHL India, and several other institutions and plenty of residences choose the same HVAC partner for 10–15 years — that isn't a coincidence. That's proof of a standard.</p>
     </div>
   </section>
 
@@ -1068,6 +1122,58 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:99997;
         <button class="btn btn-gold btn-lg" onclick="navigate('contact')">Read All Client Reviews <span class="arrow-icon">→</span></button>
         <button class="btn btn-navy btn-lg" onclick="openChatbot()" style="margin-left:14px;">Get Industry-Specific Quote</button>
       </div>
+<div style="text-align:center;margin-top:48px;" class="reveal">
+        <button class="btn btn-gold btn-lg" onclick="navigate('contact')">Read All Client Reviews <span class="arrow-icon">→</span></button>
+        <button class="btn btn-navy btn-lg" onclick="openChatbot()" style="margin-left:14px;">Get Industry-Specific Quote</button>
+      </div>
+
+      <!-- SEO EXPANSION BLOCK START -->
+      <div style="margin-top:60px">
+
+        <h2 style="font-size:28px;margin-bottom:20px;">
+        HVAC Services for All Industries in Delhi NCR
+        </h2>
+
+        <p style="color:#6b7a99;line-height:1.8;margin-bottom:20px;">
+        We provide HVAC services, air conditioning installation, AC repair, and HVAC AMC maintenance across Delhi NCR including Gurgaon, Noida, Faridabad, and Ghaziabad.Our expertise covers split AC systems, central air conditioning, VRF systems, and industrial HVAC solutions for residential, commercial, and industrial clients.
+        </p>
+
+        <h3>Industrial HVAC Systems</h3>
+        <p style="color:#6b7a99;">
+        Industrial HVAC systems for factories require high-capacity cooling, ventilation, and temperature control. We install chillers, central AC systems, and industrial ventilation systems.
+        </p>
+
+        <h3>Commercial HVAC Systems</h3>
+        <p style="color:#6b7a99;">
+        Commercial HVAC services include central air conditioning, VRF systems, and ducted AC systems for offices, malls, and commercial buildings with energy-efficient cooling solutions.
+        </p>
+
+        <h3>Hospital Air Conditioning Systems</h3>
+        <p style="color:#6b7a99;">
+        Hospital HVAC and air conditioning systems require precision cooling, air filtration, and safety compliance. We provide installation, servicing, and AMC maintenance for healthcare facilities.
+        </p>
+
+        <h3>Hotel Air Conditioning Systems</h3>
+        <p style="color:#6b7a99;">
+        We install VRF and central air conditioning systems for hotels ensuring silent operation, comfort cooling, and energy efficiency for hospitality environments.
+        </p>
+
+        <h3>Data Center Cooling</h3>
+        <p style="color:#6b7a99;">
+        Precision air conditioning and HVAC systems for data centers ensuring continuous cooling, controlled temperature, and zero downtime for critical operations.
+        </p>
+
+        <h2 style="margin-top:40px;">HVAC Services in Delhi NCR Locations</h2>
+
+        <ul style="color:#6b7a99;line-height:2;">
+          <li>Air conditioning Services in Saket, Lajpat Nagar,east of kailash, Greater Kailash, Defence Colony, New Friends Colony,SDA Enclave, Chhatarpur, Vasant Kunj, Vasant Vihar, Okhla, Rohini, Janakpuri,Punjabi Bagh,Moti Nagar, Rajouri Garden, Connaught Place</li>
+          <li>Air conditioning Company in Gurgaon – DLF Phase 1, Phase 2, Udyog Vihar</li>
+          <li>Air conditioning Services in Noida – Sector 62, Sector 63, Sector 2, Sector 3</li>
+          <li>Air conditioning Services in Faridabad & Ghaziabad</li>
+        </ul>
+
+      </div>
+      <!-- SEO EXPANSION BLOCK END -->
     </div>
   </section>
   <footer><div class="container"><div class="footer-bottom" style="border-top:1px solid rgba(255,255,255,.08);padding:24px 0 0;"><span>© 2025 Air Control · <a onclick="navigate('home')" style="color:var(--gold);cursor:pointer;">Home</a> · <a onclick="navigate('services')" style="color:rgba(255,255,255,.4);cursor:pointer;">Services</a> · <a onclick="navigate('contact')" style="color:rgba(255,255,255,.4);cursor:pointer;">Contact</a></span><span class="footer-bottom-right">ajay@aircontrols.in · +91 93122 64832</span></div></div></footer>
@@ -1093,7 +1199,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:99997;
           <div class="rev-stars">★★★★★</div>
           <div class="rev-quote-mark">"</div>
           <p class="rev-text">We had Air Control install our complete VRF system across 3 floors. Their engineering approach was impressive — they took time to understand our space before suggesting solutions. No shortcuts, professional team, flawless installation. System has been running perfectly since.</p>
-          <div class="rev-footer"><div><div class="rev-name">R*j*sh M**h****</div><div class="rev-org">DHL Express India</div><div class="rev-date">December 2024</div></div><div class="rev-verified">Verified</div></div>
+          <div class="rev-footer"><div><div class="rev-name">R*j*sh M**h****</div><div class="rev-org">DHL </div><div class="rev-date">December 2024</div></div><div class="rev-verified">Verified</div></div>
         </div>
         <div class="rev-card reveal d2">
           <div class="rev-stars">★★★★★</div>
@@ -1123,7 +1229,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:99997;
           <div class="rev-stars">★★★★★</div>
           <div class="rev-quote-mark">"</div>
           <p class="rev-text">Data center cooling is mission-critical. Air Control engineered a redundant chiller — main plus backup. 6 years, zero thermal incidents. They actually understand what "zero downtime" means for our business. True engineering professionals.</p>
-          <div class="rev-footer"><div><div class="rev-name">Amit Gupta</div><div class="rev-org">IT Data Center, Noida</div><div class="rev-date">July 2024</div></div><div class="rev-verified">Verified</div></div>
+          <div class="rev-footer"><div><div class="rev-name">A*i* G**a</div><div class="rev-org">IT Data Center, Noida</div><div class="rev-date">July 2024</div></div><div class="rev-verified">Verified</div></div>
         </div>
       </div>
 
@@ -1159,74 +1265,160 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:99997;
         </div>
 
         <!-- RIGHT: Form -->
-        <div class="contact-form-card reveal-r">
-          <div class="cf-header">
-            <div class="section-label text-royal" style="margin-bottom:10px;">Free Consultation</div>
-            <h2>Request Your Free<br>Safety Assessment</h2>
-            <p>Fill in your details and our senior engineer will call within 2 hours — honest evaluation, no obligation, no sales pressure.</p>
-          </div>
-          <div id="contactFormBody">
-            <div class="form-row">
-              <div class="form-group"><label>First Name *</label><input type="text" id="cf-fname" placeholder="e.g. Rajesh" required></div>
-              <div class="form-group"><label>Last Name</label><input type="text" id="cf-lname" placeholder="e.g. Sharma"></div>
-            </div>
-            <div class="form-row">
-              <div class="form-group"><label>Phone Number *</label><input type="tel" id="cf-phone" placeholder="+91 98XXX XXXXX" required></div>
-              <div class="form-group"><label>Email Address *</label><input type="email" id="cf-email" placeholder="you@company.com" required></div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label>Service Required *</label>
-                <select id="cf-service" required>
-                  <option value="">Select service...</option>
-                  <option>New AC Installation</option>
-                  <option>Commercial HVAC System</option>
-                  <option>AMC / Preventive Maintenance</option>
-                  <option>Emergency Repair</option>
-                  <option>System Audit / Upgrade</option>
-                  <option>VRF / VRV / Chiller</option>
-                  <option>Consultation Only</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Facility Type</label>
-                <select id="cf-facility">
-                  <option value="">Select type...</option>
-                  <option>Residential Home / Villa</option>
-                  <option>Corporate Office</option>
-                  <option>Commercial Building</option>
-                  <option>Embassy / Diplomatic</option>
-                  <option>Medical / Hospital</option>
-                  <option>Data Center / IT</option>
-                  <option>Warehouse / Logistics</option>
-                  <option>Retail / Showroom</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group">
-              <label>Location / Area *</label>
-              <input type="text" id="cf-location" placeholder="e.g. Connaught Place, New Delhi" required>
-            </div>
-            <div class="form-group">
-              <label>Describe Your Requirement</label>
-              <textarea id="cf-message" placeholder="Space size, existing system, urgency, specific concerns..."></textarea>
-            </div>
-            <div class="form-privacy">Your information is strictly confidential and shared only with our engineering team. We never share your data with third parties.</div>
-            <button class="form-submit-btn" id="cfSubmitBtn" onclick="submitContactForm()">
-              📋 Submit Consultation Request <span class="arrow-icon">→</span>
-            </button>
-          </div>
-          <div class="form-success" id="cfSuccess">
-            <span class="fs-icon">✅</span>
-            <h3>Request Received!</h3>
-            <p>Our senior engineer will contact you within <strong>2 hours</strong> at the number provided.<br><br>
-            For immediate assistance:<br>
-            📞 <a href="tel:+919312264832">+91 93122 64832</a><br>
-            ✉ <a href="mailto:ajay@aircontrols.in">ajay@aircontrols.in</a></p>
-          </div>
-        </div>
+<div class="contact-form-card reveal-r">
+  <div class="cf-header">
+    <div class="section-label text-royal" style="margin-bottom:10px;">Free Consultation</div>
+    <h2>Request Your Free<br>Safety Assessment</h2>
+    <p>AC repair, AC servicing, air conditioner installation & HVAC maintenance experts in Delhi NCR. Get a quick response from certified engineers.</p>
+  </div>
+
+  <!-- ✅ FORM START -->
+  <form action="https://api.web3forms.com/submit" method="POST">
+
+    <!-- 🔑 KEEP YOUR ORIGINAL KEY HERE -->
+    <input type="hidden" name="access_key" value="0b3287e6-ba3f-4a09-93ed-2212b40ea680">
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>First Name *</label>
+        <input type="text" name="first_name" placeholder="e.g. Rajesh" required>
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" name="last_name" placeholder="e.g. Sharma">
       </div>
     </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Phone Number *</label>
+        <input type="tel" name="phone" placeholder="+91 98XXX XXXXX" required>
+      </div>
+      <div class="form-group">
+        <label>Email Address *</label>
+        <input type="email" name="email" placeholder="you@company.com" required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Service Required *</label>
+        <select name="service" required>
+          <option value="">Select service...</option>
+          <option>AC Repair</option>
+          <option>AC Servicing</option>
+          <option>AC Installation</option>
+          <option>Air Conditioner Maintenance</option>
+          <option>HVAC AMC</option>
+          <option>Commercial HVAC System</option>
+          <option>Emergency AC Repair</option>
+          <option>VRF / VRV / Chiller</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Facility Type</label>
+        <select name="facility">
+          <option value="">Select type...</option>
+          <option>Residential</option>
+          <option>Office</option>
+          <option>Commercial</option>
+          <option>Hospital</option>
+          <option>Hotel</option>
+          <option>Data Center</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Location / Area *</label>
+      <input type="text" name="location" placeholder="e.g. Gurgaon, Noida, Delhi NCR" required>
+    </div>
+
+    <div class="form-group">
+      <label>Describe Your Requirement</label>
+      <textarea name="message" placeholder="AC not cooling, servicing needed, installation requirement, urgent repair..."></textarea>
+    </div>
+
+    <div class="form-privacy">
+      Your information is secure. We provide AC repair, AC servicing & HVAC services across Delhi NCR.
+    </div>
+
+    <button type="submit" class="form-submit-btn">
+      📋 Get AC Service Quote Now <span class="arrow-icon">→</span>
+    </button>
+
+  </form>
+  <!-- ✅ FORM END -->
+
+  <div class="form-success" id="cfSuccess">
+    <span class="fs-icon">✅</span>
+    <h3>Request Received!</h3>
+    <p>Our team will contact you within <strong>2 hours</strong>.<br>
+    📞 <a href="tel:+919312264832">+91 93122 64832</a></p>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- FAQ SECTION START -->
+<div style="margin-top:80px">
+
+  <h2 style="font-size:30px;margin-bottom:20px;">
+  AC Repair, AC Servicing & HVAC Services – Frequently Asked Questions
+  </h2>
+
+  <div style="color:#6b7a99;line-height:1.9">
+
+    <h3>What are the best AC repair services in Delhi NCR?</h3>
+    <p>We provide professional AC repair services in Delhi NCR including split AC repair, central air conditioning repair, VRF system repair, and industrial HVAC troubleshooting with fast response.</p>
+
+    <h3>How often should AC servicing be done?</h3>
+    <p>AC servicing should be done every 3 to 6 months depending on usage. Regular air conditioner servicing improves cooling efficiency, reduces electricity bills, and prevents breakdowns.</p>
+
+    <h3>What is included in AC servicing?</h3>
+    <p>AC servicing includes cleaning filters, checking refrigerant gas levels, inspecting electrical components, condenser cleaning, and ensuring proper airflow for optimal cooling.</p>
+
+    <h3>What is AC AMC and why is it important?</h3>
+    <p>AC AMC (Annual Maintenance Contract) ensures regular AC maintenance, reduces repair costs, and extends the life of air conditioning systems for residential and commercial use.</p>
+
+    <h3>What is the cost of AC servicing in Delhi NCR?</h3>
+    <p>The cost of AC servicing depends on system type such as split AC, window AC, or central air conditioning systems. Commercial HVAC AMC pricing varies based on system size.</p>
+
+    <h3>Do you provide AC installation services?</h3>
+    <p>Yes, we provide air conditioner installation services including split AC installation, ducted AC systems, VRF systems, and central AC installation across Delhi NCR.</p>
+
+    <h3>Which AC is best for home use?</h3>
+    <p>Split AC and inverter AC systems are ideal for homes due to energy efficiency and better cooling performance. The right air conditioner depends on room size and usage.</p>
+
+    <h3>What is the difference between HVAC and air conditioning?</h3>
+    <p>Air conditioning focuses on cooling, while HVAC includes heating, ventilation, and air conditioning systems used for residential, commercial, and industrial environments.</p>
+
+    <h3>Do you provide AC repair near me?</h3>
+    <p>Yes, we provide AC repair services near you across Delhi NCR including Gurgaon, Noida, Faridabad, and Ghaziabad with fast response.</p>
+
+    <h3>How can I reduce AC electricity bills?</h3>
+    <p>Regular AC servicing, proper installation, using inverter AC systems, and maintaining optimal temperature settings can significantly reduce electricity consumption.</p>
+
+    <h3>What types of air conditioners do you service?</h3>
+    <p>We service split AC, window AC, cassette AC, ducted air conditioning, VRF systems, VRV systems, central AC, and chiller-based HVAC systems.</p>
+
+    <h3>Do you provide commercial HVAC services?</h3>
+    <p>Yes, we provide commercial HVAC installation, AC maintenance, and HVAC AMC services for offices, factories, hospitals, hotels, and industrial facilities.</p>
+
+    <h3>What is the best AC maintenance plan?</h3>
+    <p>The best AC maintenance plan is an AMC contract that includes periodic servicing, inspection, and preventive maintenance to avoid major breakdowns.</p>
+
+    <h3>Do you offer emergency AC repair services?</h3>
+    <p>Yes, we provide emergency AC repair and HVAC services with quick response across Delhi NCR for residential and commercial systems.</p>
+
+    <h3>Which areas do you cover for AC services?</h3>
+    <p>We provide AC servicing, AC repair, AC installation, and HVAC services in Saket, Lajpat Nagar, Okhla, Rohini, Janakpuri, Connaught Place, Gurgaon, Noida, Faridabad, and Ghaziabad.</p>
+
+  </div>
+
+</div>
+<!-- FAQ SECTION END -->
   </section>
 
   <div class="emergency-strip">
@@ -1290,6 +1482,12 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:99997;
   <div class="chat-lead-saved-indicator" id="leadSavedBar">Lead saved — our team will call you shortly</div>
   <div class="chat-messages-wrap" id="chatMsgs"></div>
   <div class="chat-qr-wrap" id="chatQRs"></div>
+<div id="chatOptions" style="padding:10px 14px;display:none;flex-wrap:wrap;gap:8px;">
+  <button class="chat-opt-btn" onclick="selectOption('AC Repair')">AC Repair</button>
+  <button class="chat-opt-btn" onclick="selectOption('AC Servicing')">AC Servicing</button>
+  <button class="chat-opt-btn" onclick="selectOption('Installation')">Installation</button>
+  <button class="chat-opt-btn" onclick="selectOption('AMC')">AMC</button>
+</div>
   <div class="chat-input-row" id="chatInputRow">
     <input class="chat-text-input" id="chatTextInput" placeholder="Type your answer..." onkeypress="if(event.key==='Enter')sendChatMsg()">
     <button class="chat-send-btn" onclick="sendChatMsg()">
@@ -1757,6 +1955,210 @@ document.querySelectorAll('.ps-step').forEach((s,i)=>{
    INIT
    ================================================================ */
 setTimeout(initReveal, 120);
+
+/* ===============================
+   ADVANCED CHATBOT LEAD SYSTEM
+   =============================== */
+
+let leadData = {
+  name: "",
+  phone: "",
+  service: "",
+  urgency: "",
+  location: "",
+  stage: 0
+};
+
+function addBotMessage(text){
+  const chat = document.querySelector(".chat-messages-wrap");
+  if(!chat) return;
+
+  const msg = document.createElement("div");
+  msg.className = "chat-msg bot";
+  msg.innerHTML = `<div class="chat-bubble">${text}</div>`;
+  chat.appendChild(msg);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function addUserMessage(text){
+  const chat = document.querySelector(".chat-messages-wrap");
+  if(!chat) return;
+
+  const msg = document.createElement("div");
+  msg.className = "chat-msg user";
+  msg.innerHTML = `<div class="chat-bubble">${text}</div>`;
+  chat.appendChild(msg);
+}
+
+function handleChatInput(input){
+  addUserMessage(input);
+
+  switch(leadData.stage){
+
+    case 0:
+      leadData.name = input;
+      leadData.stage = 1;
+      addBotMessage("Thanks " + input + ". What's your phone number?");
+      break;
+
+    case 1:
+      leadData.phone = input;
+      leadData.stage = 2;
+      addBotMessage("What do you need help with?");
+updateOptions([
+  "AC Repair",
+  "AC Servicing",
+  "Installation",
+  "AMC",
+  "Not sure"
+]);
+    case 2:
+  leadData.service = input;
+
+  // 🔥 HIGH VALUE SERVICE BOOST
+  if(input.toLowerCase().includes("repair")){
+    addBotMessage("Got it. AC repair issues can worsen quickly if delayed.");
+  }
+
+  leadData.stage = 3;
+
+  addBotMessage("How urgent is your requirement?");
+  updateOptions([
+    "Immediate (Today)",
+    "Within 24 hours",
+    "This week"
+  ]);
+
+  break;
+
+    case 3:
+  leadData.urgency = input;
+
+  // 🔥 HIGH INTENT DETECTED
+  if(input.toLowerCase().includes("immediate") || input === "1"){
+    
+    addBotMessage("⚡ This looks urgent. You can connect instantly:");
+
+    showInstantActions(); // 👈 NEW FUNCTION
+
+    leadData.stage = 4;
+    addBotMessage("Also, tell me your location so we assign nearest engineer.");
+  }
+  else{
+    leadData.stage = 4;
+    addBotMessage("Which area are you located in?");
+  }
+
+  break;
+    case 4:
+      leadData.location = input;
+      leadData.stage = 5;
+
+      addBotMessage("✅ Perfect. Assigning a senior engineer near you.\n\nYou’ll receive a call shortly.");
+
+      // 🔥 FINAL CONVERSION PUSH
+      showInstantActions();
+
+      sendLeadToWhatsApp();
+      break;
+
+    default:
+      addBotMessage("Our team will contact you shortly.");
+  }
+}
+
+/* ===============================
+   WHATSAPP LEAD PUSH
+   =============================== */
+function sendLeadToWhatsApp(){
+  const msg =
+`🔥 New AC Lead
+Name: ${leadData.name}
+Phone: ${leadData.phone}
+Service: ${leadData.service}
+Urgency: ${leadData.urgency}
+Location: ${leadData.location}`;
+
+  window.open(`https://wa.me/919312264832?text=${encodeURIComponent(msg)}`, "_blank");
+}
+
+/* ===============================
+   INPUT HANDLER
+   =============================== */
+function chatSend(){
+  const input = document.querySelector(".chat-text-input");
+  if(!input || input.value.trim() === "") return;
+
+  handleChatInput(input.value);
+  input.value = "";
+}
+
+/* ===============================
+   OPTIONS UI (BUTTON SYSTEM)
+   =============================== */
+function updateOptions(options){
+  const box = document.getElementById("chatOptions");
+  if(!box) return;
+
+  box.style.display = "flex";
+  box.innerHTML = "";
+
+  options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.className = "chat-opt-btn";
+    btn.innerText = opt;
+    btn.onclick = () => selectOption(opt);
+    box.appendChild(btn);
+  });
+}
+
+function selectOption(value){
+  const box = document.getElementById("chatOptions");
+  if(box) box.style.display = "none";
+
+  handleChatInput(value);
+}
+
+/* ===============================
+   HIGH INTENT ACTIONS (CALL + WA)
+   =============================== */
+function showInstantActions(){
+  const chat = document.querySelector(".chat-messages-wrap");
+  if(!chat) return;
+
+  const wrap = document.createElement("div");
+  wrap.style.display = "flex";
+  wrap.style.gap = "10px";
+  wrap.style.marginTop = "10px";
+  wrap.style.flexWrap = "wrap";
+
+  wrap.innerHTML = `
+    <a href="tel:+919312264832" style="
+      background:#1e4db7;
+      color:#ffffff;
+      padding:10px 14px;
+      border-radius:100px;
+      font-size:13px;
+      font-weight:600;
+      text-decoration:none;
+      display:inline-block;
+    ">📞 Call Now</a>
+
+    <a href="https://wa.me/919312264832?text=Hi%2C%20I%20need%20AC%20service%20urgently" target="_blank" style="
+      background:#25D366;
+      color:#ffffff;
+      padding:10px 14px;
+      border-radius:100px;
+      font-size:13px;
+      font-weight:600;
+      text-decoration:none;
+      display:inline-block;
+    ">💬 WhatsApp</a>
+  `;
+
+  chat.appendChild(wrap);
+  chat.scrollTop = chat.scrollHeight;
+}
 </script>
 </body>
 </html>
