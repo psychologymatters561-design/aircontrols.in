@@ -189,7 +189,165 @@ CHATBOT BASE
 </div>
 
 <!-- MAIN CONTENT STARTS BELOW -->
+<!-- =====================================================
+HERO SECTION (PREMIUM + ANIMATED)
+===================================================== -->
 
+<section id="home" class="section" style="padding-top:140px;position:relative;overflow:hidden;">
+
+<canvas id="heroCanvas" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;"></canvas>
+
+<div class="container" style="position:relative;z-index:2;display:grid;grid-template-columns:1fr 420px;gap:40px;align-items:center;">
+
+  <!-- LEFT -->
+  <div>
+    <h1 class="headline">HVAC Engineering That Delivers <span style="color:var(--gold)">Performance</span></h1>
+
+    <p class="lead">
+      HVAC installation, AMC, and air conditioning services across Delhi NCR.
+      Built for factories, commercial buildings, and critical environments.
+    </p>
+
+    <div style="margin-top:20px;">
+      <button class="btn btn-gold" onclick="openChat()">Free HVAC Inspection</button>
+      <button class="btn btn-outline" onclick="scrollToSection('services')">Explore Services</button>
+    </div>
+
+    <!-- TRUST STATS -->
+    <div style="display:flex;gap:30px;margin-top:40px;">
+      <div>
+        <h2 style="color:var(--gold)">20+</h2>
+        <p>Years Experience</p>
+      </div>
+      <div>
+        <h2 style="color:var(--gold)">500+</h2>
+        <p>Projects</p>
+      </div>
+      <div>
+        <h2 style="color:var(--gold)">99%</h2>
+        <p>Success Rate</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT LEAD FORM -->
+  <div class="card">
+
+    <h3>Get Free HVAC Audit</h3>
+
+    <input placeholder="Name" style="width:100%;margin:10px 0;padding:10px;">
+    <input placeholder="Phone" style="width:100%;margin:10px 0;padding:10px;">
+
+    <select style="width:100%;margin:10px 0;padding:10px;">
+      <option>Service Required</option>
+      <option>AMC</option>
+      <option>Installation</option>
+      <option>Repair</option>
+    </select>
+
+    <select style="width:100%;margin:10px 0;padding:10px;">
+      <option>Property Type</option>
+      <option>Factory</option>
+      <option>Office</option>
+      <option>Commercial</option>
+    </select>
+
+    <input placeholder="Area (sq ft)" style="width:100%;margin:10px 0;padding:10px;">
+
+    <button class="btn btn-gold" style="width:100%;">Request Consultation</button>
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+SERVICES PREVIEW (HIGH-CONVERSION CARDS)
+===================================================== -->
+
+<section id="services" class="section">
+
+<div class="container text-center">
+  <h2 class="headline">Our HVAC Services</h2>
+  <p class="lead">Complete air conditioning and HVAC solutions</p>
+</div>
+
+<div class="container grid" style="margin-top:40px;">
+
+  <div class="card">
+    <h3>HVAC AMC</h3>
+    <p>Annual maintenance contracts ensuring long-term system performance.</p>
+  </div>
+
+  <div class="card">
+    <h3>HVAC Installation</h3>
+    <p>Commercial and industrial HVAC installation with precision engineering.</p>
+  </div>
+
+  <div class="card">
+    <h3>Repair & Maintenance</h3>
+    <p>Fast diagnosis and repair for all HVAC and AC systems.</p>
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+TRUST / AUTHORITY SECTION
+===================================================== -->
+
+<section class="section" style="background:#060e1a;">
+
+<div class="container text-center">
+
+  <h2 class="headline">Why Choose Air Control</h2>
+
+  <div class="grid" style="margin-top:40px;">
+
+    <div class="card">
+      <h3>20+ Years Experience</h3>
+      <p>Proven expertise in HVAC engineering.</p>
+    </div>
+
+    <div class="card">
+      <h3>Industrial Expertise</h3>
+      <p>Serving factories, hospitals, and data centers.</p>
+    </div>
+
+    <div class="card">
+      <h3>Safety First</h3>
+      <p>No compromise on system safety and compliance.</p>
+    </div>
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+CONTACT SECTION (ANCHOR FOR NAV)
+===================================================== -->
+
+<section id="contact" class="section">
+
+<div class="container text-center">
+
+  <h2 class="headline">Contact Us</h2>
+
+  <p class="lead">Get in touch for HVAC consultation</p>
+
+  <button class="btn btn-gold" onclick="openChat()">Start Chat</button>
+
+</div>
+
+</section>
 
 <!-- CHATBOT -->
 <div id="chatWidget" class="chat">
@@ -233,7 +391,46 @@ function addBot(t){
 function addUser(t){
   document.getElementById("chatMsgs").innerHTML+=`<div><b>You:</b> ${t}</div>`;
 }
+/* HERO CANVAS ANIMATION */
 
+const canvas = document.getElementById("heroCanvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for(let i=0;i<60;i++){
+  particles.push({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    r:Math.random()*2,
+    dx:(Math.random()-0.5),
+    dy:(Math.random()-0.5)
+  });
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  particles.forEach(p=>{
+    p.x+=p.dx;
+    p.y+=p.dy;
+
+    if(p.x<0||p.x>canvas.width) p.dx*=-1;
+    if(p.y<0||p.y>canvas.height) p.dy*=-1;
+
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle="rgba(255,255,255,0.5)";
+    ctx.fill();
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
 </script>
 
 </body>
