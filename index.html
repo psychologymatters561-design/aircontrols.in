@@ -23,7 +23,15 @@ HVAC Company Noida,
 HVAC Services India
 ">
 
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, noarchive">
+<meta name="format-detection" content="telephone=no">
+
+<!-- ================= SECURITY ================= -->
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.web3forms.com; frame-ancestors 'self';">
 
 <!-- ================= FONTS ================= -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -180,6 +188,69 @@ body::before{
   100%{transform:translate(200px,200px);}
 }
 
+/* ================= WHATSAPP FAB ================= */
+#waFab{position:fixed;bottom:28px;left:28px;z-index:9900;display:flex;flex-direction:column;align-items:flex-start;gap:10px;}
+.wa-fab-btn{width:60px;height:60px;background:linear-gradient(135deg,#25D366,#128C7E);border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(37,211,102,.45);position:relative;transition:all .3s;text-decoration:none;}
+.wa-fab-btn:hover{transform:scale(1.1);box-shadow:0 12px 40px rgba(37,211,102,.6);}
+.wa-fab-btn::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:2px solid rgba(37,211,102,.3);animation:waRipple 2.5s infinite;}
+@keyframes waRipple{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.15);opacity:0}}
+.wa-fab-btn svg{width:30px;height:30px;fill:white;}
+.wa-nudge{background:#fff;color:#0a1628;padding:9px 15px;border-radius:10px 10px 10px 0;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.2);white-space:nowrap;}
+
+/* ================= CHATBOT ================= */
+#chatLauncher{position:fixed;bottom:28px;right:28px;z-index:9900;display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
+.chat-nudge{background:#fff;color:#0a1628;padding:9px 15px;border-radius:10px 10px 0 10px;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.2);}
+.chat-fab{width:60px;height:60px;background:linear-gradient(135deg,var(--royal),#4a90d9);border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(30,77,183,.5);position:relative;transition:all .3s;font-size:24px;}
+.chat-fab:hover{transform:scale(1.1);}
+.chat-fab::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:2px solid rgba(30,77,183,.3);animation:waRipple 2.5s infinite;}
+.chat-badge{position:absolute;top:2px;right:2px;width:16px;height:16px;background:#e74c3c;border-radius:50%;border:2px solid #fff;font-size:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;}
+.chatbot-win{position:fixed;bottom:100px;right:28px;z-index:9901;width:360px;max-height:520px;background:#fff;border-radius:20px;box-shadow:0 24px 80px rgba(0,0,0,.28);display:flex;flex-direction:column;overflow:hidden;opacity:0;transform:translateY(16px) scale(.96);pointer-events:none;transition:all .35s cubic-bezier(.16,1,.3,1);}
+.chatbot-win.open{opacity:1;transform:translateY(0) scale(1);pointer-events:all;}
+.ch-header{background:linear-gradient(135deg,#0a1628,#1a3a6b);padding:16px 18px;display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.ch-avatar{width:38px;height:38px;background:linear-gradient(135deg,var(--royal),#4a90d9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;border:2px solid rgba(255,255,255,.2);flex-shrink:0;}
+.ch-name{font-size:14px;font-weight:700;color:#fff;font-family:'Playfair Display',serif;}
+.ch-status{font-size:11px;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:4px;}
+.ch-status-dot{width:6px;height:6px;background:#2ecc71;border-radius:50%;}
+.ch-wa-link{display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(37,211,102,.15);border-radius:50%;text-decoration:none;flex-shrink:0;margin-left:auto;transition:background .2s;}
+.ch-wa-link:hover{background:rgba(37,211,102,.3);}
+.ch-close{background:none;border:none;color:rgba(255,255,255,.5);font-size:17px;cursor:pointer;padding:4px;margin-left:6px;transition:color .2s;}
+.ch-close:hover{color:#fff;}
+.ch-progress{height:3px;background:rgba(0,0,0,.08);flex-shrink:0;}
+.ch-prog-bar{height:100%;background:linear-gradient(90deg,var(--gold),#e8c96b);transition:width .5s ease;}
+.ch-lead-saved{background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.2);border-radius:6px;padding:7px 12px;margin:0 14px;font-size:11.5px;color:#2ecc71;font-weight:600;display:none;align-items:center;gap:5px;flex-shrink:0;}
+.ch-lead-saved::before{content:'✓';}
+.ch-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;scroll-behavior:smooth;}
+.ch-msgs::-webkit-scrollbar{width:3px;}
+.ch-msgs::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:2px;}
+.ch-msg{max-width:84%;animation:msgIn .3s ease both;}
+@keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.ch-msg.bot{align-self:flex-start;}
+.ch-msg.user{align-self:flex-end;}
+.ch-bubble{padding:10px 14px;border-radius:16px;font-size:13px;line-height:1.55;color:#0a1628;}
+.ch-msg.bot .ch-bubble{background:#eef2f8;border-radius:3px 16px 16px 16px;border:1px solid rgba(0,0,0,.06);}
+.ch-msg.user .ch-bubble{background:linear-gradient(135deg,var(--royal),#4a90d9);color:#fff;border-radius:16px 3px 16px 16px;}
+.ch-typing{display:flex;gap:4px;padding:10px 14px;background:#eef2f8;border-radius:3px 16px 16px 16px;width:fit-content;}
+.ch-typing span{width:6px;height:6px;background:#9aa3ba;border-radius:50%;animation:typeDot 1.2s infinite;}
+.ch-typing span:nth-child(2){animation-delay:.2s;}
+.ch-typing span:nth-child(3){animation-delay:.4s;}
+@keyframes typeDot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.ch-qrs{display:flex;flex-wrap:wrap;gap:6px;padding:8px 14px;border-top:1px solid rgba(0,0,0,.06);flex-shrink:0;}
+.ch-qr{background:#eef2f8;border:1px solid rgba(30,77,183,.15);color:var(--royal);border-radius:100px;padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;}
+.ch-qr:hover{background:var(--royal);color:#fff;border-color:var(--royal);}
+.ch-input-row{display:flex;gap:7px;padding:10px 12px;border-top:1px solid rgba(0,0,0,.06);flex-shrink:0;}
+.ch-input{flex:1;background:#eef2f8;border:1.5px solid #e2e8f0;border-radius:100px;padding:9px 14px;font-size:13px;color:#0a1628;outline:none;font-family:'Inter',sans-serif;transition:border-color .2s;}
+.ch-input:focus{border-color:var(--royal);}
+.ch-send{width:36px;height:36px;background:linear-gradient(135deg,var(--royal),#4a90d9);border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:transform .2s;}
+.ch-send:hover{transform:scale(1.1);}
+.ch-send svg{width:15px;height:15px;fill:#fff;}
+.ch-wa-cta{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;padding:9px 16px;border-radius:100px;font-size:12.5px;font-weight:600;text-decoration:none;transition:all .2s;margin-top:4px;}
+.ch-wa-cta:hover{opacity:.9;}
+@media(max-width:600px){
+  .chatbot-win{width:calc(100vw - 28px);right:14px;}
+  #chatLauncher{right:14px;bottom:14px;}
+  #waFab{left:14px;bottom:14px;}
+}
+
 </style>
 
 </head>
@@ -248,26 +319,27 @@ HERO SECTION (HIGH CONVERSION + ANIMATION)
 
     <h3 style="margin-bottom:10px;">Get Free HVAC Audit</h3>
 
-    <input placeholder="Name" style="width:100%;margin:10px 0;padding:12px;border:none;">
-    <input placeholder="Phone" style="width:100%;margin:10px 0;padding:12px;border:none;">
+    <input id="hf-name" placeholder="Your Name *" style="width:100%;margin:10px 0;padding:12px;border:1.5px solid rgba(255,255,255,.1);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-family:'Inter',sans-serif;" oninput="checkHeroInstantLead()">
+    <input id="hf-phone" placeholder="Phone Number *" style="width:100%;margin:10px 0;padding:12px;border:1.5px solid rgba(255,255,255,.1);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-family:'Inter',sans-serif;" oninput="checkHeroInstantLead()">
 
-    <select style="width:100%;margin:10px 0;padding:12px;">
-      <option>Service Required</option>
-      <option>AMC</option>
-      <option>Installation</option>
-      <option>Repair</option>
+    <select id="hf-service" style="width:100%;margin:10px 0;padding:12px;border:1.5px solid rgba(255,255,255,.1);border-radius:8px;background:#0a1628;color:#fff;font-family:'Inter',sans-serif;">
+      <option value="">Service Required</option>
+      <option value="AMC">AMC</option>
+      <option value="Installation">Installation</option>
+      <option value="Repair">Repair</option>
     </select>
 
-    <select style="width:100%;margin:10px 0;padding:12px;">
-      <option>Property Type</option>
-      <option>Factory</option>
-      <option>Office</option>
-      <option>Commercial</option>
+    <select id="hf-property" style="width:100%;margin:10px 0;padding:12px;border:1.5px solid rgba(255,255,255,.1);border-radius:8px;background:#0a1628;color:#fff;font-family:'Inter',sans-serif;">
+      <option value="">Property Type</option>
+      <option value="Factory">Factory</option>
+      <option value="Office">Office</option>
+      <option value="Commercial">Commercial</option>
     </select>
 
-    <input placeholder="Area (sq ft)" style="width:100%;margin:10px 0;padding:12px;border:none;">
+    <input id="hf-area" placeholder="Area (sq ft)" style="width:100%;margin:10px 0;padding:12px;border:1.5px solid rgba(255,255,255,.1);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-family:'Inter',sans-serif;">
 
-    <button class="btn btn-gold" style="width:100%;">Request Consultation</button>
+    <button id="hf-submit" class="btn btn-gold" style="width:100%;margin-top:6px;" onclick="submitHeroForm()">Request Consultation →</button>
+    <div id="hf-success" style="display:none;margin-top:10px;padding:12px;background:rgba(46,204,113,.1);border:1px solid rgba(46,204,113,.3);border-radius:8px;font-size:13px;color:#2ecc71;text-align:center;">✅ Request received! We'll call you shortly.</div>
 
   </div>
 
@@ -992,101 +1064,390 @@ INTERNAL LINKING BOOST
 
 </section>
 <!-- =========================================================
+WHATSAPP FLOATING BUTTON
+========================================================= -->
+<div id="waFab">
+  <div class="wa-nudge" id="waNudge" style="display:none;">💬 Chat with us on WhatsApp!</div>
+  <a class="wa-fab-btn" href="https://wa.me/919312264832?text=Hello%20Air%20Control%2C%20I%20need%20HVAC%20assistance." target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+</div>
+
+<!-- =========================================================
+CHATBOT WIDGET
+========================================================= -->
+<div id="chatLauncher">
+  <div class="chat-nudge" id="chatNudge" style="display:none;">👋 Need HVAC advice?</div>
+  <button class="chat-fab" id="chatFab" onclick="toggleChat()" aria-label="Open chat">
+    💬
+    <span class="chat-badge" id="chatBadge" style="display:none;">1</span>
+  </button>
+</div>
+
+<div class="chatbot-win" id="chatbotWin">
+  <div class="ch-header">
+    <div class="ch-avatar">🛡</div>
+    <div style="flex:1;">
+      <div class="ch-name">Arjun — HVAC Consultant</div>
+      <div class="ch-status"><span class="ch-status-dot"></span>Online · Air Control Expert</div>
+    </div>
+    <a class="ch-wa-link" href="https://wa.me/919312264832?text=Hello%20Air%20Control%2C%20I%20need%20HVAC%20assistance." target="_blank" rel="noopener noreferrer" title="Chat on WhatsApp">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+    <button class="ch-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="ch-progress"><div class="ch-prog-bar" id="chProgBar" style="width:0%"></div></div>
+  <div class="ch-lead-saved" id="chLeadSaved">Lead saved — our team will call you shortly</div>
+  <div class="ch-msgs" id="chMsgs"></div>
+  <div class="ch-qrs" id="chQRs"></div>
+  <div class="ch-input-row" id="chInputRow" style="display:none;">
+    <input class="ch-input" id="chInput" placeholder="Type your answer..." onkeypress="if(event.key==='Enter')sendChatMsg()">
+    <button class="ch-send" onclick="sendChatMsg()">
+      <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- =========================================================
 SMART LEAD CAPTURE LOGIC
 ========================================================= -->
 
 <script>
+'use strict';
 
-/* =============================
-SMART FORM LOGIC
-============================= */
+/* ================================================================
+   CONFIGURATION
+   ================================================================ */
+const CFG = {
+  web3formsKey: '0b3287e6-ba3f-4a09-93ed-2212b40ea680',
+  adminEmail: 'ajay@aircontrols.in',
+  phone: '+919312264832',
+  whatsapp: '919312264832',
+  company: 'Air Control',
+  adminPassword: 'AirControl@Admin2024'
+};
 
-function captureLead(data){
-  console.log("Lead Captured:", data);
-  // 🔴 Replace with Web3Forms or your API
+/* ================================================================
+   SECURITY — Input sanitizer to prevent XSS
+   ================================================================ */
+function sanitize(str){
+  const d=document.createElement('div');
+  d.appendChild(document.createTextNode(String(str||'')));
+  return d.innerHTML;
 }
 
-/* Attach to all buttons */
-document.querySelectorAll(".btn-gold").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    captureLead({source:"cta_click"});
+/* ================================================================
+   RATE LIMITING — max 3 leads per 10 minutes per session
+   ================================================================ */
+function isRateLimited(){
+  const key='ac_rl_v1';
+  const now=Date.now();
+  const window=10*60*1000; // 10 minutes
+  let log=JSON.parse(sessionStorage.getItem(key)||'[]');
+  log=log.filter(t=>now-t<window);
+  if(log.length>=3) return true;
+  log.push(now);
+  sessionStorage.setItem(key,JSON.stringify(log));
+  return false;
+}
+
+/* ================================================================
+   LEAD STORAGE — localStorage + Web3Forms email notification
+   ================================================================ */
+function saveLead(lead){
+  try{
+    const leads=JSON.parse(localStorage.getItem('ac_leads_v2')||'[]');
+    const entry={...lead, id:Date.now()};
+    leads.push(entry);
+    localStorage.setItem('ac_leads_v2',JSON.stringify(leads));
+  }catch(e){}
+}
+
+async function sendToWeb3Forms(lead){
+  if(!CFG.web3formsKey||isRateLimited()) return;
+  try{
+    await fetch('https://api.web3forms.com/submit',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({
+        access_key:CFG.web3formsKey,
+        subject:`New Lead: ${lead.name||'Unknown'} — ${lead.service||'HVAC Enquiry'}`,
+        from_name:'Air Control Website',
+        name:lead.name||'—', phone:lead.phone||'—', email:lead.email||'—',
+        service:lead.service||'—', property:lead.property||'—',
+        area:lead.area||'—', location:lead.location||'—',
+        message:lead.message||'—', source:lead.source||'website',
+        timestamp:lead.timestamp||new Date().toISOString(),
+        botcheck:''
+      })
+    });
+  }catch(e){}
+}
+
+/* ================================================================
+   HERO FORM — instant lead on name+phone, validated submit
+   ================================================================ */
+let heroLeadFired=false;
+function checkHeroInstantLead(){
+  if(heroLeadFired) return;
+  const name=(document.getElementById('hf-name')?.value||'').trim();
+  const phone=(document.getElementById('hf-phone')?.value||'').trim();
+  const digits=phone.replace(/\D/g,'');
+  if(name.length>1 && digits.length>=10){
+    heroLeadFired=true;
+    const lead={name,phone,service:document.getElementById('hf-service')?.value||'',
+      property:document.getElementById('hf-property')?.value||'',
+      area:document.getElementById('hf-area')?.value||'',
+      source:'hero-form-instant',timestamp:new Date().toISOString()};
+    saveLead(lead); sendToWeb3Forms(lead);
+  }
+}
+function submitHeroForm(){
+  const name=(document.getElementById('hf-name')?.value||'').trim();
+  const phone=(document.getElementById('hf-phone')?.value||'').trim();
+  const digits=phone.replace(/\D/g,'');
+  if(!name){alert('Please enter your name.');return;}
+  if(digits.length<10){alert('Please enter a valid 10-digit phone number.');return;}
+  const btn=document.getElementById('hf-submit');
+  if(btn){btn.disabled=true;btn.textContent='Submitting...';}
+  const lead={name,phone,service:document.getElementById('hf-service')?.value||'',
+    property:document.getElementById('hf-property')?.value||'',
+    area:document.getElementById('hf-area')?.value||'',
+    source:'hero-form-submit',timestamp:new Date().toISOString()};
+  saveLead(lead); sendToWeb3Forms(lead);
+  heroLeadFired=true;
+  const success=document.getElementById('hf-success');
+  if(success) success.style.display='block';
+  if(btn){btn.style.display='none';}
+}
+
+/* ================================================================
+   SCROLL REVEAL
+   ================================================================ */
+function initReveal(){
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('active'); io.unobserve(e.target); }});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+}
+document.addEventListener('DOMContentLoaded', initReveal);
+
+/* ================================================================
+   SCROLL NAV
+   ================================================================ */
+function scrollToSection(id){
+  const el=document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth'});
+}
+
+/* ================================================================
+   LAZY LOAD IMAGES
+   ================================================================ */
+document.querySelectorAll('img').forEach(img=>{ img.loading='lazy'; });
+
+/* ================================================================
+   CHATBOT — 5-step psychological micro-commitment flow
+   ================================================================ */
+const CHAT_FLOW=[
+  {id:'start',bot:`Hello! 👋 I'm Arjun, Air Control's HVAC Consultant.\n\nWe've served Delhi's embassies, hospitals & Fortune 500 companies since 1987.\n\nAre you looking for HVAC solutions for your home or business?`,
+   qr:['🏠 My Home','🏢 Business / Office','🏛 Embassy / Institution','🚨 Emergency Help'],waitQR:true},
+  {id:'name',bot:`Great choice to reach out! Most clients who contact us had a bad experience with a previous contractor. We make sure that changes.\n\n**What's your name?**`,input:true},
+  {id:'phone',bot:`Great to meet you, [NAME]! 😊\n\nWhat's the best number to reach you?\n\nOur engineers call back within 2 hours — real experts, no bots.`,input:true},
+  {id:'service',bot:`Perfect. What's your main requirement right now?`,
+   qr:['🆕 New Installation','🔧 AMC / Maintenance','🚨 Emergency Repair','🔍 System Audit','💬 Just a Consultation'],waitQR:true},
+  {id:'detail',bot:`Almost there! Any details we should know?\n\n*(Space size, current system, urgency — or press Send to skip)*`,input:true,optional:true}
+];
+
+let chatState={step:0,data:{},open:false,started:false,leadFired:false};
+
+function toggleChat(){
+  chatState.open=!chatState.open;
+  document.getElementById('chatbotWin').classList.toggle('open',chatState.open);
+  document.getElementById('chatNudge').style.display='none';
+  document.getElementById('chatBadge').style.display='none';
+  if(chatState.open&&!chatState.started){chatState.started=true;setTimeout(()=>showChatStep(0),300);}
+}
+function openChat(){ if(!chatState.open) toggleChat(); }
+
+function showChatStep(idx){
+  const step=CHAT_FLOW[idx];
+  if(!step) return;
+  setChatProg(Math.round((idx/CHAT_FLOW.length)*100));
+  typingThen(()=>{
+    const msg=step.bot.replace(/\[NAME\]/g,chatState.data.name?.split(' ')[0]||'there');
+    addBotMsg(msg);
+    if(step.waitQR) showQRs(step.qr);
+    else if(step.input) showChatInput(step.optional);
   });
-});
+}
 
+function typingThen(cb){
+  const msgs=document.getElementById('chMsgs');
+  const t=document.createElement('div'); t.className='ch-typing';
+  t.innerHTML='<span></span><span></span><span></span>';
+  msgs.appendChild(t); msgs.scrollTop=msgs.scrollHeight;
+  setTimeout(()=>{ t.remove(); cb(); },800+Math.random()*300);
+}
 
-/* =============================
-SMART CHATBOT (DELAYED)
-============================= */
+function addBotMsg(text){
+  const msgs=document.getElementById('chMsgs');
+  const d=document.createElement('div'); d.className='ch-msg bot';
+  const b=document.createElement('div'); b.className='ch-bubble';
+  // Bot messages use our own template text — safe to use innerHTML for bold formatting
+  b.innerHTML=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+  d.appendChild(b); msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight;
+}
 
-let chatOpened = false;
+function addUserMsg(text){
+  const msgs=document.getElementById('chMsgs');
+  const d=document.createElement('div'); d.className='ch-msg user';
+  const b=document.createElement('div'); b.className='ch-bubble';
+  b.textContent=sanitize(text); // XSS-safe: use textContent for user input
+  d.appendChild(b); msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight;
+}
 
+function showQRs(opts){
+  const qr=document.getElementById('chQRs');
+  document.getElementById('chInputRow').style.display='none';
+  qr.innerHTML='';
+  opts.forEach(o=>{
+    const btn=document.createElement('button'); btn.className='ch-qr';
+    btn.textContent=o; btn.onclick=()=>handleQR(o); qr.appendChild(btn);
+  });
+}
+
+function showChatInput(optional=false){
+  document.getElementById('chInputRow').style.display='flex';
+  document.getElementById('chQRs').innerHTML='';
+  const inp=document.getElementById('chInput');
+  inp.placeholder=optional?'Type or press Send to skip...':'Type your answer...';
+  inp.value=''; inp.focus();
+}
+
+function handleQR(val){
+  document.getElementById('chQRs').innerHTML='';
+  addUserMsg(val); processChat(val);
+}
+
+function sendChatMsg(){
+  const inp=document.getElementById('chInput');
+  const val=inp.value.trim();
+  const step=CHAT_FLOW[chatState.step];
+  if(!val&&!step?.optional) return;
+  inp.value='';
+  addUserMsg(val||'—'); processChat(val||'');
+}
+
+function processChat(val){
+  const step=CHAT_FLOW[chatState.step];
+  if(step.id==='start') chatState.data.propertyType=val;
+  else if(step.id==='name') chatState.data.name=val;
+  else if(step.id==='phone'){
+    chatState.data.phone=val;
+    const digits=val.replace(/\D/g,'');
+    if(!chatState.leadFired&&chatState.data.name&&digits.length>=10){
+      chatState.leadFired=true;
+      const lead={name:chatState.data.name,phone:val,propertyType:chatState.data.propertyType,
+        source:'chatbot-instant',timestamp:new Date().toISOString()};
+      saveLead(lead); sendToWeb3Forms(lead);
+      const bar=document.getElementById('chLeadSaved');
+      if(bar){bar.style.display='flex';setTimeout(()=>bar.style.display='none',5000);}
+    }
+  }
+  else if(step.id==='service') chatState.data.service=val;
+  else if(step.id==='detail') chatState.data.message=val;
+
+  chatState.step++;
+  if(chatState.step>=CHAT_FLOW.length) completeChatFlow();
+  else showChatStep(chatState.step);
+}
+
+function completeChatFlow(){
+  setChatProg(100);
+  document.getElementById('chInputRow').style.display='none';
+  document.getElementById('chQRs').innerHTML='';
+  const n=chatState.data.name?.split(' ')[0]||'there';
+  const phone=chatState.data.phone||'—';
+  const fullLead={...chatState.data,source:'chatbot-complete',timestamp:new Date().toISOString()};
+  saveLead(fullLead); sendToWeb3Forms(fullLead);
+  typingThen(()=>{
+    addBotMsg(`🎉 Thank you, **${sanitize(n)}**! You've made a smart decision.\n\n✅ Our senior engineer will call you at **${sanitize(phone)}** within 2 hours\n✅ Free HVAC Safety Checklist sent to your email\n✅ No obligation — just honest expert advice\n\nFor immediate help:\n📞 **+91 93122 64832**\n📧 ajay@aircontrols.in`);
+    setTimeout(()=>addWhatsAppOption(n),700);
+  });
+}
+
+function addWhatsAppOption(name){
+  const msgs=document.getElementById('chMsgs');
+  const d=document.createElement('div'); d.className='ch-msg bot';
+  const wrap=document.createElement('div'); wrap.style.cssText='display:flex;flex-direction:column;gap:8px;';
+  const label=document.createElement('div'); label.className='ch-bubble';
+  label.textContent='Prefer WhatsApp? Connect directly for faster assistance!';
+  const safeN=encodeURIComponent(`Hello Air Control! I'm ${name||'a customer'} and need HVAC assistance.`);
+  const waBtn=document.createElement('a');
+  waBtn.href=`https://wa.me/919312264832?text=${safeN}`;
+  waBtn.target='_blank'; waBtn.rel='noopener noreferrer';
+  waBtn.className='ch-wa-cta';
+  waBtn.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Chat on WhatsApp';
+  wrap.appendChild(label); wrap.appendChild(waBtn); d.appendChild(wrap);
+  msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight;
+}
+
+function setChatProg(pct){ const b=document.getElementById('chProgBar'); if(b) b.style.width=pct+'%'; }
+
+/* Show nudge after 14s, WhatsApp nudge after 22s */
 setTimeout(()=>{
-  if(!chatOpened){
-    openChat();
+  if(!chatState.open&&!chatState.started){
+    document.getElementById('chatNudge').style.display='block';
+    document.getElementById('chatBadge').style.display='flex';
   }
-}, 8000); // opens after 8 seconds
+},14000);
+setTimeout(()=>{
+  const n=document.getElementById('waNudge');
+  if(n){n.style.display='block';setTimeout(()=>n.style.display='none',7000);}
+},22000);
 
-
-/* =============================
-CHATBOT FLOW
-============================= */
-
-let step = 0;
-let userData = {};
-
-function sendMsg(){
-
-  const input = document.getElementById("chatInput");
-  const text = input.value.trim();
-  if(!text) return;
-
-  addUser(text);
-  input.value="";
-
-  if(step === 0){
-    userData.need = text;
-    addBot("Which location are you from?");
-    step++;
+/* ================================================================
+   ADMIN — visit #admin to view/download leads
+   ================================================================ */
+window.addEventListener('hashchange',()=>{ if(location.hash==='#admin') openAdmin(); });
+function openAdmin(){
+  const pw=prompt('Enter admin password:');
+  if(pw!==CFG.adminPassword){history.replaceState(null,'','#');return;}
+  const leads=JSON.parse(localStorage.getItem('ac_leads_v2')||'[]');
+  const win=window.open('','_blank');
+  if(!win) return;
+  win.document.write(`<!DOCTYPE html><html><head><title>Air Control — Leads</title>
+  <style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'Inter',sans-serif;background:#060e1a;color:#f8f6f1;padding:32px;min-height:100vh;}
+  h2{font-size:1.6rem;color:#c8a84b;margin-bottom:20px;}.actions{display:flex;gap:10px;margin-bottom:24px;}
+  button{background:#1e4db7;color:#fff;border:none;padding:9px 20px;border-radius:7px;font-size:.88rem;cursor:pointer;font-family:inherit;}
+  button:hover{background:#4a90d9;}.danger{background:#c0392b!important;}
+  table{width:100%;border-collapse:collapse;font-size:.8rem;}
+  th{background:rgba(200,168,75,.15);color:#c8a84b;padding:11px 13px;text-align:left;font-weight:600;border-bottom:1px solid rgba(255,255,255,.08);}
+  td{padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.7);vertical-align:top;}
+  tr:hover td{background:rgba(255,255,255,.03);}.empty{text-align:center;padding:40px;color:rgba(255,255,255,.3);}
+  .badge{background:rgba(30,77,183,.25);color:#4a90d9;padding:2px 7px;border-radius:4px;font-size:.73rem;}
+  </style></head><body>
+  <h2>🔒 Air Control — Leads Dashboard</h2>
+  <div class="actions">
+    <button onclick="dlCSV()">⬇ Download CSV</button>
+    <button onclick="location.reload()">🔄 Refresh</button>
+    <button class="danger" onclick="if(confirm('Clear ALL leads?')){localStorage.removeItem('ac_leads_v2');location.reload();}">🗑 Clear All</button>
+  </div>`);
+  if(leads.length===0){
+    win.document.write('<div class="empty">No leads yet.</div>');
+  }else{
+    const s=[...leads].reverse();
+    win.document.write('<table><tr><th>#</th><th>Time</th><th>Name</th><th>Phone</th><th>Service</th><th>Property</th><th>Source</th><th>Message</th></tr>');
+    s.forEach((l,i)=>{
+      const esc=v=>String(v||'—').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      win.document.write(`<tr><td>${s.length-i}</td><td style="font-size:.73rem;white-space:nowrap;">${l.timestamp?new Date(l.timestamp).toLocaleString('en-IN'):''}</td><td><strong>${esc(l.name)}</strong></td><td><a href="tel:${esc(l.phone)}" style="color:#4a90d9;">${esc(l.phone)}</a></td><td>${esc(l.service||l.requirement)}</td><td>${esc(l.property||l.propertyType)}</td><td><span class="badge">${esc(l.source)}</span></td><td style="max-width:180px;font-size:.73rem;">${esc(l.message)}</td></tr>`);
+    });
+    win.document.write('</table>');
   }
-  else if(step === 1){
-    userData.location = text;
-    addBot("What is your project size (sq ft)?");
-    step++;
-  }
-  else if(step === 2){
-    userData.size = text;
-    addBot("Our HVAC expert will contact you shortly.");
-    captureLead(userData);
-    step++;
-  }
+  const ld=JSON.stringify(leads);
+  win.document.write(`<script>const LD=${ld};function dlCSV(){const h=['ID','Time','Name','Phone','Service','Property','Source','Message'];const rows=LD.map((l,i)=>[i+1,l.timestamp,l.name,l.phone,l.service||l.requirement,l.property||l.propertyType,l.source,l.message].map(v=>'"'+String(v||'').replace(/"/g,'""')+'"').join(','));const csv=[h.join(','),...rows].join('\\n');const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='aircontrol-leads-'+new Date().toISOString().slice(0,10)+'.csv';a.click();}<\/script></body></html>`);
+  win.document.close();
 }
-
-/* mark opened */
-function openChat(){
-  chatOpened = true;
-  document.getElementById("chatWidget").style.display="flex";
-}
-
-/* =============================
-SCROLL DEPTH TRACKING
-============================= */
-
-window.addEventListener("scroll", ()=>{
-  const scroll = window.scrollY;
-  if(scroll > 800){
-    captureLead({intent:"high_interest"});
-  }
-});
-
-
-/* =============================
-PERFORMANCE OPTIMIZATION
-============================= */
-
-/* lazy load images (future ready) */
-document.querySelectorAll("img").forEach(img=>{
-  img.loading="lazy";
-});
 
 </script>
 
@@ -1107,7 +1468,7 @@ SCHEMA MARKUP (SEO BOOST)
    "addressCountry": "India"
  },
  "url": "https://aircontrols.in",
- "telephone": "+91XXXXXXXXXX",
+ "telephone": "+919312264832",
  "description": "HVAC installation, AMC and air conditioning services in Delhi NCR",
  "areaServed": ["Delhi", "Gurgaon", "Noida", "Faridabad", "Ghaziabad"]
 }
