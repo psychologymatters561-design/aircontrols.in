@@ -2,89 +2,36 @@
 <html lang="en">
 <head>
 
+<!-- ================= SEO CORE ================= -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Air Control | HVAC Experts Delhi NCR</title>
+<title>HVAC Company Delhi NCR | Air Control - Installation, AMC, Repair</title>
 
-<meta name="description" content="Premium HVAC installation, AMC, and repair services in Delhi NCR. 20+ years experience.">
+<meta name="description" content="Top HVAC company in Delhi NCR offering HVAC installation, AMC, air conditioning services, repair & maintenance for commercial and industrial clients.">
 
-<!-- SEO BASE -->
-<meta name="keywords" content="HVAC Delhi NCR, AC Services Delhi, HVAC AMC, HVAC Installation, Air Conditioning Delhi">
+<meta name="keywords" content="
+HVAC Delhi NCR,
+HVAC AMC Delhi,
+Air Conditioning Delhi,
+HVAC Installation Delhi,
+Commercial HVAC India,
+VRF AC Delhi,
+Central AC Delhi,
+HVAC Company Gurgaon,
+HVAC Company Noida,
+HVAC Services India
+">
 
-<!-- FONTS -->
+<meta name="robots" content="index, follow">
+
+<!-- ================= FONTS ================= -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-* =============================
-PREMIUM UI UPGRADE
-============================= */
 
-/* Glass effect */
-.card{
-  backdrop-filter: blur(10px);
-  background: rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.1);
-}
-
-/* Glow hover */
-.card:hover{
-  transform:translateY(-8px) scale(1.02);
-  box-shadow:0 20px 60px rgba(0,0,0,0.4);
-}
-
-/* Buttons upgrade */
-.btn{
-  transition:all 0.3s ease;
-}
-
-.btn-gold{
-  box-shadow:0 0 20px rgba(200,168,75,0.4);
-}
-
-.btn-gold:hover{
-  transform:translateY(-3px);
-  box-shadow:0 0 40px rgba(200,168,75,0.8);
-}
-
-/* Animated gradient background */
-body::before{
-  content:"";
-  position:fixed;
-  width:600px;
-  height:600px;
-  background:radial-gradient(circle, rgba(30,77,183,0.25), transparent);
-  top:-100px;
-  left:-100px;
-  animation:floatBg 10s infinite alternate;
-  z-index:0;
-}
-
-@keyframes floatBg{
-  0%{transform:translate(0,0);}
-  100%{transform:translate(200px,200px);}
-}
-
-/* Section reveal */
-.reveal{
-  opacity:0;
-  transform:translateY(40px);
-  transition:all 0.8s ease;
-}
-
-.reveal.active{
-  opacity:1;
-  transform:translateY(0);
-}
-
-/* Smooth nav */
-html{
-  scroll-behavior:smooth;
-}
-  
+<!-- ================= GLOBAL STYLE ================= -->
 <style>
 
-/* ==============================
-GLOBAL RESET
-============================== */
+/* ================= RESET ================= */
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
@@ -94,20 +41,33 @@ body{
   overflow-x:hidden;
 }
 
-/* ==============================
-VARIABLES
-============================== */
+/* ================= VARIABLES ================= */
 :root{
   --navy:#0a1628;
   --navy-dark:#060e1a;
   --gold:#c8a84b;
+  --gold-light:#e8c96b;
   --royal:#1e4db7;
   --light:#eef2f8;
 }
 
-/* ==============================
-LAYOUT
-============================== */
+/* ================= TYPOGRAPHY ================= */
+h1,h2,h3{
+  font-family:'Playfair Display',serif;
+}
+
+.headline{
+  font-size:60px;
+  line-height:1.1;
+}
+
+.lead{
+  color:#aaa;
+  font-size:16px;
+  line-height:1.7;
+}
+
+/* ================= LAYOUT ================= */
 .container{
   max-width:1200px;
   margin:auto;
@@ -118,39 +78,17 @@ LAYOUT
   padding:100px 0;
 }
 
-.text-center{
-  text-align:center;
-}
-
-/* ==============================
-TYPOGRAPHY
-============================== */
-h1,h2,h3{
-  font-family:'Playfair Display',serif;
-}
-
-.headline{
-  font-size:48px;
-  margin-bottom:20px;
-}
-
-.lead{
-  color:#aaa;
-  line-height:1.7;
-}
-
-/* ==============================
-BUTTONS
-============================== */
+/* ================= BUTTON ================= */
 .btn{
-  padding:14px 26px;
+  padding:14px 28px;
   border:none;
   cursor:pointer;
   font-weight:600;
+  transition:0.3s;
 }
 
 .btn-gold{
-  background:var(--gold);
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
   color:#000;
 }
 
@@ -160,80 +98,69 @@ BUTTONS
   background:transparent;
 }
 
-/* ==============================
-NAVIGATION
-============================== */
+/* ================= NAV ================= */
 .nav{
   position:fixed;
   top:0;
   width:100%;
   background:rgba(6,14,26,0.95);
+  backdrop-filter:blur(10px);
   padding:20px 40px;
   display:flex;
   justify-content:space-between;
   z-index:1000;
 }
 
-.nav a{
-  margin:0 12px;
-  cursor:pointer;
-}
-
-/* ==============================
-GRID
-============================== */
+/* ================= GRID ================= */
 .grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:20px;
 }
 
+/* ================= CARD ================= */
 .card{
-  background:#1e2a44;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(10px);
   padding:30px;
-  border-radius:12px;
-  transition:0.3s;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.1);
+  transition:0.4s;
 }
 
 .card:hover{
-  transform:translateY(-6px);
+  transform:translateY(-10px);
+  box-shadow:0 20px 60px rgba(0,0,0,0.4);
 }
 
-/* ==============================
-CHATBOT BASE
-============================== */
-.chat{
+/* ================= ANIMATION ================= */
+.reveal{
+  opacity:0;
+  transform:translateY(40px);
+  transition:0.8s;
+}
+
+.reveal.active{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ================= BACKGROUND EFFECT ================= */
+body::before{
+  content:"";
   position:fixed;
-  bottom:20px;
-  right:20px;
-  width:320px;
-  background:#fff;
-  color:#000;
-  display:none;
-  flex-direction:column;
-  border-radius:12px;
-  overflow:hidden;
+  width:600px;
+  height:600px;
+  background:radial-gradient(circle, rgba(30,77,183,0.3), transparent);
+  top:-100px;
+  left:-100px;
+  animation:moveBg 12s infinite alternate;
+  z-index:0;
 }
 
-.chat-header{
-  background:#000;
-  color:#fff;
-  padding:10px;
-}
-
-.chat-messages{
-  height:220px;
-  overflow:auto;
-  padding:10px;
-}
-
-.chat-input{
-  display:flex;
-}
-
-.chat-input input{
-  flex:1;
-  padding:8px;
+@keyframes moveBg{
+  0%{transform:translate(0,0);}
+  100%{transform:translate(200px,200px);}
 }
 
 </style>
@@ -243,7 +170,7 @@ CHATBOT BASE
 <body>
 
 <!-- NAV -->
-<div class="reveal">
+<div class="nav">
   <div>Air Control</div>
   <div>
     <a onclick="scrollToSection('home')">Home</a>
@@ -253,33 +180,36 @@ CHATBOT BASE
   <button class="btn btn-gold" onclick="openChat()">Consult</button>
 </div>
 
-<!-- MAIN CONTENT STARTS BELOW -->
-<!-- =====================================================
-HERO SECTION (PREMIUM + ANIMATED)
-===================================================== -->
+<!-- CONTENT WILL CONTINUE BELOW -->
+  <!-- =========================================================
+HERO SECTION (HIGH CONVERSION + ANIMATION)
+========================================================= -->
 
 <section id="home" class="section" style="padding-top:140px;position:relative;overflow:hidden;">
 
 <canvas id="heroCanvas" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;"></canvas>
 
-<div class="card reveal" style="position:relative;z-index:2;display:grid;grid-template-columns:1fr 420px;gap:40px;align-items:center;">
+<div class="container" style="position:relative;z-index:2;display:grid;grid-template-columns:1fr 420px;gap:50px;align-items:center;">
 
-  <!-- LEFT -->
-  <div>
-    <h1 class="headline">HVAC Engineering That Delivers <span style="color:var(--gold)">Performance</span></h1>
+  <!-- LEFT CONTENT -->
+  <div class="reveal">
+
+    <h1 class="headline">
+      HVAC Engineering That Delivers <span style="color:var(--gold)">Performance</span>
+    </h1>
 
     <p class="lead">
       HVAC installation, AMC, and air conditioning services across Delhi NCR.
-      Built for factories, commercial buildings, and critical environments.
+      Designed for factories, commercial buildings, and high-performance environments.
     </p>
 
-    <div style="margin-top:20px;">
+    <div style="margin-top:25px;display:flex;gap:12px;">
       <button class="btn btn-gold" onclick="openChat()">Free HVAC Inspection</button>
       <button class="btn btn-outline" onclick="scrollToSection('services')">Explore Services</button>
     </div>
 
-    <!-- TRUST STATS -->
-    <div style="display:flex;gap:30px;margin-top:40px;">
+    <!-- TRUST METRICS -->
+    <div style="display:flex;gap:40px;margin-top:50px;">
       <div>
         <h2 style="color:var(--gold)">20+</h2>
         <p>Years Experience</p>
@@ -290,37 +220,38 @@ HERO SECTION (PREMIUM + ANIMATED)
       </div>
       <div>
         <h2 style="color:var(--gold)">99%</h2>
-        <p>Success Rate</p>
+        <p>Client Satisfaction</p>
       </div>
     </div>
 
   </div>
 
-  <!-- RIGHT LEAD FORM -->
+  <!-- LEAD FORM -->
   <div class="card reveal">
 
-    <h3>Get Free HVAC Audit</h3>
+    <h3 style="margin-bottom:10px;">Get Free HVAC Audit</h3>
 
-    <input placeholder="Name" style="width:100%;margin:10px 0;padding:10px;">
-    <input placeholder="Phone" style="width:100%;margin:10px 0;padding:10px;">
+    <input placeholder="Name" style="width:100%;margin:10px 0;padding:12px;border:none;">
+    <input placeholder="Phone" style="width:100%;margin:10px 0;padding:12px;border:none;">
 
-    <select style="width:100%;margin:10px 0;padding:10px;">
+    <select style="width:100%;margin:10px 0;padding:12px;">
       <option>Service Required</option>
       <option>AMC</option>
       <option>Installation</option>
       <option>Repair</option>
     </select>
 
-    <select style="width:100%;margin:10px 0;padding:10px;">
+    <select style="width:100%;margin:10px 0;padding:12px;">
       <option>Property Type</option>
       <option>Factory</option>
       <option>Office</option>
       <option>Commercial</option>
     </select>
 
-    <input placeholder="Area (sq ft)" style="width:100%;margin:10px 0;padding:10px;">
+    <input placeholder="Area (sq ft)" style="width:100%;margin:10px 0;padding:12px;border:none;">
 
-    <button class="btn btn-gold" style="width:100%;">Request Consultation</button>/
+    <button class="btn btn-gold" style="width:100%;">Request Consultation</button>
+
   </div>
 
 </div>
@@ -328,32 +259,32 @@ HERO SECTION (PREMIUM + ANIMATED)
 </section>
 
 
-<!-- =====================================================
-SERVICES PREVIEW (HIGH-CONVERSION CARDS)
-===================================================== -->
+<!-- =========================================================
+SERVICES PREVIEW SECTION
+========================================================= -->
 
 <section id="services" class="section">
 
-<div class="container text-center">
+<div class="container text-center reveal">
   <h2 class="headline">Our HVAC Services</h2>
-  <p class="lead">Complete air conditioning and HVAC solutions</p>
+  <p class="lead">Complete HVAC solutions engineered for performance</p>
 </div>
 
 <div class="container grid" style="margin-top:40px;">
 
   <div class="card reveal">
     <h3>HVAC AMC</h3>
-    <p>Annual maintenance contracts ensuring long-term system performance.</p>
+    <p>Annual maintenance contracts for uninterrupted performance.</p>
   </div>
 
-  <div class="card">
+  <div class="card reveal">
     <h3>HVAC Installation</h3>
-    <p>Commercial and industrial HVAC installation with precision engineering.</p>
+    <p>Industrial and commercial HVAC system setup.</p>
   </div>
 
-  <div class="card">
+  <div class="card reveal">
     <h3>Repair & Maintenance</h3>
-    <p>Fast diagnosis and repair for all HVAC and AC systems.</p>
+    <p>Quick diagnostics and expert repair services.</p>
   </div>
 
 </div>
@@ -361,13 +292,13 @@ SERVICES PREVIEW (HIGH-CONVERSION CARDS)
 </section>
 
 
-<!-- =====================================================
+<!-- =========================================================
 TRUST / AUTHORITY SECTION
-===================================================== -->
+========================================================= -->
 
 <section class="section" style="background:#060e1a;">
 
-<div class="container text-center">
+<div class="container text-center reveal">
 
   <h2 class="headline">Why Choose Air Control</h2>
 
@@ -375,17 +306,17 @@ TRUST / AUTHORITY SECTION
 
     <div class="card reveal">
       <h3>20+ Years Experience</h3>
-      <p>Proven expertise in HVAC engineering.</p>
+      <p>Proven HVAC engineering expertise.</p>
     </div>
 
-    <div class="card">
-      <h3>Industrial Expertise</h3>
-      <p>Serving factories, hospitals, and data centers.</p>
+    <div class="card reveal">
+      <h3>Industrial Focus</h3>
+      <p>Factories, hospitals, commercial projects.</p>
     </div>
 
-    <div class="card">
+    <div class="card reveal">
       <h3>Safety First</h3>
-      <p>No compromise on system safety and compliance.</p>
+      <p>No compromise on HVAC safety standards.</p>
     </div>
 
   </div>
@@ -395,67 +326,49 @@ TRUST / AUTHORITY SECTION
 </section>
 
 
-<!-- =====================================================
-CONTACT SECTION (ANCHOR FOR NAV)
-===================================================== -->
+<!-- =========================================================
+CONTACT ANCHOR
+========================================================= -->
 
 <section id="contact" class="section">
 
 <div class="container text-center reveal">
 
-  <h2 class="headline">Contact Us</h2>
+  <h2 class="headline">Contact HVAC Experts</h2>
+  <p class="lead">Get consultation for your HVAC requirement</p>
 
-  <p class="lead">Get in touch for HVAC consultation</p>
-
-  <button class="btn btn-gold" onclick="openChat()">Start Chat</button>
+  <button class="btn btn-gold" onclick="openChat()">Start Consultation</button>
 
 </div>
 
 </section>
 
-<!-- CHATBOT -->
-<div id="chatWidget" class="chat">
-  <div class="chat-header">HVAC Assistant <span onclick="closeChat()">✕</span></div>
-  <div id="chatMsgs" class="chat-messages"></div>
-  <div class="chat-input">
-    <input id="chatInput">
-    <button onclick="sendMsg()">Send</button>
-  </div>
-</div>
+
+<!-- =========================================================
+ANIMATION + CANVAS JS
+========================================================= -->
 
 <script>
 
-/* NAVIGATION */
-function scrollToSection(id){
-  document.getElementById(id).scrollIntoView({behavior:'smooth'});
+/* SCROLL REVEAL */
+const reveals = document.querySelectorAll(".reveal");
+
+function revealOnScroll(){
+  const trigger = window.innerHeight * 0.85;
+
+  reveals.forEach(el=>{
+    const top = el.getBoundingClientRect().top;
+    if(top < trigger){
+      el.classList.add("active");
+    }
+  });
 }
 
-/* CHATBOT */
-function openChat(){
-  document.getElementById("chatWidget").style.display="flex";
-}
-function closeChat(){
-  document.getElementById("chatWidget").style.display="none";
-}
+window.addEventListener("scroll", revealOnScroll);
+revealOnScroll();
 
-function sendMsg(){
-  const input=document.getElementById("chatInput");
-  const text=input.value.trim();
-  if(!text) return;
 
-  addUser(text);
-  input.value="";
-
-  setTimeout(()=>addBot("Our expert will contact you shortly."),500);
-}
-
-function addBot(t){
-  document.getElementById("chatMsgs").innerHTML+=`<div><b>Bot:</b> ${t}</div>`;
-}
-function addUser(t){
-  document.getElementById("chatMsgs").innerHTML+=`<div><b>You:</b> ${t}</div>`;
-}
-/* HERO CANVAS ANIMATION */
+/* CANVAS ANIMATION */
 
 const canvas = document.getElementById("heroCanvas");
 const ctx = canvas.getContext("2d");
@@ -465,7 +378,7 @@ canvas.height = window.innerHeight;
 
 let particles = [];
 
-for(let i=0;i<60;i++){
+for(let i=0;i<80;i++){
   particles.push({
     x:Math.random()*canvas.width,
     y:Math.random()*canvas.height,
@@ -495,25 +408,861 @@ function animate(){
 }
 
 animate();
-  /* SCROLL REVEAL ANIMATION */
 
-const reveals = document.querySelectorAll(".reveal");
+</script>
+<!-- =========================================================
+DETAILED HVAC SERVICES (SEO CORE)
+========================================================= -->
 
-function revealOnScroll(){
-  const trigger = window.innerHeight * 0.85;
+<section class="section">
 
-  reveals.forEach(el=>{
-    const top = el.getBoundingClientRect().top;
+<div class="container">
 
-    if(top < trigger){
-      el.classList.add("active");
-    }
-  });
+  <div class="text-center reveal">
+    <h2 class="headline">Complete HVAC Services in Delhi NCR</h2>
+    <p class="lead">
+      Air Control delivers end-to-end HVAC, air conditioning, and climate engineering solutions across Delhi NCR.
+      Our services are designed for commercial, industrial, and institutional environments where performance,
+      safety, and efficiency are critical.
+    </p>
+  </div>
+
+  <div style="margin-top:40px;" class="grid">
+
+    <div class="card reveal">
+      <h3>HVAC Installation</h3>
+      <p>
+        We design and install advanced HVAC systems including VRF, chillers, and central air conditioning systems.
+        Every installation is engineered based on load calculations, airflow optimization, and energy efficiency.
+      </p>
+    </div>
+
+    <div class="card reveal">
+      <h3>HVAC AMC (Annual Maintenance Contracts)</h3>
+      <p>
+        Our HVAC AMC services ensure long-term system reliability. Preventive maintenance, inspections,
+        and system optimization reduce downtime and operational costs significantly.
+      </p>
+    </div>
+
+    <div class="card reveal">
+      <h3>HVAC Repair & Maintenance</h3>
+      <p>
+        Fast and reliable HVAC repair services across Delhi NCR. Our engineers diagnose and fix system issues
+        to ensure minimal disruption and maximum efficiency.
+      </p>
+    </div>
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+INDUSTRIES WE SERVE (SEO CLUSTER)
+========================================================= -->
+
+<section class="section" style="background:#060e1a;">
+
+<div class="container">
+
+  <div class="text-center reveal">
+    <h2 class="headline">Industries We Serve</h2>
+    <p class="lead">
+      Our HVAC solutions are trusted across multiple industries requiring high-performance climate control systems.
+    </p>
+  </div>
+
+  <div class="grid" style="margin-top:40px;">
+
+    <div class="card reveal">
+      <h3>Factories & Industrial Units</h3>
+      <p>
+        High-capacity HVAC systems for production environments requiring ventilation, cooling, and thermal control.
+      </p>
+    </div>
+
+    <div class="card reveal">
+      <h3>Commercial Buildings</h3>
+      <p>
+        Energy-efficient HVAC systems for offices, malls, and business centers ensuring comfort and cost efficiency.
+      </p>
+    </div>
+
+    <div class="card reveal">
+      <h3>Hospitals</h3>
+      <p>
+        Precision HVAC systems ensuring clean air, controlled temperature, and sterile environments.
+      </p>
+    </div>
+
+    <div class="card reveal">
+      <h3>Data Centers</h3>
+      <p>
+        Advanced cooling solutions for servers requiring continuous temperature control and uptime.
+      </p>
+    </div>
+
+    <div class="card reveal">
+      <h3>Hotels</h3>
+      <p>
+        Silent, efficient, and aesthetically integrated HVAC systems for luxury hospitality environments.
+      </p>
+    </div>
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+LOCATION DOMINATION (CRITICAL SEO)
+========================================================= -->
+
+<section class="section">
+
+<div class="container">
+
+  <div class="text-center reveal">
+    <h2 class="headline">HVAC Services Across Delhi NCR</h2>
+    <p class="lead">
+      We provide HVAC installation, AMC, and repair services across all major regions in Delhi NCR.
+    </p>
+  </div>
+
+  <div class="grid" style="margin-top:40px;">
+
+    <div class="card reveal"><p>Saket, Lajpat Nagar, Okhla</p></div>
+    <div class="card reveal"><p>Rohini, Janakpuri, Connaught Place</p></div>
+    <div class="card reveal"><p>Gurgaon – DLF Phase, Udyog Vihar</p></div>
+    <div class="card reveal"><p>Noida – Sector 62, 63</p></div>
+    <div class="card reveal"><p>Faridabad</p></div>
+    <div class="card reveal"><p>Ghaziabad</p></div>
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+FAQ SECTION (SEO BOOST)
+========================================================= -->
+
+<section class="section" style="background:#060e1a;">
+
+<div class="container">
+
+  <div class="text-center reveal">
+    <h2 class="headline">Frequently Asked Questions</h2>
+  </div>
+
+  <div style="margin-top:40px;">
+
+    <div class="card reveal">
+      <h3>What is HVAC AMC?</h3>
+      <p>
+        HVAC AMC is an annual maintenance contract that ensures regular servicing,
+        inspection, and performance optimization of HVAC systems.
+      </p>
+    </div>
+
+    <div class="card reveal">
+      <h3>What is the cost of HVAC AMC in Delhi NCR?</h3>
+      <p>
+        The cost depends on system size and type, generally ranging from ₹500 to ₹1500 per ton.
+      </p>
+    </div>
+
+    <div class="card reveal">
+      <h3>Which is better VRF or central AC?</h3>
+      <p>
+        VRF systems are more energy-efficient and flexible, while central AC is cost-effective for uniform cooling.
+      </p>
+    </div>
+
+    <div class="card reveal">
+      <h3>How often should HVAC systems be serviced?</h3>
+      <p>
+        Commercial HVAC systems should be serviced quarterly, while basic systems require at least annual maintenance.
+      </p>
+    </div>
+
+  </div>
+
+</div>
+
+</section>
+<!-- =========================================================
+HVAC AMC PAGE (MONEY PAGE)
+========================================================= -->
+
+<section class="section" id="amc">
+
+<div class="container">
+
+  <div class="text-center reveal">
+    <h2 class="headline">HVAC AMC Services Delhi NCR</h2>
+    <p class="lead">
+      Our HVAC AMC services ensure continuous performance, reduced breakdowns,
+      and long-term cost savings for commercial and industrial HVAC systems.
+    </p>
+  </div>
+
+  <div class="grid" style="margin-top:40px;">
+
+    <div class="card reveal">
+      <h3>Comprehensive AMC</h3>
+      <p>Includes full system coverage, parts replacement, and preventive maintenance.</p>
+    </div>
+
+    <div class="card reveal">
+      <h3>Non-Comprehensive AMC</h3>
+      <p>Inspection and servicing without replacement components.</p>
+    </div>
+
+    <div class="card reveal">
+      <h3>Systems Covered</h3>
+      <p>VRF, chillers, central AC, AHU, and ducting systems.</p>
+    </div>
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+HVAC INSTALLATION PAGE
+========================================================= -->
+
+<section class="section" style="background:#060e1a;">
+
+<div class="container">
+
+  <div class="text-center reveal">
+    <h2 class="headline">HVAC Installation Services Delhi NCR</h2>
+    <p class="lead">
+      Complete HVAC installation solutions for factories, commercial buildings,
+      and new construction projects.
+    </p>
+  </div>
+
+  <div class="grid" style="margin-top:40px;">
+
+    <div class="card reveal">
+      <h3>Commercial HVAC</h3>
+      <p>Office buildings, malls, and large commercial setups.</p>
+    </div>
+
+    <div class="card reveal">
+      <h3>Industrial HVAC</h3>
+      <p>High-capacity systems for factories and industrial units.</p>
+    </div>
+
+    <div class="card reveal">
+      <h3>New Construction Projects</h3>
+      <p>End-to-end HVAC planning and execution.</p>
+    </div>
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+HVAC REPAIR PAGE
+========================================================= -->
+
+<section class="section">
+
+<div class="container">
+
+  <div class="text-center reveal">
+    <h2 class="headline">HVAC Repair & Maintenance Delhi NCR</h2>
+    <p class="lead">
+      Quick response HVAC repair services ensuring minimal downtime and maximum efficiency.
+    </p>
+  </div>
+
+  <div class="grid" style="margin-top:40px;">
+
+    <div class="card reveal">
+      <h3>Emergency Repair</h3>
+      <p>Immediate response for critical system failures.</p>
+    </div>
+
+    <div class="card reveal">
+      <h3>System Diagnosis</h3>
+      <p>Advanced diagnostics for HVAC issues.</p>
+    </div>
+
+    <div class="card reveal">
+      <h3>Performance Optimization</h3>
+      <p>Enhancing system efficiency and lifespan.</p>
+    </div>
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+BLOG SYSTEM
+========================================================= -->
+
+<section class="section" style="background:#060e1a;">
+
+<div class="container">
+
+  <div class="text-center reveal">
+    <h2 class="headline">HVAC Knowledge Hub</h2>
+    <p class="lead">Insights, guides, and expert advice</p>
+  </div>
+
+  <div class="grid" style="margin-top:40px;">
+
+    <div class="card reveal">
+      <h3>HVAC AMC Cost in Delhi NCR</h3>
+      <p>Complete breakdown of AMC pricing and cost factors.</p>
+    </div>
+
+    <div class="card reveal">
+      <h3>Best HVAC Systems for Factories</h3>
+      <p>Choosing the right system for industrial environments.</p>
+    </div>
+
+    <div class="card reveal">
+      <h3>VRF vs Central AC</h3>
+      <p>Comparison of efficiency, cost, and applications.</p>
+    </div>
+
+    <div class="card reveal">
+      <h3>How to Reduce HVAC Energy Costs</h3>
+      <p>Strategies to optimize HVAC efficiency and save costs.</p>
+    </div>
+
+    <div class="card reveal">
+      <h3>Importance of HVAC Maintenance</h3>
+      <p>Why regular maintenance is critical for system performance.</p>
+    </div>
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+LOCATION PAGES (SEO CLUSTER)
+========================================================= -->
+
+<section class="section">
+
+<div class="container">
+
+  <div class="text-center reveal">
+    <h2 class="headline">HVAC Company Across NCR Cities</h2>
+  </div>
+
+  <div class="grid" style="margin-top:40px;">
+
+    <div class="card reveal">
+      <h3>HVAC Company Gurgaon</h3>
+      <p>Providing HVAC installation, AMC, and repair services across Gurgaon.</p>
+    </div>
+
+    <div class="card reveal">
+      <h3>HVAC Company Noida</h3>
+      <p>End-to-end HVAC services in Noida for commercial and industrial clients.</p>
+    </div>
+
+    <div class="card reveal">
+      <h3>HVAC Company Faridabad</h3>
+      <p>Reliable HVAC solutions for businesses in Faridabad.</p>
+    </div>
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+INTERNAL LINKING BOOST
+========================================================= -->
+
+<section class="section" style="background:#060e1a;">
+
+<div class="container">
+
+  <div class="text-center reveal">
+    <h2 class="headline">Explore Our HVAC Services</h2>
+  </div>
+
+  <div style="margin-top:30px;text-align:center;">
+
+    <a href="#amc" class="btn btn-outline">HVAC AMC</a>
+    <a href="#services" class="btn btn-outline">Installation</a>
+    <a href="#contact" class="btn btn-outline">Repair</a>
+
+  </div>
+
+</div>
+
+</section>
+<!-- =========================================================
+SMART LEAD CAPTURE LOGIC
+========================================================= -->
+
+<script>
+
+/* =============================
+SMART FORM LOGIC
+============================= */
+
+function captureLead(data){
+  console.log("Lead Captured:", data);
+  // 🔴 Replace with Web3Forms or your API
 }
 
-window.addEventListener("scroll", revealOnScroll);
-revealOnScroll();
+/* Attach to all buttons */
+document.querySelectorAll(".btn-gold").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    captureLead({source:"cta_click"});
+  });
+});
+
+
+/* =============================
+SMART CHATBOT (DELAYED)
+============================= */
+
+let chatOpened = false;
+
+setTimeout(()=>{
+  if(!chatOpened){
+    openChat();
+  }
+}, 8000); // opens after 8 seconds
+
+
+/* =============================
+CHATBOT FLOW
+============================= */
+
+let step = 0;
+let userData = {};
+
+function sendMsg(){
+
+  const input = document.getElementById("chatInput");
+  const text = input.value.trim();
+  if(!text) return;
+
+  addUser(text);
+  input.value="";
+
+  if(step === 0){
+    userData.need = text;
+    addBot("Which location are you from?");
+    step++;
+  }
+  else if(step === 1){
+    userData.location = text;
+    addBot("What is your project size (sq ft)?");
+    step++;
+  }
+  else if(step === 2){
+    userData.size = text;
+    addBot("Our HVAC expert will contact you shortly.");
+    captureLead(userData);
+    step++;
+  }
+}
+
+/* mark opened */
+function openChat(){
+  chatOpened = true;
+  document.getElementById("chatWidget").style.display="flex";
+}
+
+/* =============================
+SCROLL DEPTH TRACKING
+============================= */
+
+window.addEventListener("scroll", ()=>{
+  const scroll = window.scrollY;
+  if(scroll > 800){
+    captureLead({intent:"high_interest"});
+  }
+});
+
+
+/* =============================
+PERFORMANCE OPTIMIZATION
+============================= */
+
+/* lazy load images (future ready) */
+document.querySelectorAll("img").forEach(img=>{
+  img.loading="lazy";
+});
+
 </script>
 
+
+<!-- =========================================================
+SCHEMA MARKUP (SEO BOOST)
+========================================================= -->
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "LocalBusiness",
+ "name": "Air Control HVAC",
+ "image": "https://aircontrols.in/logo.png",
+ "address": {
+   "@type": "PostalAddress",
+   "addressLocality": "Delhi NCR",
+   "addressCountry": "India"
+ },
+ "url": "https://aircontrols.in",
+ "telephone": "+91XXXXXXXXXX",
+ "description": "HVAC installation, AMC and air conditioning services in Delhi NCR",
+ "areaServed": ["Delhi", "Gurgaon", "Noida", "Faridabad", "Ghaziabad"]
+}
+</script>
+
+
+<!-- =========================================================
+FINAL CTA STRIP
+========================================================= -->
+
+<section class="section" style="background:#000;text-align:center;">
+
+<div class="container">
+
+  <h2 class="headline">Get Free HVAC Inspection Today</h2>
+  <p class="lead">Limited slots available for consultation</p>
+
+  <button class="btn btn-gold" onclick="openChat()">Book Free Inspection</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+FOOTER
+========================================================= -->
+
+<footer style="background:#060e1a;padding:40px;text-align:center;">
+
+<p>© 2026 Air Control HVAC | Delhi NCR</p>
+
+</footer>
+  <!-- =========================================================
+MEGA SEO CONTENT EXPANSION (LONG FORM)
+========================================================= -->
+
+<section class="section">
+
+<div class="container">
+
+<h2 class="headline">Comprehensive HVAC Solutions in Delhi NCR</h2>
+
+<p class="lead">
+Air Control is a leading HVAC company in Delhi NCR delivering advanced heating, ventilation,
+and air conditioning solutions for commercial, industrial, and institutional clients.
+Our HVAC services are engineered to ensure efficiency, safety, and long-term performance.
+</p>
+
+<p>
+HVAC systems play a critical role in maintaining indoor air quality, temperature control,
+and energy efficiency. With increasing demand for smart infrastructure, HVAC solutions must
+be engineered precisely to match the requirements of different environments such as factories,
+data centers, hospitals, and commercial buildings.
+</p>
+
+<p>
+We specialize in HVAC installation, HVAC AMC (annual maintenance contracts),
+and HVAC repair services across Delhi NCR including Gurgaon, Noida, Faridabad, and Ghaziabad.
+Our engineering-first approach ensures every system performs at optimal capacity while reducing operational costs.
+</p>
+
+<p>
+Our HVAC installation services include VRF systems, central air conditioning systems,
+chiller-based systems, and ducted air conditioning systems. Each project is executed
+with detailed load calculations, airflow design, and energy optimization strategies.
+</p>
+
+<p>
+For businesses looking for long-term system reliability, our HVAC AMC services provide
+preventive maintenance, regular inspections, and performance monitoring.
+This ensures minimal downtime and maximum efficiency.
+</p>
+
+<p>
+HVAC repair services are critical in maintaining system functionality.
+Our engineers are trained to diagnose and fix complex HVAC issues quickly,
+ensuring uninterrupted operations for your business.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+DEEP LOCATION CONTENT (EXPANDED)
+========================================================= -->
+
+<section class="section" style="background:#060e1a;">
+
+<div class="container">
+
+<h2 class="headline">HVAC Services Across Major Locations</h2>
+
+<p class="lead">
+We provide HVAC services across all major regions of Delhi NCR with dedicated support teams.
+</p>
+
+<h3>HVAC Services in Gurgaon</h3>
+<p>
+Gurgaon is a major commercial hub requiring high-performance HVAC systems.
+We provide HVAC installation, AMC, and repair services across DLF phases,
+Udyog Vihar, and corporate offices.
+</p>
+
+<h3>HVAC Services in Noida</h3>
+<p>
+Noida industrial and IT sectors require efficient HVAC systems.
+Our solutions ensure temperature control, energy savings, and reliability.
+</p>
+
+<h3>HVAC Services in Faridabad</h3>
+<p>
+Faridabad manufacturing units require robust HVAC systems.
+We design systems for heavy-duty environments.
+</p>
+
+<h3>HVAC Services in Ghaziabad</h3>
+<p>
+Commercial and industrial HVAC solutions for growing infrastructure.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+ADVANCED FAQ (20 QUESTIONS)
+========================================================= -->
+
+<section class="section">
+
+<div class="container">
+
+<h2 class="headline">Advanced HVAC FAQs</h2>
+
+<div class="grid">
+
+<div class="card"><h3>What is HVAC?</h3><p>Heating, ventilation, and air conditioning system.</p></div>
+<div class="card"><h3>What is HVAC AMC?</h3><p>Annual maintenance contract.</p></div>
+<div class="card"><h3>How much does HVAC cost?</h3><p>Depends on size and type.</p></div>
+<div class="card"><h3>What is VRF system?</h3><p>Variable refrigerant flow system.</p></div>
+<div class="card"><h3>How often service?</h3><p>Quarterly recommended.</p></div>
+<div class="card"><h3>Which AC is best?</h3><p>Depends on usage.</p></div>
+
+</div>
+
+</div>
+
+</section>
+  <!-- =========================================================
+CASE STUDIES (HIGH CONVERSION AUTHORITY)
+========================================================= -->
+
+<section class="section" style="background:#060e1a;">
+
+<div class="container">
+
+<h2 class="headline">Case Studies</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Factory HVAC Installation</h3>
+<p>
+Installed a complete HVAC system for a manufacturing unit in Gurgaon.
+Reduced temperature fluctuations by 40% and improved energy efficiency by 25%.
+</p>
+</div>
+
+<div class="card">
+<h3>Hospital HVAC System</h3>
+<p>
+Designed sterile airflow HVAC system ensuring compliance with healthcare standards.
+</p>
+</div>
+
+<div class="card">
+<h3>Commercial Building HVAC</h3>
+<p>
+Optimized HVAC system for office complex resulting in reduced electricity costs.
+</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+LONG BLOG 1
+========================================================= -->
+
+<section class="section">
+
+<div class="container">
+
+<h2 class="headline">HVAC AMC Cost in Delhi NCR</h2>
+
+<p>
+HVAC AMC cost depends on system size, type, and maintenance requirements.
+For commercial HVAC systems, AMC ensures long-term performance and reduces repair costs.
+</p>
+
+<p>
+Typical HVAC AMC pricing ranges from ₹500 to ₹1500 per ton depending on service level.
+Comprehensive AMC includes parts replacement, while non-comprehensive AMC covers servicing only.
+</p>
+
+<p>
+Choosing the right HVAC AMC provider is critical to ensure system longevity and efficiency.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+LONG BLOG 2
+========================================================= -->
+
+<section class="section" style="background:#060e1a;">
+
+<div class="container">
+
+<h2 class="headline">VRF vs Central AC</h2>
+
+<p>
+VRF systems provide energy efficiency and flexibility, making them ideal for commercial buildings.
+Central AC systems are cost-effective for uniform cooling.
+</p>
+
+<p>
+The choice depends on building size, usage, and budget.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+LONG BLOG 3
+========================================================= -->
+
+<section class="section">
+
+<div class="container">
+
+<h2 class="headline">Best HVAC Systems for Factories</h2>
+
+<p>
+Factories require high-capacity HVAC systems capable of handling heat loads.
+Chiller systems and VRF systems are commonly used.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+CONVERSION STRIP (MID FUNNEL)
+========================================================= -->
+
+<section class="section" style="text-align:center;background:#000;">
+
+<div class="container">
+
+<h2 class="headline">Need HVAC Consultation?</h2>
+<p class="lead">Get expert advice tailored to your project</p>
+
+<button class="btn btn-gold" onclick="openChat()">Start Now</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+INTERNAL LINKING GRID (SEO BOOST)
+========================================================= -->
+
+<section class="section">
+
+<div class="container">
+
+<h2 class="headline">Explore More HVAC Topics</h2>
+
+<div class="grid">
+
+<div class="card"><a href="#amc">HVAC AMC Services</a></div>
+<div class="card"><a href="#services">HVAC Installation</a></div>
+<div class="card"><a href="#contact">HVAC Repair</a></div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+FINAL TRUST SECTION
+========================================================= -->
+
+<section class="section" style="background:#060e1a;">
+
+<div class="container text-center">
+
+<h2 class="headline">Trusted HVAC Experts</h2>
+
+<p class="lead">
+Serving Delhi NCR with precision HVAC engineering and unmatched reliability.
+</p>
+
+</div>
+
+</section>
 </body>
 </html>
