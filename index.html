@@ -15,8 +15,8 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.web3forms.com https://www.google-analytics.com; frame-ancestors 'none';">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-<title>AC Repair & Service Delhi NCR | Air Control Since 1987</title>
-<meta name="description" content="Delhi's #1 AC repair & air conditioner service since 1987. Split AC, AC AMC, installation & emergency repair across Delhi NCR. Call +91 93122 64832.">
+<title>AC Repair Delhi NCR | AC Service, AMC & Installation | Air Control Since 1987</title>
+<meta name="description" content="Delhi's most trusted AC repair & service company since 1987. Same-day AC repair, annual maintenance contracts (AMC), split AC installation across Delhi, Gurgaon, Noida, Faridabad. Call +91 93122 64832.">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <meta name="author" content="Air Control">
 <link rel="canonical" href="https://aircontrols.in/">
@@ -1182,10 +1182,11 @@ Our 24/7 HVAC repair services ensure minimal downtime and quick restoration of c
   </div>
 
   <!-- ✅ FORM START -->
-  <form action="https://api.web3forms.com/submit" method="POST">
-
-    <!-- 🔑 KEEP YOUR ORIGINAL KEY HERE -->
+  <form id="contactForm">
     <input type="hidden" name="access_key" value="0b3287e6-ba3f-4a09-93ed-2212b40ea680">
+    <input type="hidden" name="subject" value="New AC Service Enquiry — Air Control Website">
+    <input type="hidden" name="from_name" value="Air Control Website">
+    <input type="checkbox" name="botcheck" style="display:none;" tabindex="-1" autocomplete="off">
 
     <div class="form-row">
       <div class="form-group">
@@ -1253,8 +1254,8 @@ Our 24/7 HVAC repair services ensure minimal downtime and quick restoration of c
       Your information is secure. We provide AC repair, AC servicing & HVAC services across Delhi NCR.
     </div>
 
-    <button type="submit" class="form-submit-btn">
-      📋 Get AC Service Quote Now <span class="arrow-icon">→</span>
+    <button type="submit" class="form-submit-btn" id="cfSubmitBtn">
+      📋 Get Free AC Service Quote <span class="arrow-icon">→</span>
     </button>
 
   </form>
@@ -1634,6 +1635,44 @@ async function sendToWeb3Forms(lead){
     });
   } catch(e){}
 }
+
+/* ================================================================
+   CONTACT FORM — AJAX submission to Web3Forms
+   ================================================================ */
+(function(){
+  var form = document.getElementById('contactForm');
+  if(!form) return;
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    var btn = document.getElementById('cfSubmitBtn');
+    var orig = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Sending…';
+    var data = {};
+    new FormData(form).forEach(function(v,k){ data[k]=v; });
+    try {
+      var res = await fetch('https://api.web3forms.com/submit',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify(data)
+      });
+      var result = await res.json();
+      if(result.success){
+        form.style.display='none';
+        var succ = document.getElementById('cfSuccess');
+        if(succ){ succ.style.display='block'; }
+        // also save to local leads
+        saveLead({name:(data.first_name||'')+' '+(data.last_name||''),phone:data.phone,email:data.email,service:data.service,facility:data.facility,location:data.location,message:data.message,source:'contact-form'});
+      } else {
+        btn.disabled=false; btn.innerHTML=orig;
+        alert('Something went wrong. Please call us directly at +91 93122 64832.');
+      }
+    } catch(err){
+      btn.disabled=false; btn.innerHTML=orig;
+      alert('Connection error. Please call +91 93122 64832 or WhatsApp us.');
+    }
+  });
+})();
 
 /* ================================================================
    MAILTO FALLBACK — opens email client as backup notification
