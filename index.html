@@ -12,6 +12,9 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.web3forms.com https://www.google-analytics.com; frame-ancestors 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 <title>AC Repair & Service Delhi NCR | Air Control Since 1987</title>
 <meta name="description" content="Delhi's #1 AC repair & air conditioner service since 1987. Split AC, AC AMC, installation & emergency repair across Delhi NCR. Call +91 93122 64832.">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -1532,13 +1535,11 @@ Our 24/7 HVAC repair services ensure minimal downtime and quick restoration of c
    CONFIGURATION — Update these before deployment
    ================================================================ */
 const CFG = {
-  // Get your FREE key at https://web3forms.com (250 leads/month free)
   web3formsKey: '0b3287e6-ba3f-4a09-93ed-2212b40ea680',
-  adminEmail: 'ajay@aircontrols.in',
   phone: '+919312264832',
-  company: 'Air Control',
-  adminPassword: 'aircontrol1987'
+  company: 'Air Control'
 };
+const _AH = '59556af07a7aee4ae8111857d121adc55b2d45d340e2c64c43e5f3dadc4fd460';
 
 /* ================================================================
    5-PAGE SPA ROUTER
@@ -1734,7 +1735,7 @@ function sendMailtoNotification(lead){
     `View all leads: Open admin panel at yoursite.html#admin`
   );
   const a = document.createElement('a');
-  a.href = `mailto:${CFG.adminEmail}?subject=${sub}&body=${body}`;
+  a.href = `mailto:ajay@aircontrols.in?subject=${sub}&body=${body}`;
   a.style.display='none';
   document.body.appendChild(a);
   setTimeout(()=>{ a.click(); document.body.removeChild(a); }, 800);
@@ -1929,23 +1930,59 @@ setTimeout(()=>{
 }, 14000);
 
 /* ================================================================
-   ADMIN PANEL — visit #admin with password to view/download leads
+   ADMIN PANEL — secured with SHA-256 hashed password + rate limiting
    ================================================================ */
+function _esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+async function _sha256(str){
+  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+const _arl={count:0,lockedUntil:0};
 window.addEventListener('hashchange',()=>{ if(location.hash==='#admin') openAdmin(); });
-function openAdmin(){
+async function openAdmin(){
+  history.replaceState(null,'','#home');
+  if(Date.now()<_arl.lockedUntil){
+    const secs=Math.ceil((_arl.lockedUntil-Date.now())/1000);
+    alert(`Too many attempts. Try again in ${secs}s.`); navigate('home',false); return;
+  }
   const pw=prompt('Enter admin password:');
-  if(pw!==CFG.adminPassword){ history.replaceState(null,'','#home'); navigate('home',false); return; }
+  if(!pw){ navigate('home',false); return; }
+  const hash=await _sha256(pw);
+  if(hash!==_AH){
+    _arl.count++;
+    if(_arl.count>=5){ _arl.lockedUntil=Date.now()+30000; _arl.count=0; alert('Too many failed attempts. Locked for 30 seconds.'); }
+    else { alert(`Incorrect password. ${5-_arl.count} attempt${5-_arl.count!==1?'s':''} remaining.`); }
+    navigate('home',false); return;
+  }
+  _arl.count=0;
   const leads=JSON.parse(localStorage.getItem('ac_leads_v2')||'[]');
   const win=window.open('','_blank');
-  if(!win) return;
-  win.document.write(`<!DOCTYPE html><html><head><title>Air Control — Leads Dashboard</title>
-  <style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:#060e1a;color:#f8f6f1;padding:36px;min-height:100vh;}
+  if(!win){ alert('Pop-up blocked. Please allow pop-ups for this site.'); return; }
+  const sorted=[...leads].reverse();
+  const rows=sorted.map((l,i)=>`<tr>
+    <td>${sorted.length-i}</td>
+    <td style="white-space:nowrap;font-size:.75rem;">${l.timestamp?new Date(l.timestamp).toLocaleString('en-IN'):''}</td>
+    <td><strong>${_esc(l.name)}</strong></td>
+    <td style="color:#4a90d9;white-space:nowrap;"><a href="tel:${_esc((l.phone||'').replace(/\s/g,''))}" style="color:#4a90d9;">${_esc(l.phone)}</a></td>
+    <td style="font-size:.76rem;">${_esc(l.email)}</td>
+    <td>${_esc(l.service||l.requirement)}</td>
+    <td>${_esc(l.facility||l.propertyType)}</td>
+    <td>${_esc(l.location)}</td>
+    <td><span class="badge">${_esc(l.source)}</span></td>
+    <td style="max-width:200px;font-size:.76rem;">${_esc(l.message)}</td>
+  </tr>`).join('');
+  const tableHTML=leads.length===0
+    ?'<div class="empty">No leads yet.</div>'
+    :`<table><tr><th>#</th><th>Time</th><th>Name</th><th>Phone</th><th>Email</th><th>Service</th><th>Facility</th><th>Location</th><th>Source</th><th>Message</th></tr>${rows}</table>`;
+  const csvData=JSON.stringify(leads);
+  win.document.write(`<!DOCTYPE html><html><head><title>Air Control — Leads</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline';">
+  <style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:sans-serif;background:#060e1a;color:#f8f6f1;padding:36px;min-height:100vh;}
   h2{font-family:Georgia,serif;font-size:1.8rem;color:#c8a84b;margin-bottom:6px;}
   .sub{color:rgba(255,255,255,.4);font-size:.85rem;margin-bottom:24px;}
   .actions{display:flex;gap:12px;margin-bottom:28px;}
-  button{background:#1e4db7;color:#fff;border:none;padding:10px 22px;border-radius:8px;font-size:.9rem;cursor:pointer;font-family:inherit;}
-  button:hover{background:#4a90d9;}
-  .danger{background:#c0392b !important;}
+  button{background:#1e4db7;color:#fff;border:none;padding:10px 22px;border-radius:8px;font-size:.9rem;cursor:pointer;}
+  button:hover{background:#4a90d9;}.danger{background:#c0392b !important;}
   table{width:100%;border-collapse:collapse;font-size:.82rem;}
   th{background:rgba(200,168,75,.15);color:#c8a84b;padding:12px 14px;text-align:left;font-weight:600;border-bottom:1px solid rgba(255,255,255,.08);}
   td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.7);vertical-align:top;}
@@ -1953,25 +1990,26 @@ function openAdmin(){
   .empty{text-align:center;padding:48px;color:rgba(255,255,255,.3);}
   .badge{background:rgba(30,77,183,.25);color:#4a90d9;padding:2px 8px;border-radius:4px;font-size:.75rem;}
   </style></head><body>
-  <h2>🔒 Air Control — Leads Dashboard</h2>
-  <div class="sub">${leads.length} total lead${leads.length!==1?'s':''} collected · Sorted newest first</div>
+  <h2>Air Control — Leads Dashboard</h2>
+  <div class="sub">${leads.length} lead${leads.length!==1?'s':''} · Newest first</div>
   <div class="actions">
-    <button onclick="dlCSV()">⬇ Download CSV</button>
-    <button onclick="location.reload()">🔄 Refresh</button>
-    <button class="danger" onclick="if(confirm('Clear ALL leads? This cannot be undone.')){localStorage.removeItem('ac_leads_v2');location.reload();}">🗑 Clear All</button>
-  </div>`);
-  if(leads.length===0){
-    win.document.write('<div class="empty">No leads yet. They will appear here as visitors engage with the chatbot and contact form.</div>');
-  } else {
-    const sorted=[...leads].reverse();
-    win.document.write('<table><tr><th>#</th><th>Time</th><th>Name</th><th>Phone</th><th>Email</th><th>Service</th><th>Facility</th><th>Location</th><th>Source</th><th>Message</th></tr>');
-    sorted.forEach((l,i)=>{
-      win.document.write(`<tr><td>${sorted.length-i}</td><td style="white-space:nowrap;font-size:.75rem;">${l.timestamp?new Date(l.timestamp).toLocaleString('en-IN'):''}</td><td><strong>${l.name||'—'}</strong></td><td style="color:#4a90d9;white-space:nowrap;"><a href="tel:${(l.phone||'').replace(/\s/g,'')}" style="color:#4a90d9;">${l.phone||'—'}</a></td><td style="font-size:.76rem;">${l.email||'—'}</td><td>${l.service||l.requirement||'—'}</td><td>${l.facility||l.propertyType||'—'}</td><td>${l.location||'—'}</td><td><span class="badge">${l.source||'—'}</span></td><td style="max-width:200px;font-size:.76rem;">${l.message||'—'}</td></tr>`);
-    });
-    win.document.write('</table>');
-  }
-  const ld=JSON.stringify(leads);
-  win.document.write(`<script>const LD=${ld};function dlCSV(){const h=['ID','Time','Name','Phone','Email','Service','Facility','Location','PropertyType','Message','Source'];const rows=LD.map((l,i)=>[i+1,l.timestamp,l.name,l.phone,l.email,l.service||l.requirement,l.facility||l.propertyType,l.location,l.propertyType,l.message,l.source].map(v=>'"'+String(v||'').replace(/"/g,'""')+'"').join(','));const csv=[h.join(','),...rows].join('\\n');const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='aircontrol-leads-'+new Date().toISOString().slice(0,10)+'.csv';a.click();}<\/script></body></html>`);
+    <button id="dlBtn">Download CSV</button>
+    <button onclick="location.reload()">Refresh</button>
+    <button class="danger" id="clrBtn">Clear All</button>
+  </div>
+  ${tableHTML}
+  <script>
+  var LD=${csvData};
+  document.getElementById('dlBtn').onclick=function(){
+    var h=['ID','Time','Name','Phone','Email','Service','Facility','Location','Message','Source'];
+    var rows=LD.map(function(l,i){return[i+1,l.timestamp,l.name,l.phone,l.email,l.service||l.requirement,l.facility||l.propertyType,l.location,l.message,l.source].map(function(v){return'"'+String(v||'').replace(/"/g,'""')+'"';}).join(',');});
+    var csv=[h.join(',')].concat(rows).join('\\n');
+    var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='aircontrol-leads-'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+  };
+  document.getElementById('clrBtn').onclick=function(){
+    if(confirm('Clear ALL leads? Cannot be undone.')){localStorage.removeItem('ac_leads_v2');location.reload();}
+  };
+  <\/script></body></html>`);
   win.document.close();
 }
 
