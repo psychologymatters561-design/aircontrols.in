@@ -248,7 +248,7 @@
 .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
 .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-@media(max-width:768px){#mainNav{height:60px;padding:0 4px 0 14px}.mobile-nav{top:60px}.nav-brand-sub{display:none}.mob-call-btn{display:flex}.nav-logo-mark{width:36px!important;height:36px!important}.nav-brand-name{font-size:16px}.hamburger{padding:8px 4px}}
+@media(max-width:768px){#mainNav{height:60px;padding:0 16px 0 14px}.mobile-nav{top:60px}.nav-brand-sub{display:none}.mob-call-btn{display:flex}.nav-logo-mark{width:36px!important;height:36px!important}.nav-brand-name{font-size:16px}.hamburger{padding:8px;margin-left:auto}}
 </style>
 <!-- =========================================================
 ADVANCED SEO META (HVAC DOMINATION)
@@ -525,19 +525,19 @@ ADVANCED SEO META (HVAC DOMINATION)
     <li class="nav-dropdown">
       <a href="/#services" data-page="services" onclick="navigate('services');return false">Services ▾</a>
       <ul class="nav-dropdown-menu">
-        <li><a href="/services/ac-repair/">AC Repair</a></li>
-        <li><a href="/services/ac-service/">AC Service &amp; Cleaning</a></li>
-        <li><a href="/services/ac-installation/">AC Installation</a></li>
-        <li><a href="/services/ac-amc/">AC AMC</a></li>
+        <li><a href="/#services" onclick="navigate('services');return false">AC Repair</a></li>
+        <li><a href="/#services" onclick="navigate('services');return false">AC Service &amp; Cleaning</a></li>
+        <li><a href="/#services" onclick="navigate('services');return false">AC Installation</a></li>
+        <li><a href="/#services" onclick="navigate('services');return false">AC AMC</a></li>
       </ul>
     </li>
     <li class="nav-dropdown">
-      <a href="/locations/delhi/">Locations ▾</a>
+      <a href="/#contact" data-page="contact" onclick="navigate('contact');return false">Locations ▾</a>
       <ul class="nav-dropdown-menu">
-        <li><a href="/locations/delhi/">Delhi</a></li>
-        <li><a href="/locations/gurgaon/">Gurgaon</a></li>
-        <li><a href="/locations/noida/">Noida</a></li>
-        <li><a href="/locations/faridabad/">Faridabad</a></li>
+        <li><a href="/#contact" onclick="navigate('contact');return false">Delhi</a></li>
+        <li><a href="/#contact" onclick="navigate('contact');return false">Gurgaon</a></li>
+        <li><a href="/#contact" onclick="navigate('contact');return false">Noida</a></li>
+        <li><a href="/#contact" onclick="navigate('contact');return false">Faridabad</a></li>
       </ul>
     </li>
     <li><a href="/#industries" data-page="industries" onclick="navigate('industries');return false">Industries</a></li>
@@ -556,19 +556,18 @@ ADVANCED SEO META (HVAC DOMINATION)
   <a href="/#why" onclick="navigate('why');toggleMobileNav();return false">Why Air Control</a>
   <button class="mob-section-header" onclick="toggleMobSection('mobServices')">Services <span class="mob-arrow">›</span></button>
   <div class="mob-section" id="mobServices">
-    <a href="/services/ac-repair/">AC Repair</a>
-    <a href="/services/ac-service/">AC Service &amp; Cleaning</a>
-    <a href="/services/ac-installation/">AC Installation</a>
-    <a href="/services/ac-amc/">AC Annual Maintenance (AMC)</a>
+    <a href="/#services" onclick="navigate('services');toggleMobileNav();return false">AC Repair</a>
+    <a href="/#services" onclick="navigate('services');toggleMobileNav();return false">AC Service &amp; Cleaning</a>
+    <a href="/#services" onclick="navigate('services');toggleMobileNav();return false">AC Installation</a>
+    <a href="/#services" onclick="navigate('services');toggleMobileNav();return false">AC AMC</a>
   </div>
   <button class="mob-section-header" onclick="toggleMobSection('mobLocations')">Locations <span class="mob-arrow">›</span></button>
   <div class="mob-section" id="mobLocations">
-    <a href="/locations/delhi/">Delhi</a>
-    <a href="/locations/gurgaon/">Gurgaon</a>
-    <a href="/locations/noida/">Noida</a>
-    <a href="/locations/faridabad/">Faridabad</a>
+    <a href="/#contact" onclick="navigate('contact');toggleMobileNav();return false">Delhi</a>
+    <a href="/#contact" onclick="navigate('contact');toggleMobileNav();return false">Gurgaon</a>
+    <a href="/#contact" onclick="navigate('contact');toggleMobileNav();return false">Noida</a>
+    <a href="/#contact" onclick="navigate('contact');toggleMobileNav();return false">Faridabad</a>
   </div>
-  <a href="/blog/" onclick="toggleMobileNav()">Blog &amp; AC Tips</a>
   <a href="/#industries" onclick="navigate('industries');toggleMobileNav();return false">Industries</a>
   <a href="/#contact" onclick="navigate('contact');toggleMobileNav();return false">Reviews &amp; Contact</a>
   <a class="mob-cta" href="tel:+919312264832">📞 Call +91 93122 64832 →</a>

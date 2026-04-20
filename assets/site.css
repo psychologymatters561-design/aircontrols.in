@@ -196,7 +196,7 @@
 .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
 .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-@media(max-width:768px){#mainNav{height:60px;padding:0 4px 0 14px}.mobile-nav{top:60px}.nav-brand-sub{display:none}.mob-call-btn{display:flex}.nav-logo-mark{width:36px!important;height:36px!important}.nav-brand-name{font-size:16px}.hamburger{padding:8px 4px}}
+@media(max-width:768px){#mainNav{height:60px;padding:0 16px 0 14px}.mobile-nav{top:60px}.nav-brand-sub{display:none}.mob-call-btn{display:flex}.nav-logo-mark{width:36px!important;height:36px!important}.nav-brand-name{font-size:16px}.hamburger{padding:8px;margin-left:auto}}
 
 *{margin:0;padding:0;box-sizing:border-box;}body{font-family:'DM Sans',sans-serif;background:#060e1a;color:#f8f6f1;padding:36px;min-height:100vh;}
   h2{font-family:Georgia,serif;font-size:1.8rem;color:#c8a84b;margin-bottom:6px;}
