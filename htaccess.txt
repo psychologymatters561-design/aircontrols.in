@@ -16,8 +16,15 @@
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 </IfModule>
 
+# Deny access to sensitive files
+<FilesMatch "\.(json|js|txt|xml)$">
+  <IfModule mod_authz_core.c>
+    Require all granted
+  </IfModule>
+</FilesMatch>
+
 # Block access to generator/utility scripts
-<FilesMatch "^(fetch|fetch2|fetch3|generate_step1|generate_step2|metadata)">
+<FilesMatch "^(fetch|generate_step|metadata)">
   <IfModule mod_authz_core.c>
     Require all denied
   </IfModule>
