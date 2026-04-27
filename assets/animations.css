@@ -1,0 +1,197 @@
+/* ============================================================
+   animations.css — Air Control site-wide animation layer
+   ============================================================ */
+
+/* ---------- Page load ---------- */
+@keyframes pageIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+body{animation:pageIn .55s ease both}
+
+/* ---------- Scroll reading progress bar ---------- */
+#read-progress{
+  position:fixed;top:0;left:0;height:3px;width:0;
+  background:linear-gradient(90deg,var(--gold),var(--gold-l,#e8c96b));
+  z-index:99999;transition:width .12s linear;pointer-events:none
+}
+
+/* ---------- Cursor glow ---------- */
+#cursor-glow{
+  position:fixed;width:380px;height:380px;border-radius:50%;
+  background:radial-gradient(circle,rgba(200,168,75,.07) 0%,transparent 70%);
+  pointer-events:none;transform:translate(-50%,-50%);z-index:0;
+  transition:transform .07s linear;will-change:transform
+}
+
+/* ---------- Floating background orbs ---------- */
+@keyframes orbDrift{
+  0%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(18px,-24px) scale(1.04)}
+  66%{transform:translate(-14px,16px) scale(.97)}
+  100%{transform:translate(0,0) scale(1)}
+}
+.orb{
+  position:absolute;border-radius:50%;pointer-events:none;
+  filter:blur(70px);opacity:.18;animation:orbDrift 18s ease-in-out infinite
+}
+.orb-1{width:360px;height:360px;background:#c8a84b;top:-80px;left:-80px;animation-delay:0s}
+.orb-2{width:260px;height:260px;background:#1e4db7;top:40%;right:-60px;animation-delay:-6s}
+.orb-3{width:200px;height:200px;background:#c8a84b;bottom:10%;left:30%;animation-delay:-12s}
+
+/* ---------- Hero badge float ---------- */
+@keyframes badgeFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.hero-badge{animation:badgeFloat 3.4s ease-in-out infinite}
+
+/* ---------- Hero stats counter pop ---------- */
+@keyframes statPop{from{opacity:0;transform:scale(.82) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.hstat{opacity:0;animation:statPop .5s cubic-bezier(.34,1.56,.64,1) both}
+.hstat:nth-child(1){animation-delay:.3s}
+.hstat:nth-child(2){animation-delay:.45s}
+.hstat:nth-child(3){animation-delay:.6s}
+
+/* ---------- Hero float card ---------- */
+@keyframes floatCard{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-12px) rotate(1deg)}}
+.hero-card-float{animation:floatCard 5s ease-in-out infinite}
+
+/* ---------- Gold rule draw-in ---------- */
+@keyframes ruleDraw{from{width:0;opacity:0}to{width:56px;opacity:1}}
+.gold-rule{width:0;opacity:0}
+.gold-rule.visible{animation:ruleDraw .7s ease forwards}
+
+/* ---------- Section label reveal ---------- */
+@keyframes labelUp{from{opacity:0;letter-spacing:6px}to{opacity:1;letter-spacing:3.5px}}
+.section-label{opacity:0;animation:none}
+.section-label.visible{animation:labelUp .6s ease forwards}
+
+/* ---------- Generic reveal ---------- */
+.reveal,.reveal-l,.reveal-r{opacity:0;transition:opacity .65s ease,transform .65s ease}
+.reveal{transform:translateY(28px)}
+.reveal-l{transform:translateX(-32px)}
+.reveal-r{transform:translateX(32px)}
+.reveal.visible,.reveal-l.visible,.reveal-r.visible{opacity:1;transform:none}
+
+/* ---------- Stagger grid children ---------- */
+.stagger-child{opacity:0;transform:translateY(24px);transition:opacity .5s ease,transform .5s ease}
+.stagger-child.visible{opacity:1;transform:none}
+
+/* ---------- Card hover: 3D tilt + gold glow ---------- */
+.pillar-card,.srv-card,.ind-card,.rev-card,.principle-card,.safety-card,.cib-card,.guar-card{
+  transform-style:preserve-3d;
+  transition:transform .22s ease,box-shadow .22s ease
+}
+.pillar-card:hover,.srv-card:hover,.ind-card:hover,.rev-card:hover,
+.principle-card:hover,.safety-card:hover,.cib-card:hover,.guar-card:hover{
+  box-shadow:0 0 0 1.5px rgba(200,168,75,.35),0 20px 60px rgba(0,0,0,.28)
+}
+
+/* ---------- Button shimmer ---------- */
+@keyframes shimmerSweep{from{transform:translateX(-100%) skewX(-15deg)}to{transform:translateX(220%) skewX(-15deg)}}
+.btn,.nav-cta-btn,.mob-cta,.cta-btn{position:relative;overflow:hidden}
+.btn::before,.nav-cta-btn::before,.mob-cta::before,.cta-btn::before{
+  content:'';position:absolute;top:0;left:0;width:50%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
+  transform:translateX(-100%) skewX(-15deg);pointer-events:none
+}
+.btn:hover::before,.nav-cta-btn:hover::before,.mob-cta:hover::before,.cta-btn:hover::before{
+  animation:shimmerSweep .55s ease
+}
+
+/* ---------- Ripple ---------- */
+.ripple-wave{
+  position:absolute;border-radius:50%;transform:scale(0);
+  background:rgba(255,255,255,.25);animation:rippleAnim .55s linear;
+  pointer-events:none
+}
+@keyframes rippleAnim{to{transform:scale(4);opacity:0}}
+
+/* ---------- Nav underline draw ---------- */
+.nav-links-list a,.nav-links-list button{position:relative}
+.nav-links-list a::after,.nav-links-list button::after{
+  content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;
+  background:var(--gold,#c8a84b);transition:width .25s ease
+}
+.nav-links-list a:hover::after,.nav-links-list button:hover::after{width:100%}
+
+/* ---------- Trust strip marquee ---------- */
+@keyframes marqueeScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.trust-strip{overflow:hidden;padding-left:0!important;padding-right:0!important}
+.trust-strip-inner{
+  display:flex;align-items:center;gap:0;
+  max-width:none!important;margin:0!important;width:max-content;
+  animation:marqueeScroll 30s linear infinite
+}
+.trust-strip:hover .trust-strip-inner{animation-play-state:paused}
+
+/* ---------- CTA section pulse glow ---------- */
+@keyframes ctaPulse{0%,100%{box-shadow:0 0 0 0 rgba(200,168,75,0)}50%{box-shadow:0 0 0 14px rgba(200,168,75,.08)}}
+.cta-section{animation:ctaPulse 4s ease-in-out infinite}
+
+/* ---------- Emergency strip ticker ---------- */
+@keyframes emergencyPulse{0%,100%{background:rgba(200,168,75,.12)}50%{background:rgba(200,168,75,.22)}}
+.emergency-strip{animation:emergencyPulse 2.6s ease-in-out infinite}
+
+/* ---------- Promise bar items slide-in ---------- */
+.promise-item{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+.promise-item.visible{opacity:1;transform:none}
+
+/* ---------- Feature callout shimmer border ---------- */
+@keyframes borderGlow{0%,100%{border-color:rgba(200,168,75,.2)}50%{border-color:rgba(200,168,75,.6)}}
+.feature-callout{animation:borderGlow 3.5s ease-in-out infinite}
+
+/* ---------- Footer link underline ---------- */
+.footer a{position:relative;display:inline-block}
+.footer a::after{
+  content:'';position:absolute;bottom:-1px;left:0;width:0;height:1px;
+  background:var(--gold,#c8a84b);transition:width .2s ease
+}
+.footer a:hover::after{width:100%}
+
+/* ---------- Scroll-to-top button ---------- */
+#scroll-top{
+  position:fixed;bottom:28px;right:28px;width:44px;height:44px;border-radius:50%;
+  background:var(--gold,#c8a84b);color:#0a1628;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+  opacity:0;transform:translateY(12px);transition:opacity .3s ease,transform .3s ease;
+  z-index:8000;box-shadow:0 4px 18px rgba(200,168,75,.4)
+}
+#scroll-top.show{opacity:1;transform:none}
+#scroll-top:hover{background:var(--gold-l,#e8c96b);transform:translateY(-2px)}
+
+/* ---------- Section wipe-in background ---------- */
+@keyframes sectionFade{from{opacity:0}to{opacity:1}}
+
+/* ---------- Pillar icon spin on hover ---------- */
+.pillar-card .pillar-icon,.pillar-card .icon{
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1)
+}
+.pillar-card:hover .pillar-icon,.pillar-card:hover .icon{transform:rotate(12deg) scale(1.15)}
+
+/* ---------- Service card icon bounce ---------- */
+.srv-card .srv-icon,.srv-card svg{transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.srv-card:hover .srv-icon,.srv-card:hover svg{transform:translateY(-5px) scale(1.1)}
+
+/* ---------- Review card quote pulse ---------- */
+.rev-card blockquote,.rev-card .review-text{transition:color .3s ease}
+.rev-card:hover blockquote,.rev-card:hover .review-text{color:rgba(255,255,255,.95)}
+
+/* ---------- Guarantee card counter glow ---------- */
+.guar-card .guar-number,.guar-card .stat-num{
+  transition:text-shadow .3s ease
+}
+.guar-card:hover .guar-number,.guar-card:hover .stat-num{
+  text-shadow:0 0 24px rgba(200,168,75,.5)
+}
+
+/* ---------- Safety card check icon bounce ---------- */
+.safety-card svg,.safety-card .check-icon{transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.safety-card:hover svg,.safety-card:hover .check-icon{transform:scale(1.2) rotate(-6deg)}
+
+/* ---------- Industry card scale ---------- */
+.ind-card{transition:transform .22s ease,box-shadow .22s ease}
+.ind-card:hover{transform:translateY(-6px)}
+
+/* ---------- Reduced motion ---------- */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .trust-strip-inner{animation:none}
+  body{animation:none}
+  #cursor-glow{display:none}
+}

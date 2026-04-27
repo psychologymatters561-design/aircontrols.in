@@ -1,6 +1,120 @@
-# Aircontrols.in
-Air Control website 
+# Air Control — aircontrols.in
+# AC Repair, Service, Installation & AMC | Delhi NCR Since 1987
+
+# ─── Search Engines ────────────────────────────────────────────────
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# ─── AI / LLM Crawlers ─────────────────────────────────────────────
+# OpenAI / ChatGPT
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic Claude
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+# Meta AI / Llama
+User-agent: FacebookBot
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: meta-externalfetcher
+Allow: /
+
+# Google AI (Gemini / Bard)
+User-agent: Google-Extended
+Allow: /
+
+# Microsoft Copilot / Bing AI
+User-agent: Bingbot
+Allow: /
+
+# Cohere
+User-agent: cohere-ai
+Allow: /
+
+# Common Crawl (used by LLM training datasets)
+User-agent: CCBot
+Allow: /
+
+# You.com
+User-agent: YouBot
+Allow: /
+
+# Brave Search
+User-agent: Brave
+Allow: /
+
+# Diffbot
+User-agent: Diffbot
+Allow: /
+
+# Bytedance / TikTok
+User-agent: Bytespider
+Allow: /
+
+# Amazon Alexa
+User-agent: Amazonbot
+Allow: /
+
+# Applebot Extended (Siri AI)
+User-agent: Applebot-Extended
+Allow: /
+
+# ─── All other bots ────────────────────────────────────────────────
 User-agent: *
 Allow: /
 
+# Block source/build files only
+Disallow: /fetch.js
+Disallow: /fetch2.js
+Disallow: /fetch3.js
+Disallow: /generate_step1.js
+Disallow: /generate_step2.js
+Disallow: /tsconfig.json
+Disallow: /vite.config.ts
+Disallow: /package.json
+Disallow: /metadata.json
+
 Sitemap: https://aircontrols.in/sitemap.xml
+Sitemap: https://aircontrols.in/sitemap-news.xml
