@@ -12,7 +12,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.web3forms.com https://www.google-analytics.com; frame-ancestors 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.web3forms.com https://formsubmit.co https://www.google-analytics.com; frame-ancestors 'none';">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 <title>AC Repair Delhi NCR | AC Service, AMC & Installation | Air Control Since 1987</title>
@@ -1358,9 +1358,10 @@ Our 24/7 HVAC repair services ensure minimal downtime and quick restoration of c
   <!-- ✅ FORM START -->
   <form id="contactForm">
     <input type="hidden" name="access_key" value="0b3287e6-ba3f-4a09-93ed-2212b40ea680">
-    <input type="hidden" name="subject" value="New AC Service Enquiry — Air Control Website">
+    <input type="hidden" name="subject" id="cf-subject" value="New AC Lead — Air Control Website">
     <input type="hidden" name="from_name" value="Air Control Website">
-    <input type="checkbox" name="botcheck" style="display:none;" tabindex="-1" autocomplete="off">
+    <input type="hidden" name="botcheck" value="">
+    <input type="hidden" name="replyto" id="cf-replyto" value="ajay@aircontrols.in">
 
     <div class="form-row">
       <div class="form-group">
@@ -1884,8 +1885,7 @@ function checkHeroFormInstantLead(){
   if(name && name.length>1 && phone && phone.replace(/\D/g,'').length>=10){
     heroLeadFired = true;
     const lead = { name, phone, service: document.getElementById('hf-service')?.value||'Not specified', source:'hero-form-instant', timestamp: new Date().toISOString() };
-    saveLead(lead);
-    sendToWeb3Forms(lead);
+    fireLead(lead);
   }
 }
 function submitHeroForm(){
@@ -1894,10 +1894,8 @@ function submitHeroForm(){
   if(!name){ alert('Please enter your name.'); return; }
   if(!phone || phone.replace(/\D/g,'').length<10){ alert('Please enter a valid phone number.'); return; }
   const lead = { name, phone, service: document.getElementById('hf-service')?.value||'Not specified', source:'hero-form-submit', timestamp: new Date().toISOString() };
-  saveLead(lead);
-  sendToWeb3Forms(lead);
-  //sendMailtoNotification(lead);
-  alert(`✅ Thank you, ${name}! Our expert will call you at ${phone} now!.`);
+  fireLead(lead);
+  alert(`✅ Thank you, ${name}! Our expert will call you at ${phone} within 30 minutes.`);
   heroLeadFired = true;
 }
 
@@ -1915,28 +1913,73 @@ function saveLead(lead){
 }
 
 /* ================================================================
-   WEB3FORMS — Free email notification (250/month)
-   Sign up at web3forms.com → paste your access_key above
+   WEB3FORMS — primary email notification channel
    ================================================================ */
 async function sendToWeb3Forms(lead){
   if(!CFG.web3formsKey) return;
   try {
-    await fetch('https://api.web3forms.com/submit',{
+    const res = await fetch('https://api.web3forms.com/submit',{
       method:'POST',
       headers:{'Content-Type':'application/json','Accept':'application/json'},
       body: JSON.stringify({
         access_key: CFG.web3formsKey,
-        subject: `🔔 New Lead: ${lead.name} — ${lead.service||lead.requirement||'HVAC Enquiry'}`,
+        subject: `🔔 New Lead: ${lead.name||'Unknown'} | ${lead.phone||'—'} | ${lead.service||lead.requirement||'AC Enquiry'}`,
         from_name: 'Air Control Website',
-        name: lead.name, phone: lead.phone, email: lead.email||'—',
+        replyto: 'ajay@aircontrols.in',
+        name: lead.name||'—', phone: lead.phone||'—', email: lead.email||'—',
         service: lead.service||lead.requirement||'—',
         facility: lead.facility||lead.propertyType||'—',
         location: lead.location||'—', message: lead.message||'—',
-        source: lead.source, timestamp: lead.timestamp,
+        source: lead.source||'website', timestamp: lead.timestamp||new Date().toISOString(),
         botcheck: ''
       })
     });
-  } catch(e){}
+    const result = await res.json();
+    if(!result.success){
+      console.error('[AirControl] Web3Forms rejected submission:', result.message);
+    }
+  } catch(e){
+    console.error('[AirControl] Web3Forms network error:', e);
+  }
+}
+
+/* ================================================================
+   FORMSUBMIT — backup email channel, routes to ajay@aircontrols.in
+   First-use sends an activation email; click once to enable.
+   ================================================================ */
+async function sendViaFormSubmit(lead){
+  try {
+    await fetch('https://formsubmit.co/ajax/ajay@aircontrols.in',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body: JSON.stringify({
+        _subject: `🔔 New Lead: ${lead.name||'Unknown'} | ${lead.phone||'—'} | ${lead.service||lead.requirement||'AC Enquiry'}`,
+        _replyto: lead.email||'ajay@aircontrols.in',
+        _template: 'table',
+        _captcha: 'false',
+        Name: lead.name||'—',
+        Phone: lead.phone||'—',
+        Email: lead.email||'—',
+        Service: lead.service||lead.requirement||'—',
+        Facility: lead.facility||lead.propertyType||'—',
+        Location: lead.location||'—',
+        Message: lead.message||'—',
+        Source: lead.source||'website',
+        Time: lead.timestamp||new Date().toISOString()
+      })
+    });
+  } catch(e){
+    console.warn('[AirControl] FormSubmit error:', e);
+  }
+}
+
+/* ================================================================
+   FIRE LEAD — save + send via both channels in parallel
+   ================================================================ */
+function fireLead(lead){
+  saveLead(lead);
+  sendToWeb3Forms(lead);
+  sendViaFormSubmit(lead);
 }
 
 /* ================================================================
@@ -1953,6 +1996,16 @@ async function sendToWeb3Forms(lead){
     btn.innerHTML = '⏳ Sending…';
     var data = {};
     new FormData(form).forEach(function(v,k){ data[k]=v; });
+    // Personalise subject with name + phone so it's findable in inbox
+    var subEl = document.getElementById('cf-subject');
+    var fullName = ((data.first_name||'') + ' ' + (data.last_name||'')).trim() || '—';
+    if(subEl) subEl.value = '🔔 New Lead: ' + fullName + ' | ' + (data.phone||'—') + ' | ' + (data.service||'AC Enquiry');
+    data.subject = subEl ? subEl.value : data.subject;
+    // also set reply-to to user's email if provided
+    var replyEl = document.getElementById('cf-replyto');
+    if(replyEl && data.email) replyEl.value = data.email;
+    data.replyto = data.email || 'ajay@aircontrols.in';
+    var leadObj = {name:fullName, phone:data.phone, email:data.email, service:data.service, facility:data.facility, location:data.location, message:data.message, source:'contact-form', timestamp:new Date().toISOString()};
     try {
       var res = await fetch('https://api.web3forms.com/submit',{
         method:'POST',
@@ -1964,15 +2017,24 @@ async function sendToWeb3Forms(lead){
         form.style.display='none';
         var succ = document.getElementById('cfSuccess');
         if(succ){ succ.style.display='block'; }
-        // also save to local leads
-        saveLead({name:(data.first_name||'')+' '+(data.last_name||''),phone:data.phone,email:data.email,service:data.service,facility:data.facility,location:data.location,message:data.message,source:'contact-form'});
+        saveLead(leadObj);
+        sendViaFormSubmit(leadObj); // backup delivery
       } else {
-        btn.disabled=false; btn.innerHTML=orig;
-        alert('Something went wrong. Please call us directly at +91 93122 64832.');
+        console.error('[AirControl] Contact form Web3Forms failed:', result.message);
+        // Web3Forms failed — try FormSubmit backup silently, still show success to user
+        saveLead(leadObj);
+        sendViaFormSubmit(leadObj);
+        form.style.display='none';
+        var succ2 = document.getElementById('cfSuccess');
+        if(succ2){ succ2.style.display='block'; }
       }
     } catch(err){
+      console.error('[AirControl] Contact form network error:', err);
+      // Network error — save locally + try FormSubmit
+      saveLead(leadObj);
+      sendViaFormSubmit(leadObj);
       btn.disabled=false; btn.innerHTML=orig;
-      alert('Connection error. Please call +91 93122 64832 or WhatsApp us.');
+      alert('Submission sent. If you don\'t hear from us within 2 hours, please call +91 93122 64832 directly.');
     }
   });
 })();
@@ -2124,9 +2186,7 @@ function processChat(val){
     if(!chatState.leadFired && chatState.data.name && val.replace(/\D/g,'').length>=10){
       chatState.leadFired=true;
       const instantLead={ name:chatState.data.name, phone:val, propertyType:chatState.data.propertyType, source:'chatbot-instant', timestamp:new Date().toISOString() };
-      saveLead(instantLead);
-      sendToWeb3Forms(instantLead);
-      sendMailtoNotification(instantLead);
+      fireLead(instantLead);
       // Show green confirmation bar
       const bar=document.getElementById('leadSavedBar');
       bar.style.display='flex';
@@ -2150,8 +2210,7 @@ function completeChatFlow(){
   const phone=chatState.data.phone||'—';
   // Save full lead
   const fullLead={...chatState.data, source:'chatbot-complete', timestamp:new Date().toISOString()};
-  saveLead(fullLead);
-  sendToWeb3Forms(fullLead);
+  fireLead(fullLead);
   typingThen(()=>{
     addBotMsg(`🎉 Thank you, **${n}**! You've made a smart decision.\n\n✅ Our senior engineer will call you at **${phone}** within 2 hours\n✅ Free HVAC Safety Checklist sent to your email\n✅ No obligation — just honest expert advice\n\nFor immediate assistance:\n📞 **+91 93122 64832**\n📧 ajay@aircontrols.in`);
     // Show WhatsApp option after bot message
