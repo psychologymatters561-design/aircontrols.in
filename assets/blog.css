@@ -29,6 +29,14 @@ body{background:#0a1628!important;color:#fff!important;font-family:'DM Sans',san
   padding:112px 28px 72px;text-align:center;position:relative;overflow:hidden;
   display:flex;align-items:center;justify-content:center;min-height:380px
 }
+/* AC snowflake decorations (injected by animations.js) */
+@keyframes heroFlakeSpin{0%{transform:rotate(0deg) scale(1)}50%{transform:rotate(180deg) scale(1.08)}100%{transform:rotate(360deg) scale(1)}}
+.blog-hero-flake{
+  position:absolute;color:rgba(122,185,232,.07);pointer-events:none;
+  font-size:var(--fs,80px);line-height:1;user-select:none;
+  animation:heroFlakeSpin var(--dur,20s) linear infinite
+}
+.blog-hero-flake.alt{color:rgba(74,144,217,.05);animation-direction:reverse}
 .blog-hero::before{
   content:'';position:absolute;inset:0;
   background:radial-gradient(ellipse 80% 65% at 50% 35%,rgba(200,168,75,.18) 0%,transparent 70%);

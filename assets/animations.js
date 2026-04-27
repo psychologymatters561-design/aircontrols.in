@@ -1,27 +1,30 @@
 /* ============================================================
-   animations.js — Air Control site-wide animation layer
+   animations.js — Air Control · AC-themed animation layer
    ============================================================ */
 (function(){
   'use strict';
 
-  const isTouch = () => window.matchMedia('(hover:none)').matches;
-  const prefersReduced = () => window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-  const raf = window.requestAnimationFrame;
+  const isTouch   = () => window.matchMedia('(hover:none)').matches;
+  const reduced   = () => window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const raf       = window.requestAnimationFrame;
 
-  /* ---- Read progress bar ---- */
+  /* ============================================================
+     READ PROGRESS BAR
+     ============================================================ */
   function initReadProgress(){
     const bar = document.createElement('div');
     bar.id = 'read-progress';
     document.body.prepend(bar);
-    function update(){
-      const scrolled = window.scrollY;
-      const total = document.documentElement.scrollHeight - window.innerHeight;
-      bar.style.width = (total > 0 ? (scrolled/total)*100 : 0) + '%';
-    }
-    window.addEventListener('scroll', update, {passive:true});
+    window.addEventListener('scroll', ()=>{
+      const s = window.scrollY;
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (h > 0 ? Math.min(100, (s/h)*100) : 0) + '%';
+    }, {passive:true});
   }
 
-  /* ---- Cursor glow (desktop only) ---- */
+  /* ============================================================
+     CURSOR GLOW (desktop, cold blue)
+     ============================================================ */
   function initCursorGlow(){
     if(isTouch()) return;
     const el = document.createElement('div');
@@ -38,7 +41,9 @@
     })();
   }
 
-  /* ---- Scroll-to-top button ---- */
+  /* ============================================================
+     SCROLL-TO-TOP BUTTON
+     ============================================================ */
   function initScrollTop(){
     const btn = document.createElement('button');
     btn.id = 'scroll-top';
@@ -51,14 +56,190 @@
     btn.addEventListener('click', ()=> window.scrollTo({top:0,behavior:'smooth'}));
   }
 
-  /* ---- Trust strip marquee duplication ---- */
+  /* ============================================================
+     SNOWFLAKE PARTICLE FIELD (CSS + JS)
+     ============================================================ */
+  function initSnowflakes(){
+    const field = document.getElementById('snowField');
+    if(!field) return;
+
+    const FLAKES  = 28;
+    const SYMBOLS = ['❄','❅','❆','*','·'];
+    const SIZES   = [10,12,14,16,18,20,22];
+
+    for(let i = 0; i < FLAKES; i++){
+      const el = document.createElement('span');
+      el.className = 'snow-p';
+      const sym  = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
+      const size = SIZES[Math.floor(Math.random() * SIZES.length)];
+      const left = Math.random() * 100;
+      const dur  = 8 + Math.random() * 14;   // 8–22s
+      const del  = Math.random() * -20;       // stagger from start
+      const drift= (Math.random() - 0.5) * 80; // -40 to +40px horizontal drift
+
+      el.textContent = sym;
+      el.style.cssText = [
+        `left:${left}%`,
+        `font-size:${size}px`,
+        `--drift:${drift}px`,
+        `animation-duration:${dur}s`,
+        `animation-delay:${del}s`,
+        `opacity:${0.3 + Math.random()*0.45}`
+      ].join(';');
+      field.appendChild(el);
+    }
+  }
+
+  /* ============================================================
+     COOL AIR CANVAS (hero cold-particle overlay)
+     Separate from the existing heroCanvas gold-particle canvas.
+     ============================================================ */
+  function initCoolAirCanvas(){
+    const hero = document.querySelector('.hero');
+    if(!hero) return;
+
+    const canvas = document.createElement('canvas');
+    canvas.id = 'coolAirCanvas';
+    // Insert after snowField (before content wrap)
+    const contentWrap = hero.querySelector('.hero-content-wrap');
+    if(contentWrap) hero.insertBefore(canvas, contentWrap);
+    else hero.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    let W, H;
+
+    const PALETTE = [
+      'rgba(122,185,232,',   // sky blue
+      'rgba(160,210,240,',   // ice
+      'rgba(200,230,245,',   // pale frost
+      'rgba(74,144,217,',    // royal blue
+      'rgba(255,255,255,',   // white
+    ];
+
+    function resize(){
+      W = canvas.width  = hero.offsetWidth;
+      H = canvas.height = hero.offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize, {passive:true});
+
+    // Create particles
+    const TOTAL = 55;
+    const pts = [];
+    for(let i = 0; i < TOTAL; i++){
+      const big = Math.random() < 0.15; // 15% are snowflake-sized
+      pts.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: big ? (2 + Math.random()*2.5) : (0.6 + Math.random()*1.4),
+        // cool drift: mostly downward (vy > 0) with gentle horizontal sine
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: 0.2 + Math.random() * 0.5,
+        phase: Math.random() * Math.PI * 2,
+        freq:  0.008 + Math.random() * 0.012,
+        color: PALETTE[Math.floor(Math.random() * PALETTE.length)],
+        a:     0.25 + Math.random() * 0.55,
+        big:   big
+      });
+    }
+
+    let tick = 0;
+    function draw(){
+      tick++;
+      ctx.clearRect(0, 0, W, H);
+
+      pts.forEach(p=>{
+        // Horizontal sine drift (breeze effect)
+        const sway = Math.sin(p.phase + tick * p.freq) * 0.6;
+        p.x += p.vx + sway;
+        p.y += p.vy;
+
+        // Wrap around
+        if(p.y > H + 10) { p.y = -10; p.x = Math.random() * W; }
+        if(p.x > W + 10)  p.x = -10;
+        if(p.x < -10)     p.x = W + 10;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color + p.a + ')';
+        ctx.fill();
+
+        // For bigger particles add a subtle glow ring
+        if(p.big){
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r + 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = p.color + (p.a * 0.2) + ')';
+          ctx.fill();
+        }
+      });
+
+      // Subtle connecting lines between close cool particles (max 5px apart, air flow feel)
+      for(let i = 0; i < pts.length; i++){
+        for(let j = i+1; j < pts.length; j++){
+          const dx = pts[i].x - pts[j].x;
+          const dy = pts[i].y - pts[j].y;
+          const d  = Math.sqrt(dx*dx + dy*dy);
+          if(d < 70){
+            ctx.beginPath();
+            ctx.moveTo(pts[i].x, pts[i].y);
+            ctx.lineTo(pts[j].x, pts[j].y);
+            ctx.strokeStyle = `rgba(122,185,232,${(1-d/70)*0.07})`;
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
+        }
+      }
+
+      raf(draw);
+    }
+    draw();
+  }
+
+  /* ============================================================
+     COOL BREEZE WAVE STRIPS
+     ============================================================ */
+  function initBreezeWaves(){
+    const hero = document.querySelector('.hero');
+    if(!hero) return;
+    const STRIPS = 3;
+    const tops   = [25, 48, 70]; // % from top of hero
+    const delays = [0, 2.2, 4.1];
+    const widths = ['60%', '45%', '55%'];
+
+    for(let i = 0; i < STRIPS; i++){
+      const b = document.createElement('div');
+      b.className = 'hero-breeze';
+      b.style.cssText = [
+        `top:${tops[i]}%`,
+        `width:${widths[i]}`,
+        `animation-delay:${delays[i]}s`,
+        `animation-duration:${5 + i*1.1}s`,
+        `opacity:${0.45 - i*0.1}`
+      ].join(';');
+      hero.appendChild(b);
+    }
+  }
+
+  /* ============================================================
+     FLOATING ORBS in hero
+     ============================================================ */
+  function initOrbs(){
+    const hero = document.querySelector('.hero');
+    if(!hero) return;
+    ['orb-1 orb','orb-2 orb','orb-3 orb','orb-4 orb'].forEach(cls=>{
+      const el = document.createElement('div');
+      el.className = cls;
+      hero.appendChild(el);
+    });
+  }
+
+  /* ============================================================
+     TRUST STRIP MARQUEE — duplicate items for seamless scroll
+     ============================================================ */
   function initMarquee(){
-    const strip = document.querySelector('.trust-strip');
     const inner = document.querySelector('.trust-strip-inner');
-    if(!strip || !inner) return;
-    if(inner.dataset.duped) return;
+    if(!inner || inner.dataset.duped) return;
     inner.dataset.duped = '1';
-    // clone items into inner for seamless loop (inner animates -50%)
     const items = Array.from(inner.children);
     items.forEach(item=>{
       const cl = item.cloneNode(true);
@@ -67,72 +248,71 @@
     });
   }
 
-  /* ---- Stagger grid children ---- */
+  /* ============================================================
+     STAGGER GRID CHILDREN
+     ============================================================ */
   function initStagger(){
     const grids = [
-      '.pillars-grid', '.services-grid', '.reviews-grid',
-      '.industries-grid', '.guarantee-grid', '.principles-grid',
-      '.safety-list', '.ind-grid'
+      '.pillars-grid','.services-grid','.reviews-grid',
+      '.industries-grid','.guarantee-grid','.principles-grid',
+      '.safety-list','.ind-grid'
     ];
     grids.forEach(sel=>{
       const grid = document.querySelector(sel);
       if(!grid) return;
-      const children = Array.from(grid.children);
-      children.forEach((c,i)=>{
+      Array.from(grid.children).forEach((c,i)=>{
         c.classList.add('stagger-child');
-        c.style.transitionDelay = (i*0.08)+'s';
+        c.style.transitionDelay = (i*0.08) + 's';
       });
     });
   }
 
-  /* ---- IntersectionObserver for reveal + stagger + gold-rule ---- */
+  /* ============================================================
+     INTERSECTION OBSERVER
+     ============================================================ */
   function initObserver(){
-    const opts = {threshold:0.12, rootMargin:'0px 0px -40px 0px'};
-    const observer = new IntersectionObserver((entries)=>{
+    const obs = new IntersectionObserver((entries)=>{
       entries.forEach(e=>{
         if(e.isIntersecting){
           e.target.classList.add('visible');
-          observer.unobserve(e.target);
+          obs.unobserve(e.target);
         }
       });
-    }, opts);
+    }, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
 
-    // Stagger children (new — not handled by inline initReveal)
-    document.querySelectorAll('.stagger-child').forEach(el=> observer.observe(el));
-    // Gold rules (draw-in animation)
-    document.querySelectorAll('.gold-rule').forEach(el=> observer.observe(el));
-    // Section labels (letter-spacing reveal)
-    document.querySelectorAll('.section-label').forEach(el=> observer.observe(el));
-    // Promise items
-    document.querySelectorAll('.promise-item').forEach(el=> observer.observe(el));
+    document.querySelectorAll('.stagger-child').forEach(el=> obs.observe(el));
+    document.querySelectorAll('.gold-rule').forEach(el=> obs.observe(el));
+    document.querySelectorAll('.section-label').forEach(el=> obs.observe(el));
+    document.querySelectorAll('.promise-item').forEach(el=> obs.observe(el));
   }
 
-  /* ---- 3D card tilt ---- */
+  /* ============================================================
+     3D CARD TILT (desktop only)
+     ============================================================ */
   function initTilt(){
-    if(isTouch() || prefersReduced()) return;
-    const CARDS = '.pillar-card,.srv-card,.ind-card,.rev-card,.principle-card,.safety-card,.cib-card,.guar-card';
-    const INTENSITY = 8; // max degrees
-
-    document.querySelectorAll(CARDS).forEach(card=>{
+    if(isTouch()) return;
+    const SEL = '.pillar-card,.srv-card,.ind-card,.rev-card,.principle-card,.safety-card,.cib-card,.guar-card';
+    const INT = 7;
+    document.querySelectorAll(SEL).forEach(card=>{
       card.addEventListener('mousemove', e=>{
         const r = card.getBoundingClientRect();
         const x = (e.clientX - r.left) / r.width  - 0.5;
         const y = (e.clientY - r.top)  / r.height - 0.5;
-        card.style.transform = `perspective(700px) rotateY(${x*INTENSITY}deg) rotateX(${-y*INTENSITY}deg) translateZ(6px)`;
+        card.style.transform = `perspective(700px) rotateY(${x*INT}deg) rotateX(${-y*INT}deg) translateZ(6px)`;
       });
-      card.addEventListener('mouseleave', ()=>{
-        card.style.transform = '';
-      });
+      card.addEventListener('mouseleave', ()=> card.style.transform = '');
     });
   }
 
-  /* ---- Ripple on click ---- */
+  /* ============================================================
+     RIPPLE ON CLICK
+     ============================================================ */
   function initRipple(){
-    const TARGETS = '.btn,.nav-cta-btn,.mob-cta,.cta-btn,.cta-primary,.cta-secondary';
+    const SEL = '.btn,.nav-cta-btn,.mob-cta,.cta-btn,.cta-primary,.cta-secondary';
     document.addEventListener('click', e=>{
-      const btn = e.target.closest(TARGETS);
+      const btn = e.target.closest(SEL);
       if(!btn) return;
-      const r = btn.getBoundingClientRect();
+      const r    = btn.getBoundingClientRect();
       const size = Math.max(r.width, r.height) * 1.6;
       const span = document.createElement('span');
       span.className = 'ripple-wave';
@@ -142,45 +322,54 @@
     });
   }
 
-  /* ---- Hero parallax (subtle) ---- */
+  /* ============================================================
+     HERO PARALLAX (subtle, desktop)
+     ============================================================ */
   function initParallax(){
-    if(isTouch() || prefersReduced()) return;
+    if(isTouch()) return;
     const hero = document.querySelector('.hero');
     if(!hero) return;
-    const canvas = hero.querySelector('canvas');
+    const acScene = hero.querySelector('.hero-ac-scene');
     window.addEventListener('scroll', ()=>{
       const y = window.scrollY;
       if(y > window.innerHeight) return;
-      hero.style.backgroundPositionY = (y * 0.3) + 'px';
-      if(canvas) canvas.style.transform = `translateY(${y * 0.15}px)`;
+      if(acScene) acScene.style.transform = `translateY(calc(-48% + ${y * 0.12}px))`;
     }, {passive:true});
   }
 
-  /* ---- Floating orbs in dark sections ---- */
-  function initOrbs(){
-    const dark = document.querySelector('.hero');
-    if(!dark || prefersReduced()) return;
-    [
-      {cls:'orb-1 orb'},
-      {cls:'orb-2 orb'},
-      {cls:'orb-3 orb'}
-    ].forEach(o=>{
-      const el = document.createElement('div');
-      el.className = o.cls;
-      dark.style.position = dark.style.position || 'relative';
-      dark.style.overflow = 'hidden';
-      dark.appendChild(el);
-    });
-  }
-
-  /* ---- Promise bar items: add class for observer ---- */
+  /* ============================================================
+     PROMISE BAR ITEMS
+     ============================================================ */
   function initPromiseBar(){
-    document.querySelectorAll('.promise-bar > *, .promise-item-wrap, .prom-item').forEach(el=>{
+    document.querySelectorAll('.promise-bar > *, .prom-item').forEach(el=>{
       el.classList.add('promise-item');
     });
   }
 
-  /* ---- Smooth anchor scrolling with offset ---- */
+  /* ============================================================
+     BLOG HERO SNOWFLAKE DECORATIONS
+     ============================================================ */
+  function initBlogHeroFlakes(){
+    const hero = document.querySelector('.blog-hero');
+    if(!hero) return;
+    const flakes = [
+      {style:'--fs:90px;--dur:22s;right:6%;top:12%', alt:false},
+      {style:'--fs:60px;--dur:30s;left:4%;bottom:15%', alt:true},
+      {style:'--fs:40px;--dur:18s;right:22%;bottom:10%', alt:false},
+    ];
+    flakes.forEach(f=>{
+      const el = document.createElement('span');
+      el.className = 'blog-hero-flake' + (f.alt ? ' alt' : '');
+      el.textContent = '❄';
+      el.setAttribute('aria-hidden','true');
+      el.setAttribute('style', f.style);
+      hero.appendChild(el);
+    });
+  }
+
+  /* ============================================================
+     SMOOTH ANCHOR SCROLL
+     ============================================================ */
   function initSmoothAnchors(){
     document.addEventListener('click', e=>{
       const a = e.target.closest('a[href^="#"]');
@@ -190,21 +379,27 @@
       const target = document.getElementById(id);
       if(!target) return;
       e.preventDefault();
-      const navH = (document.getElementById('mainNav') || {offsetHeight:72}).offsetHeight || 72;
+      const navH = (document.getElementById('mainNav')||{offsetHeight:72}).offsetHeight || 72;
       window.scrollTo({top: target.getBoundingClientRect().top + window.scrollY - navH - 12, behavior:'smooth'});
     });
   }
 
-  /* ---- Init ---- */
+  /* ============================================================
+     INIT
+     ============================================================ */
   function init(){
-    if(prefersReduced()) return;
+    if(reduced()) return;
 
     initReadProgress();
     initCursorGlow();
     initScrollTop();
+    initSnowflakes();
+    initCoolAirCanvas();
+    initBreezeWaves();
+    initOrbs();
+    initBlogHeroFlakes();
     initMarquee();
     initParallax();
-    initOrbs();
     initPromiseBar();
     initStagger();
     initObserver();
