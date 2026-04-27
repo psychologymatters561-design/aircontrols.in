@@ -3,8 +3,14 @@
    Covers both light-theme (.blog-content) and dark-theme (.blog-body)
    ================================================================ */
 
-/* ----- BASE ----- */
+/* ----- BASE — overrides site.css body{background:var(--cream);color:var(--navy)} ----- */
 body{background:#0a1628!important;color:#fff!important;font-family:'DM Sans',sans-serif}
+/* Ensure headings are not dark-navy from site.css typography */
+.blog-body h1,.blog-hero-content h1{color:#fff!important}
+.blog-body h2,.blog-hero-content h2{color:#fff!important}
+.blog-body h3,.blog-hero-content h3{color:#c8a84b!important}
+.blog-body p{color:rgba(255,255,255,.78)!important}
+.blog-body ul li,.blog-body ol li{color:rgba(255,255,255,.78)!important}
 
 /* ----- READING PROGRESS ----- */
 #blog-progress{
@@ -64,18 +70,20 @@ body{background:#0a1628!important;color:#fff!important;font-family:'DM Sans',san
 /* ----- META ----- */
 .blog-meta,.blog-hero .meta{font-size:13px;color:rgba(255,255,255,.48);margin-top:6px}
 
-/* ----- BREADCRUMB ----- */
+/* ----- BREADCRUMB (overrides site.css .breadcrumb{background:var(--light)}) ----- */
 .breadcrumb,.breadcrumb-bar{
-  background:rgba(6,14,26,.85);
-  border-bottom:1px solid rgba(255,255,255,.07);
-  padding:13px 28px;font-size:13px;color:rgba(255,255,255,.38);
-  backdrop-filter:blur(10px)
+  background:rgba(6,14,26,.88)!important;
+  border-bottom:1px solid rgba(255,255,255,.07)!important;
+  padding:13px 28px!important;font-size:13px;color:rgba(255,255,255,.38)!important;
+  backdrop-filter:blur(10px);display:block!important
 }
-.breadcrumb-bar .container{max-width:820px;margin:0 auto;display:flex;gap:6px;align-items:center}
+/* legacy container breadcrumbs */
+.breadcrumb-bar .container{max-width:820px;margin:0 auto;display:flex!important;gap:6px;align-items:center;padding:0!important}
 .breadcrumb a,.breadcrumb-bar a{
-  color:rgba(200,168,75,.8);text-decoration:none;transition:color .2s
+  color:rgba(200,168,75,.85)!important;text-decoration:none!important;transition:color .2s
 }
-.breadcrumb a:hover,.breadcrumb-bar a:hover{color:#c8a84b}
+.breadcrumb a:hover,.breadcrumb-bar a:hover{color:#c8a84b!important}
+.breadcrumb span{color:rgba(255,255,255,.35)!important}
 
 /* ----- ARTICLE WRAPPER ----- */
 .blog-body,.blog-content{max-width:820px;margin:0 auto;padding:60px 28px 96px}
@@ -280,9 +288,9 @@ body{background:#0a1628!important;color:#fff!important;font-family:'DM Sans',san
 
 /* ----- FAQ ----- */
 .faq-block,.faq-section{
-  margin-top:68px;background:rgba(255,255,255,.03);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:20px;padding:40px 44px;position:relative;overflow:hidden
+  margin-top:68px;background:rgba(255,255,255,.03)!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  border-radius:20px!important;padding:40px 44px;position:relative;overflow:hidden
 }
 .faq-block::before,.faq-section::before{
   content:'';position:absolute;top:-60px;right:-60px;
@@ -294,12 +302,20 @@ body{background:#0a1628!important;color:#fff!important;font-family:'DM Sans',san
   font-family:'Playfair Display',serif;color:#fff!important;
   font-size:clamp(22px,2.8vw,28px);margin:0 0 30px
 }
-.faq-item{border-bottom:1px solid rgba(255,255,255,.07);overflow:hidden}
-.faq-item:last-child{border-bottom:none}
+/* Override site.css: .faq-item{background:var(--white);border:1px solid var(--border);border-radius:var(--r10)} */
+.faq-item{
+  background:transparent!important;
+  border:none!important;
+  border-radius:0!important;
+  border-bottom:1px solid rgba(255,255,255,.07)!important;
+  overflow:hidden!important
+}
+.faq-item:last-child{border-bottom:none!important}
 .faq-item h3{
   font-size:16px;font-weight:700;color:#fff!important;
   margin:0;padding:20px 50px 20px 0;
-  cursor:pointer;position:relative;transition:color .22s
+  cursor:pointer;position:relative;transition:color .22s;
+  background:transparent!important
 }
 .faq-item h3::after{
   content:'＋';position:absolute;right:2px;top:50%;
@@ -315,7 +331,7 @@ body{background:#0a1628!important;color:#fff!important;font-family:'DM Sans',san
 .faq-item.faq-open .faq-answer{max-height:600px}
 .faq-item p{
   font-size:15px;color:rgba(255,255,255,.72)!important;
-  line-height:1.76;margin:0;padding:0 0 20px
+  line-height:1.76;margin:0;padding:0 0 20px;background:transparent!important
 }
 
 /* ----- CTA BANNER ----- */
