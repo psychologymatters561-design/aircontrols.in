@@ -34,7 +34,7 @@ body{background:#f8f6f1!important;color:#0a1628!important}
 .blog-content h2{font-family:'Playfair Display',serif;font-size:26px;color:#0d1f3c!important;margin:40px 0 14px}
 .blog-content h3{font-family:'Playfair Display',serif;font-size:20px;color:#1e4db7!important;margin:28px 0 10px}
 .blog-content p{font-size:16px;line-height:1.8;color:#3a4a5c!important;margin-bottom:18px}
-.blog-content ul,.blog-content ol{margin:0 0 18px 24px;line-height:1.9;color:#4a5568;font-size:15.5px}
+.blog-content ul,.blog-content ol{margin:0 0 18px 24px;line-height:1.9;color:#4a5568!important;font-size:15.5px}
 .faq-block{background:#eef2f8;border-radius:16px;padding:36px;margin:40px 0}
 .faq-block h2{margin-top:0;color:#0d1f3c!important;font-size:22px}
 .faq-item{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid rgba(0,0,0,.07)}
@@ -42,8 +42,8 @@ body{background:#f8f6f1!important;color:#0a1628!important}
 .faq-item h3{color:#0d1f3c!important;font-size:16px;margin:0 0 8px}
 .faq-item p{color:#3a4a5c!important;font-size:14.5px;margin:0}
 .cta-banner{background:linear-gradient(135deg,#0a1628,#1a3a6b);border-radius:20px;padding:40px;text-align:center;margin:48px 0;color:#fff}
-.cta-banner h2{font-family:'Playfair Display',serif;font-size:26px;color:#fff;margin-bottom:10px}
-.cta-banner p{color:rgba(255,255,255,.6);margin-bottom:24px}
+.cta-banner h2{font-family:'Playfair Display',serif;font-size:26px;color:#fff!important;margin-bottom:10px}
+.cta-banner p{color:rgba(255,255,255,.6)!important;margin-bottom:24px}
 .back-link{display:inline-flex;align-items:center;gap:8px;color:#1e4db7;font-weight:600;font-size:14px;text-decoration:none;margin-bottom:32px}
 .back-link:hover{color:#c8a84b}
 .breadcrumb-bar{background:#eef2f8;padding:10px 0;font-size:13px}
@@ -53,6 +53,7 @@ body{background:#f8f6f1!important;color:#0a1628!important}
 .step-box{background:#f8faff;border:1px solid #e2e8f0;border-radius:12px;padding:20px 24px;margin-bottom:14px;display:flex;gap:16px;align-items:flex-start}
 .step-num{background:#1e4db7;color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
 .step-box p{margin:0;font-size:15px;color:#4a5568;line-height:1.6}
+@media(max-width:600px){.blog-content{padding:40px 16px}.blog-hero{padding:90px 16px 40px}.faq-block{padding:24px 16px}.cta-banner{padding:28px 16px}}
 </style>
 <script type="application/ld+json">
 {
@@ -162,6 +163,7 @@ body{background:#f8f6f1!important;color:#0a1628!important}
 </nav>
 <div class="mobile-nav" id="mobileNav">
   <a href="/">Home</a>
+  <a href="/#blog">Blog &amp; AC Tips</a>
   <button class="mob-section-header" onclick="toggleMobSection('mobServices')">Services <span class="mob-arrow">›</span></button>
   <div class="mob-section" id="mobServices">
     <a href="/#services">AC Repair</a>
@@ -182,7 +184,8 @@ body{background:#f8f6f1!important;color:#0a1628!important}
 
 <div class="breadcrumb-bar">
   <div class="container">
-    <a href="/">Home</a> <span>›</span> <a href="/#blog">Blog</a> <span>›</span> <span>AC Water Leaking Causes</span>
+    <a href="/">Home</a>
+  <a href="/#blog">Blog</a> <span>›</span> <span>AC Water Leaking Causes</span>
   </div>
 </div>
 
