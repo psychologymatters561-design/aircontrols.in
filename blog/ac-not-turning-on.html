@@ -25,40 +25,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css">
-<style>
-body{background:#f8f6f1!important;color:#0a1628!important}
-.blog-hero{background:linear-gradient(135deg,#0a1628,#0f1e38);padding:120px 0 64px;text-align:center;position:relative}
-.blog-hero h1{color:#fff;font-size:clamp(26px,4vw,48px);font-weight:900;line-height:1.1;margin-bottom:16px;font-family:'Playfair Display',serif}
-.blog-hero .meta{color:rgba(255,255,255,.5);font-size:13px;margin-bottom:24px}
-.blog-content{max-width:780px;margin:0 auto;padding:56px 24px}
-.blog-content h2{font-family:'Playfair Display',serif;font-size:26px;color:#0d1f3c!important;margin:40px 0 14px}
-.blog-content h3{font-family:'Playfair Display',serif;font-size:20px;color:#1e4db7!important;margin:28px 0 10px}
-.blog-content p{font-size:16px;line-height:1.8;color:#3a4a5c!important;margin-bottom:18px}
-.blog-content ul,.blog-content ol{margin:0 0 18px 24px;line-height:1.9;color:#4a5568!important;font-size:15.5px}
-.faq-block{background:#eef2f8;border-radius:16px;padding:36px;margin:40px 0}
-.faq-block h2{margin-top:0;color:#0d1f3c!important;font-size:22px}
-.faq-item{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid rgba(0,0,0,.07)}
-.faq-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
-.faq-item h3{color:#0d1f3c!important;font-size:16px;margin:0 0 8px}
-.faq-item p{color:#3a4a5c!important;font-size:14.5px;margin:0}
-.cta-banner{background:linear-gradient(135deg,#0a1628,#1a3a6b);border-radius:20px;padding:40px;text-align:center;margin:48px 0;color:#fff}
-.cta-banner h2{font-family:'Playfair Display',serif;font-size:26px;color:#fff!important;margin-bottom:10px}
-.cta-banner p{color:rgba(255,255,255,.6)!important;margin-bottom:24px}
-.back-link{display:inline-flex;align-items:center;gap:8px;color:#1e4db7;font-weight:600;font-size:14px;text-decoration:none;margin-bottom:32px}
-.back-link:hover{color:#c8a84b}
-.breadcrumb-bar{background:#eef2f8;padding:10px 0;font-size:13px}
-.breadcrumb-bar .container{max-width:780px;margin:0 auto;padding:0 24px;display:flex;gap:6px;align-items:center;color:#6b7a99}
-.breadcrumb-bar a{color:#1e4db7}
-.blog-badge{display:inline-block;background:rgba(200,168,75,.1);border:1px solid rgba(200,168,75,.3);color:#c8a84b;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:16px}
-.check-item{display:flex;gap:16px;align-items:flex-start;background:#f8faff;border-radius:12px;padding:18px 20px;margin-bottom:12px;border:1px solid #e2e8f0}
-.check-num{background:#1e4db7;color:#fff;font-weight:700;font-size:15px;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.check-body h3{font-family:'Playfair Display',serif;font-size:18px;color:#0a1628;margin:0 0 6px}
-.check-body p{font-size:15px;color:#4a5568;margin:0;line-height:1.65}
-.diy-tag{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 8px;border-radius:100px;margin-left:8px}
-.diy-yes{background:#d1fae5;color:#065f46}
-.diy-no{background:#fee2e2;color:#991b1b}
-@media(max-width:600px){.blog-content{padding:40px 16px}.blog-hero{padding:90px 16px 40px}.faq-block{padding:24px 16px}.cta-banner{padding:28px 16px}}
-</style>
+<link rel="stylesheet" href="/assets/blog.css">
+<style>body{background:#0a1628!important;color:#fff!important}</style>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -126,6 +94,7 @@ body{background:#f8f6f1!important;color:#0a1628!important}
 </script>
 </head>
 <body>
+<div id="blog-progress"></div>
 
 <nav id="mainNav">
   <div class="nav-logo" onclick="location.href='/'">
@@ -345,5 +314,8 @@ window.addEventListener('scroll',function(){
   document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>60);
 });
 </script>
+
+<button id="back-to-top" aria-label="Back to top">↑</button>
+<script defer src="/assets/blog.js"></script>
 </body>
 </html>
