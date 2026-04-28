@@ -26,7 +26,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css">
 <style>
-.blog-hero{background:linear-gradient(135deg,#0a1628,#0f1e38);padding:120px 0 64px;text-align:center;position:relative}
+.blog-hero{background:linear-gradient(135deg,#0a1628,#0f1e38);padding:120px 0 64px;text-align:center;position:relative;overflow:hidden}
 .blog-hero h1{color:#fff;font-size:clamp(26px,4vw,48px);font-weight:900;line-height:1.1;margin-bottom:16px;font-family:'Playfair Display',serif}
 .blog-hero .meta{color:rgba(255,255,255,.5);font-size:13px;margin-bottom:24px}
 .blog-content{max-width:780px;margin:0 auto;padding:56px 24px}
@@ -187,7 +187,8 @@
 </div>
 
 <div class="blog-hero">
-  <div class="blog-content" style="padding-top:0;padding-bottom:0">
+<canvas id="blogCanvas" style="position:absolute;inset:0;z-index:0;pointer-events:none;width:100%;height:100%;"></canvas>
+  <div class="blog-content" style="padding-top:0;padding-bottom:0;position:relative;z-index:1">
     <div class="blog-badge">Service Guide</div>
     <h1>AC Repair Near Me in Delhi NCR:<br>Find a Certified Technician Fast [2026]</h1>
     <div class="meta">By Air Control Technicians &nbsp;·&nbsp; Updated April 2026 &nbsp;·&nbsp; 8 min read</div>
@@ -313,6 +314,21 @@ function toggleMobSection(id){
 window.addEventListener('scroll',function(){
   document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>60);
 });
+</script>
+<script>
+(function(){
+  var c=document.getElementById("blogCanvas");
+  if(!c)return;
+  var ctx=c.getContext("2d"),W,H;
+  function rsz(){var p=c.parentElement;W=c.width=p.offsetWidth;H=c.height=p.offsetHeight;}rsz();
+  function mkS(){return{x:Math.random()*W,y:-10,r:Math.random()*2+.5,vx:(Math.random()-.5)*.5,vy:Math.random()*.5+.2,a:Math.random()*.45+.12,ph:Math.random()*Math.PI*2};}
+  var snows=Array.from({length:55},function(){var s=mkS();s.y=Math.random()*H;return s;});
+  function mkSt(){return{x:Math.random()*W,y:Math.random()*H,len:Math.random()*280+100,spd:Math.random()*1.5+.5,a:Math.random()*.06+.02};}
+  var sts=Array.from({length:8},function(){var s=mkSt();s.x=Math.random()*W;return s;});
+  (function loop(){requestAnimationFrame(loop);ctx.clearRect(0,0,W,H);
+  sts.forEach(function(s){s.x+=s.spd;if(s.x>W+200)Object.assign(s,mkSt());var g=ctx.createLinearGradient(s.x,s.y,s.x+s.len,s.y);g.addColorStop(0,"rgba(100,180,255,0)");g.addColorStop(.5,"rgba(100,180,255,"+s.a+")");g.addColorStop(1,"rgba(100,180,255,0)");ctx.beginPath();ctx.moveTo(s.x,s.y);ctx.lineTo(s.x+s.len,s.y);ctx.strokeStyle=g;ctx.lineWidth=1.2;ctx.stroke();});
+  snows.forEach(function(s){s.x+=s.vx+Math.sin(s.ph)*.35;s.y+=s.vy;s.ph+=.022;if(s.y>H+10)Object.assign(s,mkS());ctx.save();ctx.translate(s.x,s.y);ctx.strokeStyle="rgba(180,220,255,"+s.a+")";ctx.lineWidth=.85;for(var i=0;i<6;i++){ctx.rotate(Math.PI/3);ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(0,s.r*2.6);ctx.stroke();}ctx.restore();});})();
+})();
 </script>
 </body>
 </html>

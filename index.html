@@ -198,6 +198,42 @@
 /* ===== MOBILE NAV LINK TRANSITIONS ===== */
 .mobile-nav a{transition:background .2s,color .2s,padding-left .2s}
 .mobile-nav a:hover{padding-left:32px!important}
+
+/* ===== PAGE-HERO CANVAS (snowflakes + air in every section hero) ===== */
+.phc{position:absolute;inset:0;z-index:0;pointer-events:none;width:100%;height:100%}
+.page-hero{position:relative;overflow:hidden}
+.page-hero .container{position:relative;z-index:1}
+
+/* ===== SECTION DARK — CSS air-stream overlay ===== */
+.section-dark,.cta-section,.emergency-strip{position:relative;overflow:hidden}
+.section-dark .container,.cta-section .container,.emergency-strip .container{position:relative;z-index:1}
+.dark-air-wrap{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.dark-air-line{position:absolute;height:1px;left:-30%;width:40%;background:linear-gradient(90deg,transparent,rgba(100,180,255,.18),transparent);animation:airLineFlow linear infinite;border-radius:50%}
+@keyframes airLineFlow{0%{transform:translateX(0);opacity:0}10%{opacity:1}85%{opacity:.5}100%{transform:translateX(330%);opacity:0}}
+
+/* ===== CSS SNOWFLAKES for dark sections ===== */
+.css-snow{position:absolute;top:-10px;pointer-events:none;animation:cssSnowFall linear infinite}
+.css-snow::before{content:'✦';display:block;transform-origin:center;animation:cssSnowSpin linear infinite}
+@keyframes cssSnowFall{0%{transform:translateY(0) translateX(0);opacity:0}5%{opacity:1}90%{opacity:.4}100%{transform:translateY(110%);opacity:0}}
+@keyframes cssSnowSpin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+
+/* ===== HERO AC THEME — outdoor unit + cool air atmosphere ===== */
+.hero{background:radial-gradient(ellipse 80% 70% at 50% 30%,rgba(20,60,140,.25) 0%,rgba(10,22,40,1) 70%) !important}
+.hero-ac-bg{position:absolute;bottom:0;left:0;right:0;width:100%;height:44%;pointer-events:none;z-index:0;opacity:.55}
+.hero-ac-bg svg{width:100%;height:100%}
+
+/* ===== AC UNIT GLOW pulse (canvas-driven, CSS fallback) ===== */
+@keyframes acLedPulse{0%,100%{opacity:.5;box-shadow:0 0 6px currentColor}50%{opacity:1;box-shadow:0 0 14px currentColor}}
+@keyframes coldAirDrift{0%{transform:translateY(0) scaleX(1);opacity:.5}100%{transform:translateY(60px) scaleX(1.4);opacity:0}}
+@keyframes airStreamHoriz{0%{transform:translateX(-120%);opacity:0}15%{opacity:.6}85%{opacity:.3}100%{transform:translateX(220%);opacity:0}}
+@keyframes flakeDrift{0%{transform:translateY(-20px) rotate(0deg);opacity:0}5%{opacity:.7}90%{opacity:.3}100%{transform:translateY(100vh) rotate(540deg);opacity:0}}
+
+/* ===== FOOTER dark snow ===== */
+footer{position:relative;overflow:hidden}
+footer .container{position:relative;z-index:1}
+
+/* ===== TRUST STRIP ===== */
+.trust-strip{position:relative;overflow:hidden}
 </style>
 <!-- =========================================================
 ADVANCED SEO META (HVAC DOMINATION)
@@ -801,6 +837,7 @@ HVAC Company in Delhi NCR providing AC services, HVAC AMC, installation, repair,
      ========================================================= -->
 <div class="page" id="page-why">
   <section class="page-hero">
+    <canvas class="phc" id="phc-why"></canvas>
     <div class="page-hero-grid"></div>
     <div class="container">
       <div class="section-label text-gold reveal">The Unspoken Risk</div>
@@ -927,6 +964,7 @@ HVAC Company in Delhi NCR providing AC services, HVAC AMC, installation, repair,
      ========================================================= -->
 <div class="page" id="page-services">
   <section class="page-hero">
+    <canvas class="phc" id="phc-services"></canvas>
     <div class="page-hero-grid"></div>
     <div class="container">
       <div class="section-label text-gold reveal">What We Deliver</div>
@@ -1058,6 +1096,7 @@ Our 24/7 HVAC repair services ensure minimal downtime and quick restoration of c
      ========================================================= -->
 <div class="page" id="page-industries">
   <section class="page-hero">
+    <canvas class="phc" id="phc-industries"></canvas>
     <div class="page-hero-grid"></div>
     <div class="container">
       <div class="section-label text-gold reveal">Our Clients</div>
@@ -1201,6 +1240,7 @@ Our 24/7 HVAC repair services ensure minimal downtime and quick restoration of c
      ========================================================= -->
 <div class="page" id="page-contact">
   <section class="page-hero">
+    <canvas class="phc" id="phc-contact"></canvas>
     <div class="page-hero-grid"></div>
     <div class="container">
       <div class="section-label text-gold reveal">⭐ 4.9/5.0 · 150+ Verified Reviews</div>
@@ -1520,6 +1560,7 @@ Our 24/7 HVAC repair services ensure minimal downtime and quick restoration of c
      ========================================================= -->
 <div class="page" id="page-blog">
   <section class="page-hero">
+    <canvas class="phc" id="phc-blog"></canvas>
     <div class="page-hero-grid"></div>
     <div class="container">
       <div class="section-label text-gold reveal">📝 AC Tips & Expert Guides</div>
@@ -1710,6 +1751,7 @@ function navigate(page, push=true){
   activePage = page;
   setTimeout(initReveal, 60);
   if(page==='home') initHeroCanvas();
+  else initPhCanvas('phc-'+page);
 }
 window.addEventListener('popstate', e=>{
   const h = location.hash.replace('#','') || 'home';
@@ -1797,33 +1839,201 @@ function initCounters(){
 }
 
 /* ================================================================
-   HERO PARTICLE CANVAS
+   SHARED CANVAS UTILITIES
+   ================================================================ */
+function rrect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.arcTo(x+w,y,x+w,y+r,r);
+  ctx.lineTo(x+w,y+h-r);ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
+  ctx.lineTo(x+r,y+h);ctx.arcTo(x,y+h,x,y+h-r,r);
+  ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);
+  ctx.closePath();
+}
+
+/* ================================================================
+   HERO CANVAS — AC unit + snowflakes + gold particles + air streams
    ================================================================ */
 function initHeroCanvas(){
-  const canvas = document.getElementById('heroCanvas');
+  const canvas=document.getElementById('heroCanvas');
   if(!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let W,H,pts=[];
+  const ctx=canvas.getContext('2d');
+  let W,H;
   function resize(){ W=canvas.width=canvas.offsetWidth; H=canvas.height=canvas.offsetHeight; }
   resize(); window.addEventListener('resize',resize);
-  class Pt{
-    constructor(){ this.reset(); }
-    reset(){ this.x=Math.random()*W; this.y=Math.random()*H; this.r=Math.random()*.8+.2; this.vx=(Math.random()-.5)*.3; this.vy=(Math.random()-.5)*.3; this.a=Math.random()*.35+.05; this.ph=Math.random()*Math.PI*2; }
-    update(){ this.x+=this.vx; this.y+=this.vy; this.ph+=.013; if(this.x<0||this.x>W||this.y<0||this.y>H) this.reset(); }
-    draw(){ ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fillStyle=`rgba(200,168,75,${this.a*(.5+.5*Math.sin(this.ph))})`; ctx.fill(); }
+
+  /* --- Snowflake --- */
+  function mkSnow(initY){
+    return { x:Math.random()*W, y:initY!==undefined?initY:-10,
+      r:Math.random()*2.2+0.6, vx:(Math.random()-.5)*.55, vy:Math.random()*.65+.3,
+      a:Math.random()*.5+.12, ph:Math.random()*Math.PI*2 };
   }
-  for(let i=0;i<80;i++) pts.push(new Pt());
-  (function draw(){
-    requestAnimationFrame(draw);
+  const snows=Array.from({length:75},(_,i)=>mkSnow(Math.random()*H));
+  function updateSnow(s){
+    s.x+=s.vx+Math.sin(s.ph)*.4; s.y+=s.vy; s.ph+=.022;
+    if(s.y>H+10||s.x<-30||s.x>W+30){ s.x=Math.random()*W; s.y=-10; }
+  }
+  function drawSnow(s){
+    ctx.save(); ctx.translate(s.x,s.y);
+    ctx.strokeStyle=`rgba(180,220,255,${s.a})`; ctx.lineWidth=.9;
+    for(let i=0;i<6;i++){ ctx.rotate(Math.PI/3); ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(0,s.r*2.8); ctx.stroke(); }
+    ctx.restore();
+  }
+
+  /* --- Gold particle --- */
+  function mkGold(){ return { x:Math.random()*W, y:Math.random()*H, r:Math.random()*.8+.2, vx:(Math.random()-.5)*.3, vy:(Math.random()-.5)*.3, a:Math.random()*.35+.05, ph:Math.random()*Math.PI*2 }; }
+  const golds=Array.from({length:80},mkGold);
+  function updateGold(p){ p.x+=p.vx; p.y+=p.vy; p.ph+=.013; if(p.x<0||p.x>W||p.y<0||p.y>H){ p.x=Math.random()*W; p.y=Math.random()*H; } }
+  function drawGold(p){ ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle=`rgba(200,168,75,${p.a*(.5+.5*Math.sin(p.ph))})`; ctx.fill(); }
+
+  /* --- Air stream --- */
+  function mkStream(){ return { x:Math.random()*W, y:90+Math.random()*(H-200), len:Math.random()*380+140, spd:Math.random()*1.8+.6, a:Math.random()*.07+.02, curve:(Math.random()-.5)*14 }; }
+  const streams=Array.from({length:11},mkStream);
+  function updateStream(s){ s.x+=s.spd; if(s.x>W+220){ Object.assign(s,mkStream()); s.x=-220; } }
+  function drawStream(s){
+    const g=ctx.createLinearGradient(s.x,s.y,s.x+s.len,s.y);
+    g.addColorStop(0,'rgba(100,180,255,0)'); g.addColorStop(.45,`rgba(100,180,255,${s.a})`); g.addColorStop(.55,`rgba(100,180,255,${s.a*.8})`); g.addColorStop(1,'rgba(100,180,255,0)');
+    ctx.beginPath(); ctx.moveTo(s.x,s.y); ctx.quadraticCurveTo(s.x+s.len*.5,s.y+s.curve,s.x+s.len,s.y);
+    ctx.strokeStyle=g; ctx.lineWidth=1.5; ctx.stroke();
+  }
+
+  /* --- AC indoor unit drawn on canvas --- */
+  let acPh=0, flowPh=0;
+  function drawACUnit(){
+    acPh+=.018; flowPh+=.03;
+    const m=W>760?W*.06:8, ux=m, uy=4, uw=W-m*2, uh=Math.min(62,H*.12);
+
+    /* body glow */
+    ctx.shadowBlur=24; ctx.shadowColor=`rgba(74,144,217,${.12+.08*Math.sin(acPh)})`;
+    rrect(ctx,ux,uy,uw,uh,16);
+    ctx.fillStyle='rgba(4,12,28,.62)'; ctx.fill();
+    ctx.strokeStyle=`rgba(200,168,75,${.22+.1*Math.sin(acPh)})`; ctx.lineWidth=1.2; ctx.stroke();
+    ctx.shadowBlur=0;
+
+    /* top panel tint */
+    rrect(ctx,ux,uy,uw,uh*.58,16);
+    ctx.fillStyle='rgba(15,40,100,.1)'; ctx.fill();
+
+    /* display screen */
+    const dw=Math.min(170,uw*.24), dh=30, dx=ux+20, dy=uy+9;
+    rrect(ctx,dx,dy,dw,dh,7);
+    ctx.fillStyle='rgba(2,8,22,.88)'; ctx.fill();
+    ctx.strokeStyle=`rgba(200,168,75,${.38+.18*Math.sin(acPh)})`; ctx.lineWidth=.8; ctx.stroke();
+    ctx.font='bold 17px monospace';
+    ctx.fillStyle=`rgba(200,168,75,${.75+.2*Math.sin(acPh)})`;
+    ctx.fillText('22°C',dx+8,dy+20);
+    if(dw>130){
+      rrect(ctx,dx+82,dy+7,48,16,4);
+      ctx.fillStyle='rgba(74,144,217,.22)'; ctx.fill();
+      ctx.font='bold 9px sans-serif'; ctx.fillStyle='rgba(100,200,255,.9)';
+      ctx.fillText('❄ COOL',dx+85,dy+17);
+    }
+
+    /* brand text */
+    ctx.font='600 12px sans-serif'; ctx.fillStyle=`rgba(200,168,75,${.18+.08*Math.sin(acPh+1)})`;
+    ctx.textAlign='center'; ctx.fillText('A I R   C O N T R O L',ux+uw/2,uy+22); ctx.textAlign='left';
+
+    /* LED indicators */
+    [[ux+uw-75,'rgba(46,204,113,'+((.65+.3*Math.sin(acPh*1.3))+')')],
+     [ux+uw-54,'rgba(74,144,217,'+((.55+.22*Math.sin(acPh*.8))+')')],
+     [ux+uw-33,'rgba(200,168,75,'+((.45+.2*Math.sin(acPh*1.1))+')')]]
+    .forEach(([lx,col])=>{
+      ctx.beginPath(); ctx.arc(lx,uy+uh*.34,4,0,Math.PI*2);
+      ctx.shadowBlur=8; ctx.shadowColor=col; ctx.fillStyle=col; ctx.fill(); ctx.shadowBlur=0;
+    });
+
+    /* vent slats */
+    for(let i=0;i<3;i++){
+      const sy=uy+uh*.6+i*9;
+      ctx.beginPath(); ctx.moveTo(ux+14,sy); ctx.lineTo(ux+uw-14,sy);
+      ctx.strokeStyle=`rgba(74,144,217,${.12-i*.025})`; ctx.lineWidth=8-i*2; ctx.lineCap='round'; ctx.stroke();
+    }
+    /* louver */
+    rrect(ctx,ux+12,uy+uh-13,uw-24,10,5);
+    ctx.strokeStyle=`rgba(200,168,75,${.2+.08*Math.sin(acPh)})`; ctx.lineWidth=.8; ctx.stroke();
+
+    /* airflow lines coming down from unit */
+    const numFlows=Math.floor(uw/70);
+    for(let i=0;i<numFlows;i++){
+      const ax=ux+uw*((.08+i*.84/(numFlows-1||1)));
+      const phase=flowPh+i*.7;
+      const fLen=28+Math.abs(Math.sin(phase))*40;
+      const alpha=.18+.1*Math.abs(Math.sin(phase*.8));
+      const g2=ctx.createLinearGradient(ax,uy+uh,ax,uy+uh+fLen+20);
+      g2.addColorStop(0,`rgba(100,200,255,${alpha})`); g2.addColorStop(1,'rgba(100,200,255,0)');
+      ctx.beginPath(); ctx.moveTo(ax,uy+uh); ctx.lineTo(ax+(Math.sin(phase)*.5)*8,uy+uh+fLen);
+      ctx.strokeStyle=g2; ctx.lineWidth=1.2; ctx.lineCap='round'; ctx.stroke();
+    }
+  }
+
+  (function loop(){
+    requestAnimationFrame(loop);
     ctx.clearRect(0,0,W,H);
-    pts.forEach((p,i)=>{
-      p.update(); p.draw();
-      for(let j=i+1;j<pts.length;j++){
-        const dx=p.x-pts[j].x, dy=p.y-pts[j].y, d=Math.sqrt(dx*dx+dy*dy);
-        if(d<100){ ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(pts[j].x,pts[j].y); ctx.strokeStyle=`rgba(200,168,75,${.04*(1-d/100)})`; ctx.lineWidth=.5; ctx.stroke(); }
+    drawACUnit();
+    streams.forEach(s=>{updateStream(s);drawStream(s);});
+    golds.forEach((p,i)=>{
+      updateGold(p); drawGold(p);
+      for(let j=i+1;j<golds.length;j++){
+        const dx=p.x-golds[j].x,dy=p.y-golds[j].y,d=Math.sqrt(dx*dx+dy*dy);
+        if(d<100){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(golds[j].x,golds[j].y);ctx.strokeStyle=`rgba(200,168,75,${.04*(1-d/100)})`;ctx.lineWidth=.5;ctx.stroke();}
       }
     });
+    snows.forEach(s=>{updateSnow(s);drawSnow(s);});
   })();
+}
+
+/* ================================================================
+   PAGE-HERO CANVAS — snowflakes + air streams (all inner pages)
+   ================================================================ */
+function initPhCanvas(id){
+  const canvas=document.getElementById(id);
+  if(!canvas||canvas._ac) return; canvas._ac=1;
+  const ctx=canvas.getContext('2d');
+  let W,H;
+  function resize(){
+    const p=canvas.parentElement;
+    W=canvas.width=p.offsetWidth; H=canvas.height=p.offsetHeight;
+  }
+  resize(); window.addEventListener('resize',resize);
+
+  function mkS(){ return {x:Math.random()*W,y:-10,r:Math.random()*2+.5,vx:(Math.random()-.5)*.5,vy:Math.random()*.5+.2,a:Math.random()*.45+.1,ph:Math.random()*Math.PI*2}; }
+  const snows=Array.from({length:55},()=>{const s=mkS();s.y=Math.random()*H;return s;});
+  function updS(s){s.x+=s.vx+Math.sin(s.ph)*.35;s.y+=s.vy;s.ph+=.022;if(s.y>H+10)Object.assign(s,mkS());}
+  function drwS(s){ctx.save();ctx.translate(s.x,s.y);ctx.strokeStyle=`rgba(180,220,255,${s.a})`;ctx.lineWidth=.85;for(let i=0;i<6;i++){ctx.rotate(Math.PI/3);ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(0,s.r*2.6);ctx.stroke();}ctx.restore();}
+
+  function mkSt(){return{x:Math.random()*W,y:Math.random()*H,len:Math.random()*280+100,spd:Math.random()*1.5+.5,a:Math.random()*.06+.02};}
+  const sts=Array.from({length:8},()=>{const s=mkSt();s.x=Math.random()*W;return s;});
+  function updSt(s){s.x+=s.spd;if(s.x>W+220)Object.assign(s,mkSt());}
+  function drwSt(s){const g=ctx.createLinearGradient(s.x,s.y,s.x+s.len,s.y);g.addColorStop(0,'rgba(100,180,255,0)');g.addColorStop(.5,`rgba(100,180,255,${s.a})`);g.addColorStop(1,'rgba(100,180,255,0)');ctx.beginPath();ctx.moveTo(s.x,s.y);ctx.lineTo(s.x+s.len,s.y);ctx.strokeStyle=g;ctx.lineWidth=1.2;ctx.stroke();}
+
+  (function loop(){requestAnimationFrame(loop);ctx.clearRect(0,0,W,H);sts.forEach(s=>{updSt(s);drwSt(s);});snows.forEach(s=>{updS(s);drwS(s);});})();
+}
+
+/* ================================================================
+   DARK SECTION ANIMATOR — inject air lines + CSS snowflakes
+   ================================================================ */
+function injectDarkEffects(){
+  document.querySelectorAll('.section-dark,.cta-section,.emergency-strip,footer').forEach(sec=>{
+    if(sec.querySelector('.dark-air-wrap')) return;
+    const wrap=document.createElement('div');
+    wrap.className='dark-air-wrap';
+    for(let i=0;i<6;i++){
+      const ln=document.createElement('div');
+      ln.className='dark-air-line';
+      ln.style.cssText=`top:${10+i*16}%;width:${30+Math.random()*25}%;animation-duration:${5+Math.random()*6}s;animation-delay:${Math.random()*5}s;opacity:${.3+Math.random()*.4}`;
+      wrap.appendChild(ln);
+    }
+    for(let i=0;i<12;i++){
+      const fl=document.createElement('span');
+      fl.className='css-snow';
+      fl.style.cssText=`left:${Math.random()*96}%;font-size:${6+Math.random()*8}px;color:rgba(180,220,255,${.3+Math.random()*.5});animation-duration:${8+Math.random()*10}s;animation-delay:${Math.random()*8}s`;
+      fl.querySelector?.('::before');
+      fl.style.setProperty('--snow-drift',(Math.random()*60-30)+'px');
+      fl.style.setProperty('--snow-rotate',(Math.random()*720)+'deg');
+      fl.style.setProperty('--snow-opacity', (.3+Math.random()*.5));
+      wrap.appendChild(fl);
+    }
+    sec.insertBefore(wrap,sec.firstChild);
+  });
 }
 
 /* ================================================================
@@ -2236,6 +2446,7 @@ document.querySelectorAll('.ps-step').forEach((s,i)=>{
    INIT
    ================================================================ */
 setTimeout(initReveal, 120);
+injectDarkEffects();
 
 </script>
 </body>
