@@ -164,6 +164,40 @@
 #mainNav{height:64px;padding:0 24px;overflow:visible}
 #mainNav.scrolled{height:56px}
 @media(max-width:768px){#mainNav{height:60px;padding:0 14px}.mobile-nav{top:60px}.nav-brand-sub{display:none}.nav-logo-mark{width:36px!important;height:36px!important}.nav-brand-name{font-size:16px}}
+
+/* ===== HERO AC BACKGROUND ===== */
+.hero-ac-bg{position:absolute;bottom:0;left:0;right:0;width:100%;max-height:42%;pointer-events:none;z-index:0;opacity:1}
+.hero-ac-bg svg{width:100%;height:100%;display:block}
+@media(max-width:768px){.hero-ac-bg{max-height:30%;opacity:.7}}
+
+/* ===== ENTRANCE ANIMATIONS ===== */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeInLeft{from{opacity:0;transform:translateX(-32px)}to{opacity:1;transform:translateX(0)}}
+@keyframes fadeInRight{from{opacity:0;transform:translateX(32px)}to{opacity:1;transform:translateX(0)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+@keyframes floatAC{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* ===== CARD HOVER LIFT (enhanced) ===== */
+.card{transition:transform .32s cubic-bezier(.22,.61,.36,1),box-shadow .32s ease,border-color .32s ease}
+.pillar-card,.srv-card,.ind-card,.principle-card,.rev-card,.safety-card{transition:transform .32s cubic-bezier(.22,.61,.36,1),box-shadow .32s ease,border-color .32s ease}
+.pillar-card:hover,.srv-card:hover,.ind-card:hover{box-shadow:0 20px 60px rgba(10,22,40,.18)!important}
+
+/* ===== REVEAL ANIMATIONS ===== */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .65s cubic-bezier(.22,.61,.36,1),transform .65s cubic-bezier(.22,.61,.36,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-l{opacity:0;transform:translateX(-36px);transition:opacity .65s cubic-bezier(.22,.61,.36,1),transform .65s cubic-bezier(.22,.61,.36,1)}
+.reveal-l.visible{opacity:1;transform:translateX(0)}
+.reveal-r{opacity:0;transform:translateX(36px);transition:opacity .65s cubic-bezier(.22,.61,.36,1),transform .65s cubic-bezier(.22,.61,.36,1)}
+.reveal-r.visible{opacity:1;transform:translateX(0)}
+
+/* ===== NAV LINK HOVER UNDERLINE ===== */
+.nav-links-list a{position:relative}
+.nav-links-list a::after{content:'';position:absolute;bottom:2px;left:14px;right:14px;height:2px;background:var(--gold);border-radius:2px;transform:scaleX(0);transform-origin:center;transition:transform .25s ease}
+.nav-links-list a:hover::after{transform:scaleX(1)}
+
+/* ===== MOBILE NAV LINK TRANSITIONS ===== */
+.mobile-nav a{transition:background .2s,color .2s,padding-left .2s}
+.mobile-nav a:hover{padding-left:32px!important}
 </style>
 <!-- =========================================================
 ADVANCED SEO META (HVAC DOMINATION)
@@ -499,19 +533,7 @@ ADVANCED SEO META (HVAC DOMINATION)
     <a href="/#contact" onclick="navigate('contact');toggleMobileNav();return false">Faridabad</a>
   </div>
   <a href="/#industries" onclick="navigate('industries');toggleMobileNav();return false">Industries</a>
-  <button class="mob-section-header" onclick="toggleMobSection('mobBlog')">Blog &amp; AC Tips <span class="mob-arrow">›</span></button>
-  <div class="mob-section" id="mobBlog">
-    <a href="/blog/ac-not-cooling-delhi.html">AC Not Cooling in Delhi NCR?</a>
-    <a href="/blog/ac-gas-leak-signs.html">AC Gas Leak Warning Signs</a>
-    <a href="/blog/ac-making-noise-diagnosis.html">AC Making Strange Noise?</a>
-    <a href="/blog/ac-water-leaking-causes.html">AC Water Leaking — Causes</a>
-    <a href="/blog/ac-repair-near-me-delhi.html">AC Repair Near Me Delhi</a>
-    <a href="/blog/ac-not-turning-on.html">AC Not Turning On?</a>
-    <a href="/blog/ac-amc-vs-one-time-service.html">AMC vs One-Time Service</a>
-    <a href="/blog/how-often-service-ac-delhi.html">How Often to Service AC</a>
-    <a href="/blog/split-ac-installation-cost.html">Split AC Installation Guide</a>
-    <a href="/blog/ac-not-cooling-after-service.html">Still Not Cooling After Service?</a>
-  </div>
+  <a href="/#blog" onclick="navigate('blog');toggleMobileNav();return false">Blog &amp; AC Tips →</a>
   <a href="/#contact" onclick="navigate('contact');toggleMobileNav();return false">Reviews &amp; Contact</a>
   <a class="mob-cta" href="tel:+919312264832">📞 Call +91 93122 64832 →</a>
 </div>
@@ -524,6 +546,64 @@ ADVANCED SEO META (HVAC DOMINATION)
     <div class="hero-bg-mesh"></div>
     <div class="hero-grid-lines"></div>
     <canvas id="heroCanvas"></canvas>
+    <!-- Decorative split AC unit background -->
+    <div class="hero-ac-bg" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" fill="none">
+        <!-- Indoor unit main body -->
+        <rect x="8" y="18" width="624" height="188" rx="26" stroke="rgba(200,168,75,0.22)" stroke-width="1.5" fill="rgba(255,255,255,0.02)"/>
+        <!-- Top panel -->
+        <rect x="8" y="18" width="624" height="72" rx="26" fill="rgba(74,144,217,0.07)"/>
+        <rect x="8" y="62" width="624" height="28" fill="rgba(74,144,217,0.07)"/>
+        <!-- Display screen -->
+        <rect x="28" y="34" width="192" height="40" rx="10" fill="rgba(10,22,40,0.5)" stroke="rgba(200,168,75,0.25)" stroke-width="1"/>
+        <text x="74" y="62" font-family="monospace" font-size="22" font-weight="700" fill="rgba(200,168,75,0.55)" text-anchor="middle">22°C</text>
+        <text x="155" y="58" font-family="monospace" font-size="11" fill="rgba(74,144,217,0.6)" text-anchor="middle">COOL</text>
+        <rect x="142" y="44" width="56" height="18" rx="4" fill="rgba(74,144,217,0.12)" stroke="rgba(74,144,217,0.2)" stroke-width="1"/>
+        <!-- Brand label -->
+        <text x="390" y="52" font-family="serif" font-size="16" font-weight="700" fill="rgba(200,168,75,0.25)" text-anchor="middle" letter-spacing="4">AIR CONTROL</text>
+        <!-- LED indicators -->
+        <circle cx="558" cy="53" r="5.5" fill="rgba(46,204,113,0.55)"/>
+        <circle cx="576" cy="53" r="5.5" fill="rgba(74,144,217,0.4)"/>
+        <circle cx="594" cy="53" r="5.5" fill="rgba(200,168,75,0.35)"/>
+        <!-- Horizontal vent slats -->
+        <rect x="18" y="107" width="604" height="15" rx="7" fill="rgba(74,144,217,0.07)"/>
+        <rect x="18" y="127" width="604" height="13" rx="6" fill="rgba(74,144,217,0.055)"/>
+        <rect x="18" y="145" width="604" height="11" rx="5" fill="rgba(74,144,217,0.04)"/>
+        <rect x="18" y="161" width="604" height="10" rx="4" fill="rgba(74,144,217,0.03)"/>
+        <!-- Louver blade -->
+        <rect x="18" y="186" width="604" height="18" rx="9" fill="rgba(255,255,255,0.04)" stroke="rgba(200,168,75,0.18)" stroke-width="1"/>
+        <!-- Airflow streams -->
+        <path d="M 80 216 Q 75 242 90 258" stroke="rgba(74,144,217,0.25)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <path d="M 80 258 L 90 258 L 82 266" stroke="rgba(74,144,217,0.25)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M 200 212 Q 195 238 208 256" stroke="rgba(74,144,217,0.2)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <path d="M 200 256 L 210 256 L 202 264" stroke="rgba(74,144,217,0.2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M 320 210 L 320 262" stroke="rgba(74,144,217,0.18)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <path d="M 313 252 L 320 262 L 327 252" stroke="rgba(74,144,217,0.18)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M 440 212 Q 445 238 432 256" stroke="rgba(74,144,217,0.2)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <path d="M 440 256 L 430 256 L 438 264" stroke="rgba(74,144,217,0.2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M 560 216 Q 565 242 550 258" stroke="rgba(74,144,217,0.25)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <path d="M 560 258 L 550 258 L 558 266" stroke="rgba(74,144,217,0.25)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <!-- Snowflake decorations -->
+        <g transform="translate(60,278)" opacity="0.22">
+          <line x1="0" y1="-10" x2="0" y2="10" stroke="rgba(74,144,217,1)" stroke-width="1.5"/>
+          <line x1="-10" y1="0" x2="10" y2="0" stroke="rgba(74,144,217,1)" stroke-width="1.5"/>
+          <line x1="-7" y1="-7" x2="7" y2="7" stroke="rgba(74,144,217,1)" stroke-width="1.5"/>
+          <line x1="7" y1="-7" x2="-7" y2="7" stroke="rgba(74,144,217,1)" stroke-width="1.5"/>
+        </g>
+        <g transform="translate(580,278)" opacity="0.22">
+          <line x1="0" y1="-10" x2="0" y2="10" stroke="rgba(74,144,217,1)" stroke-width="1.5"/>
+          <line x1="-10" y1="0" x2="10" y2="0" stroke="rgba(74,144,217,1)" stroke-width="1.5"/>
+          <line x1="-7" y1="-7" x2="7" y2="7" stroke="rgba(74,144,217,1)" stroke-width="1.5"/>
+          <line x1="7" y1="-7" x2="-7" y2="7" stroke="rgba(74,144,217,1)" stroke-width="1.5"/>
+        </g>
+        <g transform="translate(320,285)" opacity="0.18">
+          <line x1="0" y1="-13" x2="0" y2="13" stroke="rgba(74,144,217,1)" stroke-width="1.5"/>
+          <line x1="-13" y1="0" x2="13" y2="0" stroke="rgba(74,144,217,1)" stroke-width="1.5"/>
+          <line x1="-9" y1="-9" x2="9" y2="9" stroke="rgba(74,144,217,1)" stroke-width="1.5"/>
+          <line x1="9" y1="-9" x2="-9" y2="9" stroke="rgba(74,144,217,1)" stroke-width="1.5"/>
+        </g>
+      </svg>
+    </div>
     <div class="hero-content-wrap">
       <div class="hero-left">
         <div class="hero-badge reveal"><span class="pulse-dot"></span>Trusted Since 1987 · Delhi's #1 Institutional HVAC</div>
@@ -1628,7 +1708,7 @@ function navigate(page, push=true){
   window.scrollTo({top:0,behavior:'instant'});
   if(push) history.pushState({page},'','#'+page);
   activePage = page;
-  setTimeout(initReveal, 80);
+  setTimeout(initReveal, 60);
   if(page==='home') initHeroCanvas();
 }
 window.addEventListener('popstate', e=>{
@@ -1668,13 +1748,32 @@ function toggleMobSection(id){
    SCROLL REVEAL
    ================================================================ */
 function initReveal(){
+  const sel = '.page.active .reveal,.page.active .reveal-l,.page.active .reveal-r';
+  const els = document.querySelectorAll(sel);
+  // Reset all to hidden
+  els.forEach(el=>el.classList.remove('visible'));
+
   const io = new IntersectionObserver(entries=>{
-    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }});
-  },{threshold:.1});
-  document.querySelectorAll('.page.active .reveal,.page.active .reveal-l,.page.active .reveal-r').forEach(el=>{
-    el.classList.remove('visible');
-    io.observe(el);
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  },{threshold:0, rootMargin:'0px 0px -40px 0px'});
+
+  els.forEach(el=>io.observe(el));
+
+  // RAF fallback: immediately reveal elements already in the viewport
+  // (needed when page just switched from display:none, IO may fire late)
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      document.querySelectorAll(sel).forEach(el=>{
+        const r = el.getBoundingClientRect();
+        if(r.top < window.innerHeight + 40 && r.bottom > 0){
+          el.classList.add('visible');
+        }
+      });
+    });
   });
+
   initCounters();
 }
 
