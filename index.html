@@ -1759,32 +1759,6 @@ const CFG = {
   company: 'Air Control'
 };
 
-// Self-test Web3Forms key on page load — check browser console for result
-(async function verifyW3F(){
-  try {
-    const r = await fetch('https://api.web3forms.com/submit',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body: JSON.stringify({
-        access_key: CFG.web3formsKey,
-        subject: '[AirControl] Startup key check — ignore this',
-        from_name: 'Air Control Key Check',
-        email: 'ajay.aircontrol@gmail.com',
-        name: 'System Check',
-        message: 'Automated startup check — not a real lead',
-        botcheck: ''
-      })
-    });
-    const j = await r.json();
-    if(j.success){
-      console.log('%c[AirControl] Web3Forms key ✅ valid — emails will arrive.', 'color:green;font-weight:bold');
-    } else {
-      console.error('%c[AirControl] Web3Forms key ❌ REJECTED — ' + j.message + '. Check https://web3forms.com/dashboard for plan limits or regenerate the key.', 'color:red;font-weight:bold');
-    }
-  } catch(e){
-    console.warn('[AirControl] Web3Forms key check network error:', e.message);
-  }
-})();
 const _AH = '59556af07a7aee4ae8111857d121adc55b2d45d340e2c64c43e5f3dadc4fd460';
 
 /* ================================================================
@@ -1983,7 +1957,7 @@ async function sendToWeb3Forms(lead){
    ================================================================ */
 async function sendViaFormSubmit(lead){
   try {
-    await fetch('https://formsubmit.co/ajax/ajay@aircontrols.in',{
+    await fetch('https://formsubmit.co/ajax/ajay.aircontrol@gmail.com',{
       method:'POST',
       headers:{'Content-Type':'application/json','Accept':'application/json'},
       body: JSON.stringify({
