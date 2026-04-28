@@ -368,6 +368,90 @@
   }
 
   /* ============================================================
+     SPA PAGE OBSERVER
+     Re-triggers reveal animations when a .page gains .active
+     (IntersectionObserver can't see elements inside display:none parents)
+     ============================================================ */
+  function initSpaObserver(){
+    // Shared IO instance that persists across page navigations
+    const revObs = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add('visible');
+          revObs.unobserve(e.target);
+        }
+      });
+    }, {threshold:0.08, rootMargin:'0px 0px -30px 0px'});
+
+    function activatePage(page){
+      // Stagger: add class and transition-delay to grid children not yet processed
+      const GRIDS = [
+        '.pillars-grid','.services-grid','.reviews-grid',
+        '.industries-grid','.guarantee-grid','.principles-grid',
+        '.safety-list','.ind-grid'
+      ];
+      GRIDS.forEach(sel=>{
+        const grid = page.querySelector(sel);
+        if(!grid) return;
+        Array.from(grid.children).forEach((c,i)=>{
+          if(!c.classList.contains('stagger-child')){
+            c.classList.add('stagger-child');
+            c.style.transitionDelay = (i*0.08) + 's';
+          }
+        });
+      });
+
+      // Observe all reveal targets in this page
+      page.querySelectorAll('.stagger-child:not(.visible)').forEach(el=> revObs.observe(el));
+      page.querySelectorAll('.gold-rule:not(.visible)').forEach(el=> revObs.observe(el));
+      page.querySelectorAll('.section-label:not(.visible)').forEach(el=> revObs.observe(el));
+      page.querySelectorAll('.promise-item:not(.visible)').forEach(el=> revObs.observe(el));
+      page.querySelectorAll('.reveal:not(.visible),.reveal-l:not(.visible),.reveal-r:not(.visible)').forEach(el=> revObs.observe(el));
+
+      // Re-attach tilt to any cards in this page (desktop only)
+      if(!isTouch()){
+        const TILT_SEL = '.pillar-card,.srv-card,.ind-card,.rev-card,.principle-card,.safety-card,.cib-card,.guar-card';
+        const INT = 7;
+        page.querySelectorAll(TILT_SEL).forEach(card=>{
+          if(card.dataset.tiltBound) return;
+          card.dataset.tiltBound = '1';
+          card.addEventListener('mousemove', e=>{
+            const r = card.getBoundingClientRect();
+            const x = (e.clientX - r.left) / r.width  - 0.5;
+            const y = (e.clientY - r.top)  / r.height - 0.5;
+            card.style.transform = `perspective(700px) rotateY(${x*INT}deg) rotateX(${-y*INT}deg) translateZ(6px)`;
+          });
+          card.addEventListener('mouseleave', ()=> card.style.transform = '');
+        });
+      }
+    }
+
+    // Watch every .page element for the .active class being added
+    const mutObs = new MutationObserver((mutations)=>{
+      mutations.forEach(m=>{
+        if(m.type === 'attributes' && m.attributeName === 'class'){
+          const el = m.target;
+          if(el.classList.contains('page') && el.classList.contains('active')){
+            // Small delay so display:block has taken effect before IO fires
+            setTimeout(()=> activatePage(el), 50);
+          }
+        }
+      });
+    });
+
+    document.querySelectorAll('.page').forEach(p=>{
+      mutObs.observe(p, {attributes:true, attributeFilter:['class']});
+      // Also handle the initially-active page
+      if(p.classList.contains('active')) activatePage(p);
+    });
+
+    // Fallback: if no .page structure, just observe the whole document
+    if(!document.querySelector('.page')){
+      document.querySelectorAll('.stagger-child,.gold-rule,.section-label,.promise-item,.reveal,.reveal-l,.reveal-r').forEach(el=> revObs.observe(el));
+    }
+  }
+
+  /* ============================================================
      SMOOTH ANCHOR SCROLL
      ============================================================ */
   function initSmoothAnchors(){
@@ -403,6 +487,7 @@
     initPromiseBar();
     initStagger();
     initObserver();
+    initSpaObserver();
     initTilt();
     initRipple();
     initSmoothAnchors();

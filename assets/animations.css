@@ -26,17 +26,19 @@ body{animation:pageIn .55s ease both}
    HERO AC UNIT ILLUSTRATION
    ============================================================ */
 .hero-ac-scene{
-  position:absolute;right:-20px;top:50%;transform:translateY(-48%);
-  width:58%;max-width:720px;pointer-events:none;z-index:0;
+  position:absolute;right:-20px;top:50%;
+  transform:translateY(-48%);
+  width:58%;max-width:720px;pointer-events:none;
+  z-index:1;  /* above canvases, below content-wrap */
   opacity:0;animation:acSceneIn 1.4s ease 0.6s forwards
 }
 @keyframes acSceneIn{
   from{opacity:0;transform:translateY(-44%) translateX(30px)}
-  to{opacity:1;transform:translateY(-48%) translateX(0)}
+  to{opacity:.85;transform:translateY(-48%) translateX(0)}
 }
 .hero-ac-unit{
   width:100%;height:auto;display:block;
-  filter:drop-shadow(0 0 40px rgba(74,144,217,.12));
+  filter:drop-shadow(0 0 40px rgba(74,144,217,.10));
 }
 
 /* SVG snowflake spin animations */
@@ -53,35 +55,35 @@ body{animation:pageIn .55s ease both}
    SNOWFLAKE PARTICLE FIELD
    ============================================================ */
 .snow-field{
-  position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden
+  position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden
 }
 .snow-p{
-  position:absolute;top:-30px;color:rgba(160,210,240,.75);
-  pointer-events:none;user-select:none;animation:snowfall linear infinite
+  position:absolute;top:-30px;pointer-events:none;user-select:none;
+  animation:snowfall linear infinite;font-style:normal;line-height:1;
+  color:rgba(160,210,240,.8)
 }
 @keyframes snowfall{
   0%{transform:translateY(-10px) translateX(0) rotate(0deg);opacity:0}
   5%{opacity:1}
-  95%{opacity:.6}
-  100%{transform:translateY(105vh) translateX(var(--drift)) rotate(360deg);opacity:0}
+  95%{opacity:.7}
+  100%{transform:translateY(105vh) translateX(var(--drift,0px)) rotate(360deg);opacity:0}
 }
 
 /* ============================================================
-   COOL BREEZE WAVE (horizontal ripple across hero)
+   COOL BREEZE WAVE
    ============================================================ */
 @keyframes breezeWave{
-  0%{transform:translateX(-110%) scaleY(1)}
-  50%{scaleY:1.15}
-  100%{transform:translateX(110%) scaleY(1)}
+  0%{transform:translateX(-110%)}
+  100%{transform:translateX(110%)}
 }
 .hero-breeze{
   position:absolute;left:0;height:2px;border-radius:2px;
-  background:linear-gradient(90deg,transparent,rgba(122,185,232,.4),rgba(200,230,245,.6),rgba(122,185,232,.4),transparent);
-  pointer-events:none;animation:breezeWave 5s ease-in-out infinite;opacity:.7
+  background:linear-gradient(90deg,transparent,rgba(122,185,232,.45),rgba(200,230,245,.65),rgba(122,185,232,.45),transparent);
+  pointer-events:none;animation:breezeWave ease-in-out infinite
 }
 
 /* ============================================================
-   FLOATING BACKGROUND ORBS (cool blue + gold)
+   FLOATING BACKGROUND ORBS
    ============================================================ */
 @keyframes orbDrift{
   0%{transform:translate(0,0) scale(1)}
@@ -89,20 +91,20 @@ body{animation:pageIn .55s ease both}
   66%{transform:translate(-16px,18px) scale(.96)}
   100%{transform:translate(0,0) scale(1)}
 }
-.orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(72px);opacity:.14;animation:orbDrift 20s ease-in-out infinite}
-.orb-1{width:400px;height:400px;background:#1e4db7;top:-100px;left:-100px;animation-delay:0s}
-.orb-2{width:280px;height:280px;background:#4a90d9;top:35%;right:-70px;animation-delay:-7s}
-.orb-3{width:240px;height:240px;background:#c8a84b;bottom:5%;left:25%;animation-delay:-13s}
-.orb-4{width:200px;height:200px;background:#7db5e8;top:15%;left:50%;animation-delay:-4s}
+.orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(72px);animation:orbDrift 20s ease-in-out infinite}
+.orb-1{width:400px;height:400px;background:#1e4db7;top:-100px;left:-100px;opacity:.12;animation-delay:0s}
+.orb-2{width:280px;height:280px;background:#4a90d9;top:35%;right:-70px;opacity:.10;animation-delay:-7s}
+.orb-3{width:240px;height:240px;background:#c8a84b;bottom:5%;left:25%;opacity:.08;animation-delay:-13s}
+.orb-4{width:200px;height:200px;background:#7db5e8;top:15%;left:50%;opacity:.09;animation-delay:-4s}
 
 /* ============================================================
-   HERO ELEMENTS
+   HERO BADGE + STATS
    ============================================================ */
 @keyframes badgeFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 .hero-badge{animation:badgeFloat 3.2s ease-in-out infinite}
 
-@keyframes statPop{from{opacity:0;transform:scale(.82) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
-.hstat{opacity:0;animation:statPop .5s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes statPop{from{opacity:0;transform:scale(.85) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.hstat{animation:statPop .5s cubic-bezier(.34,1.56,.64,1) both}
 .hstat:nth-child(1){animation-delay:.35s}
 .hstat:nth-child(2){animation-delay:.5s}
 .hstat:nth-child(3){animation-delay:.65s}
@@ -112,18 +114,19 @@ body{animation:pageIn .55s ease both}
 .hero-card-float{animation:floatCard 5.5s ease-in-out infinite}
 
 /* ============================================================
-   GOLD RULE & SECTION LABEL
+   GOLD RULE draw-in (triggered by .visible class — DO NOT hide by default)
    ============================================================ */
-@keyframes ruleDraw{from{width:0;opacity:0}to{width:56px;opacity:1}}
-.gold-rule{width:0;opacity:0}
+@keyframes ruleDraw{from{transform:scaleX(0);transform-origin:left center}to{transform:scaleX(1);transform-origin:left center}}
 .gold-rule.visible{animation:ruleDraw .7s ease forwards}
 
+/* ============================================================
+   SECTION LABEL reveal (triggered by .visible — visible by default)
+   ============================================================ */
 @keyframes labelUp{from{opacity:0;letter-spacing:6px}to{opacity:1;letter-spacing:3.5px}}
-.section-label{opacity:0;animation:none}
 .section-label.visible{animation:labelUp .6s ease forwards}
 
 /* ============================================================
-   GENERIC REVEAL
+   GENERIC REVEAL (also handled by inline initReveal, this is CSS layer)
    ============================================================ */
 .reveal,.reveal-l,.reveal-r{opacity:0;transition:opacity .65s ease,transform .65s ease}
 .reveal{transform:translateY(28px)}
@@ -131,7 +134,10 @@ body{animation:pageIn .55s ease both}
 .reveal-r{transform:translateX(32px)}
 .reveal.visible,.reveal-l.visible,.reveal-r.visible{opacity:1;transform:none}
 
-.stagger-child{opacity:0;transform:translateY(24px);transition:opacity .5s ease,transform .5s ease}
+/* ============================================================
+   STAGGER GRID CHILDREN
+   ============================================================ */
+.stagger-child{opacity:0;transform:translateY(22px);transition:opacity .5s ease,transform .5s ease}
 .stagger-child.visible{opacity:1;transform:none}
 
 /* ============================================================
@@ -146,11 +152,8 @@ body{animation:pageIn .55s ease both}
   box-shadow:0 0 0 1.5px rgba(74,144,217,.3),0 20px 60px rgba(0,0,0,.28),0 0 30px rgba(74,144,217,.06)
 }
 
-/* Frost shimmer effect on card hover */
-@keyframes frostShimmer{
-  0%{background-position:-200% 0}
-  100%{background-position:200% 0}
-}
+/* Frost shimmer sweep on card hover */
+@keyframes frostShimmer{from{background-position:-200% 0}to{background-position:200% 0}}
 .rev-card{position:relative;overflow:hidden}
 .pillar-card::after,.srv-card::after,.rev-card::after{
   content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
@@ -174,16 +177,14 @@ body{animation:pageIn .55s ease both}
 .btn:hover::before,.nav-cta-btn:hover::before,.mob-cta:hover::before,.cta-btn:hover::before{
   animation:shimmerSweep .55s ease
 }
-
 .ripple-wave{
   position:absolute;border-radius:50%;transform:scale(0);
-  background:rgba(255,255,255,.22);animation:rippleAnim .55s linear;
-  pointer-events:none
+  background:rgba(255,255,255,.22);animation:rippleAnim .55s linear;pointer-events:none
 }
 @keyframes rippleAnim{to{transform:scale(4);opacity:0}}
 
 /* ============================================================
-   NAV UNDERLINE (cold blue)
+   NAV UNDERLINE (blue→gold gradient)
    ============================================================ */
 .nav-links-list a,.nav-links-list button{position:relative}
 .nav-links-list a::after,.nav-links-list button::after{
@@ -198,8 +199,8 @@ body{animation:pageIn .55s ease both}
 @keyframes marqueeScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .trust-strip{overflow:hidden;padding-left:0!important;padding-right:0!important}
 .trust-strip-inner{
-  display:flex;align-items:center;gap:0;
-  max-width:none!important;margin:0!important;width:max-content;
+  display:flex!important;align-items:center;flex-wrap:nowrap;
+  max-width:none!important;margin:0!important;width:max-content!important;
   animation:marqueeScroll 30s linear infinite
 }
 .trust-strip:hover .trust-strip-inner{animation-play-state:paused}
@@ -240,16 +241,16 @@ body{animation:pageIn .55s ease both}
   z-index:8000;box-shadow:0 4px 20px rgba(74,144,217,.4)
 }
 #scroll-top.show{opacity:1;transform:none}
-#scroll-top:hover{background:linear-gradient(135deg,#4a90d9,#7db5e8);transform:translateY(-3px);box-shadow:0 8px 28px rgba(74,144,217,.5)}
+#scroll-top:hover{background:linear-gradient(135deg,#4a90d9,#7db5e8);transform:translateY(-3px)}
 
 /* ============================================================
-   CARD ICON INTERACTIONS
+   CARD ICON MICRO-INTERACTIONS
    ============================================================ */
 .pillar-card .pillar-icon,.pillar-card .icon{transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
 .pillar-card:hover .pillar-icon,.pillar-card:hover .icon{transform:rotate(12deg) scale(1.15)}
 
-.srv-card .srv-icon,.srv-card svg{transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
-.srv-card:hover .srv-icon,.srv-card:hover svg{transform:translateY(-5px) scale(1.1)}
+.srv-card .srv-icon,.srv-card>svg{transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.srv-card:hover .srv-icon,.srv-card:hover>svg{transform:translateY(-5px) scale(1.1)}
 
 .rev-card blockquote,.rev-card .review-text{transition:color .3s ease}
 .rev-card:hover blockquote,.rev-card:hover .review-text{color:rgba(255,255,255,.95)}
@@ -257,36 +258,52 @@ body{animation:pageIn .55s ease both}
 .guar-card .guar-number,.guar-card .stat-num{transition:text-shadow .3s ease}
 .guar-card:hover .guar-number,.guar-card:hover .stat-num{text-shadow:0 0 24px rgba(74,144,217,.6)}
 
-.safety-card svg,.safety-card .check-icon{transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
-.safety-card:hover svg,.safety-card:hover .check-icon{transform:scale(1.2) rotate(-6deg)}
+.safety-card>svg,.safety-card .check-icon{transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.safety-card:hover>svg,.safety-card:hover .check-icon{transform:scale(1.2) rotate(-6deg)}
 
 .ind-card{transition:transform .22s ease,box-shadow .22s ease}
 .ind-card:hover{transform:translateY(-6px)}
 
 /* ============================================================
-   COLD AIR CANVAS (JS-generated overlay)
+   COOL AIR CANVAS
    ============================================================ */
 #coolAirCanvas{
-  position:absolute;inset:0;pointer-events:none;z-index:1;opacity:.85
+  position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.7
 }
 
 /* ============================================================
-   REDUCED MOTION
+   BLOG HERO SNOWFLAKE DECORATIONS (injected by animations.js)
+   ============================================================ */
+@keyframes heroFlakeSpin{0%{transform:rotate(0deg) scale(1)}50%{transform:rotate(180deg) scale(1.08)}100%{transform:rotate(360deg) scale(1)}}
+.blog-hero-flake{
+  position:absolute;color:rgba(122,185,232,.07);pointer-events:none;
+  font-size:var(--fs,80px);line-height:1;user-select:none;
+  animation:heroFlakeSpin var(--dur,20s) linear infinite
+}
+.blog-hero-flake.alt{color:rgba(74,144,217,.05);animation-direction:reverse}
+
+/* ============================================================
+   REDUCED MOTION — disable everything
    ============================================================ */
 @media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-  .trust-strip-inner,.hero-ac-scene,.snow-p,.hero-breeze,body{animation:none!important}
-  #cursor-glow,#snowField,.snow-field,#coolAirCanvas{display:none}
-  .hero-ac-scene{opacity:.25;transform:translateY(-48%)}
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important
+  }
+  .trust-strip-inner{animation:none!important}
+  body{animation:none!important}
+  .hero-ac-scene{opacity:.45;animation:none!important}
+  #cursor-glow,.snow-field,#snowField,#coolAirCanvas{display:none!important}
 }
 
 /* ============================================================
    MOBILE ADJUSTMENTS
    ============================================================ */
 @media(max-width:900px){
-  .hero-ac-scene{opacity:.18;width:80%;right:-30px;transform:translateY(-42%)}
+  .hero-ac-scene{opacity:.15;width:75%;right:-20px}
 }
 @media(max-width:640px){
   .hero-ac-scene{display:none}
-  .snow-field{display:none}
+  #snowField,.snow-field{display:none}
 }
