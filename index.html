@@ -1769,7 +1769,7 @@ const CFG = {
         access_key: CFG.web3formsKey,
         subject: '[AirControl] Startup key check — ignore this',
         from_name: 'Air Control Key Check',
-        email: 'ajay@aircontrols.in',
+        email: 'ajay.aircontrol@gmail.com',
         name: 'System Check',
         message: 'Automated startup check — not a real lead',
         botcheck: ''
@@ -1945,7 +1945,7 @@ function saveLead(lead){
 async function sendToWeb3Forms(lead){
   if(!CFG.web3formsKey) return;
   // email field must be a valid address — Web3Forms drops submissions with invalid emails
-  const emailVal = (lead.email && lead.email.includes('@')) ? lead.email : 'ajay@aircontrols.in';
+  const emailVal = (lead.email && lead.email.includes('@')) ? lead.email : 'ajay.aircontrol@gmail.com';
   try {
     const res = await fetch('https://api.web3forms.com/submit',{
       method:'POST',
