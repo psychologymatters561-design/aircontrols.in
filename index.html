@@ -1758,6 +1758,33 @@ const CFG = {
   phone: '+919312264832',
   company: 'Air Control'
 };
+
+// Self-test Web3Forms key on page load — check browser console for result
+(async function verifyW3F(){
+  try {
+    const r = await fetch('https://api.web3forms.com/submit',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body: JSON.stringify({
+        access_key: CFG.web3formsKey,
+        subject: '[AirControl] Startup key check — ignore this',
+        from_name: 'Air Control Key Check',
+        email: 'ajay@aircontrols.in',
+        name: 'System Check',
+        message: 'Automated startup check — not a real lead',
+        botcheck: ''
+      })
+    });
+    const j = await r.json();
+    if(j.success){
+      console.log('%c[AirControl] Web3Forms key ✅ valid — emails will arrive.', 'color:green;font-weight:bold');
+    } else {
+      console.error('%c[AirControl] Web3Forms key ❌ REJECTED — ' + j.message + '. Check https://web3forms.com/dashboard for plan limits or regenerate the key.', 'color:red;font-weight:bold');
+    }
+  } catch(e){
+    console.warn('[AirControl] Web3Forms key check network error:', e.message);
+  }
+})();
 const _AH = '59556af07a7aee4ae8111857d121adc55b2d45d340e2c64c43e5f3dadc4fd460';
 
 /* ================================================================
@@ -1917,6 +1944,8 @@ function saveLead(lead){
    ================================================================ */
 async function sendToWeb3Forms(lead){
   if(!CFG.web3formsKey) return;
+  // email field must be a valid address — Web3Forms drops submissions with invalid emails
+  const emailVal = (lead.email && lead.email.includes('@')) ? lead.email : 'ajay@aircontrols.in';
   try {
     const res = await fetch('https://api.web3forms.com/submit',{
       method:'POST',
@@ -1924,9 +1953,10 @@ async function sendToWeb3Forms(lead){
       body: JSON.stringify({
         access_key: CFG.web3formsKey,
         subject: `🔔 New Lead: ${lead.name||'Unknown'} | ${lead.phone||'—'} | ${lead.service||lead.requirement||'AC Enquiry'}`,
-        from_name: 'Air Control Website',
-        replyto: 'ajay@aircontrols.in',
-        name: lead.name||'—', phone: lead.phone||'—', email: lead.email||'—',
+        from_name: lead.name || 'Air Control Website',
+        replyto: emailVal,
+        email: emailVal,
+        name: lead.name||'—', phone: lead.phone||'—',
         service: lead.service||lead.requirement||'—',
         facility: lead.facility||lead.propertyType||'—',
         location: lead.location||'—', message: lead.message||'—',
@@ -1935,8 +1965,12 @@ async function sendToWeb3Forms(lead){
       })
     });
     const result = await res.json();
-    if(!result.success){
-      console.error('[AirControl] Web3Forms rejected submission:', result.message);
+    if(result.success){
+      console.log('[AirControl] Web3Forms delivered lead:', lead.name||lead.phone);
+    } else {
+      console.error('[AirControl] Web3Forms rejected — message:', result.message, '| Check dashboard: https://web3forms.com/dashboard for submission limits.');
+      // plan limit or invalid key — log full response for diagnostics
+      console.error('[AirControl] Web3Forms full response:', JSON.stringify(result));
     }
   } catch(e){
     console.error('[AirControl] Web3Forms network error:', e);
@@ -2014,14 +2048,18 @@ function fireLead(lead){
       });
       var result = await res.json();
       if(result.success){
+        console.log('[AirControl] Web3Forms contact form delivered OK');
         form.style.display='none';
         var succ = document.getElementById('cfSuccess');
         if(succ){ succ.style.display='block'; }
         saveLead(leadObj);
         sendViaFormSubmit(leadObj); // backup delivery
       } else {
-        console.error('[AirControl] Contact form Web3Forms failed:', result.message);
-        // Web3Forms failed — try FormSubmit backup silently, still show success to user
+        // Log full response — check browser console for details
+        // Most common cause: monthly plan limit reached (250/month on free plan)
+        // Dashboard: https://web3forms.com/dashboard
+        console.error('[AirControl] Web3Forms rejected contact form. Message:', result.message, '| Full:', JSON.stringify(result));
+        // Show success to visitor anyway — FormSubmit delivers the backup
         saveLead(leadObj);
         sendViaFormSubmit(leadObj);
         form.style.display='none';
