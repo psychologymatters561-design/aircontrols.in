@@ -676,7 +676,7 @@ ADVANCED SEO META (HVAC DOMINATION)
 
 /* Temperature reading text */
 #temp-gauge-reading {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'DM Sans', ui-monospace, monospace;
   font-size: 10px;
   font-weight: 700;
   color: #C9A84C;
@@ -708,31 +708,32 @@ ADVANCED SEO META (HVAC DOMINATION)
   }
   .heat-shimmer { animation: none; opacity: 0.02; }
 
-  /* Temperature gauge — compact pill at bottom-right on mobile */
+  /* Temperature gauge — compact pill at top-right on mobile, below nav */
   #temp-gauge {
     display: flex;
-    right: 12px;
-    bottom: 72px;      /* above browser chrome + chat button */
-    top: auto;
+    right: 10px;
+    top: 80px;         /* 72px nav + 8px clearance */
+    bottom: auto;
     transform: none;
     padding: 10px 7px;
     gap: 7px;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    background: rgba(6, 14, 26, 0.90);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06);
-    border-radius: 30px;
+    background: rgba(6, 14, 26, 0.88);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.07);
+    border-radius: 28px;
+    border: 1px solid rgba(201,168,76,0.18);
   }
   #temp-gauge-track {
-    height: 80px;
+    height: 72px;
     width: 4px;
   }
   #temp-gauge-reading {
-    font-size: 8.5px;
+    font-size: 8px;
     min-width: 18px;
   }
-  #temp-gauge-top-icon    { font-size: 12px; }
-  #temp-gauge-bottom-icon { font-size: 11px; }
+  #temp-gauge-top-icon    { font-size: 11px; }
+  #temp-gauge-bottom-icon { font-size: 10px; }
 }
 
 /* ── TABLET: moderate parallax ── */
@@ -941,192 +942,252 @@ ADVANCED SEO META (HVAC DOMINATION)
 
 
 /* ══════════════════════════════════════════════════════════════
-   COOL WIND — site-wide ambient cool breeze effect
-   Fixed layer behind all content, fades in below hero,
-   conveys AC relief / engineered cool as you scroll down.
-   ══════════════════════════════════════════════════════════════ */
-
-/* ══════════════════════════════════════════════════════════════
-   COOL WIND — creative 5-layer system, flows across full site
-   Right→Left sweeping blobs with sine-wave Y motion,
-   frost edge vignette, speed-line streaks, depth layers.
+   COOL WIND — ambient 5-layer breeze system
+   Fixed behind all content, sweeps right→left.
+   JS randomises start phases; scroll spins up playbackRate.
+   Frost sparkles drift with the current.
    ══════════════════════════════════════════════════════════════ */
 
 #cool-wind-overlay {
   position: fixed;
   inset: 0;
-  z-index: 0;           /* sits above bg, below content */
+  z-index: 0;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 1.2s ease;
+  transition: opacity 1.5s ease;
   overflow: hidden;
 }
 #cool-wind-overlay.active { opacity: 1; }
 
-/* Frost edge vignette — cold room feeling */
+/* Multi-angle frost vignette — cold-room atmosphere */
 #cool-wind-overlay::before {
   content: '';
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 50% at 100% 50%,
-      rgba(74,173,219,0.06) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 80% at 50% 0%,
-      rgba(100,200,235,0.04) 0%, transparent 55%),
-    radial-gradient(ellipse 40% 60% at 0% 100%,
-      rgba(60,150,200,0.03) 0%, transparent 50%);
+    radial-gradient(ellipse 70% 55% at 108% 50%,
+      rgba(74,173,219,0.08) 0%, transparent 65%),
+    radial-gradient(ellipse 55% 65% at 50% -8%,
+      rgba(100,210,245,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 55% at -8% 108%,
+      rgba(60,155,210,0.04) 0%, transparent 55%),
+    radial-gradient(ellipse 32% 42% at 108% 4%,
+      rgba(150,225,255,0.06) 0%, transparent 50%);
   pointer-events: none;
 }
 
-/* Base wind layers */
+/* Blob layers */
 .cw-layer {
   position: absolute;
   opacity: 0;
-  border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+  border-radius: 62% 38% 58% 42% / 46% 54% 42% 58%;
+  will-change: transform, opacity;
 }
 
-/* Layer 1 — large, slow, upper zone */
+/* Layer 1 — large, leisurely, upper zone */
 .cw-l1 {
-  width: 65%; height: 40%;
-  top: 2%; right: -40%;
-  background: radial-gradient(ellipse at 60% 45%,
-    rgba(74,173,219,0.10) 0%,
-    rgba(40,130,185,0.05) 45%,
+  width: 72%; height: 48%;
+  top: -2%; right: -50%;
+  background: radial-gradient(ellipse 65% 55% at 58% 44%,
+    rgba(74,178,224,0.13) 0%,
+    rgba(40,132,195,0.06) 42%,
     transparent 100%);
-  animation: cwWave1 16s cubic-bezier(0.4,0,0.2,1) infinite;
+  animation: cwWave1 14s cubic-bezier(0.25,0.46,0.45,0.94) infinite;
 }
 
 /* Layer 2 — medium, mid zone */
 .cw-l2 {
-  width: 50%; height: 30%;
-  top: 30%; right: -35%;
-  background: radial-gradient(ellipse at 55% 50%,
-    rgba(110,205,235,0.09) 0%,
-    rgba(70,165,210,0.04) 50%,
+  width: 56%; height: 36%;
+  top: 28%; right: -38%;
+  background: radial-gradient(ellipse 60% 54% at 56% 48%,
+    rgba(110,215,245,0.12) 0%,
+    rgba(70,170,218,0.05) 48%,
     transparent 100%);
-  animation: cwWave2 20s cubic-bezier(0.4,0,0.2,1) infinite 2.5s;
+  animation: cwWave2 19s cubic-bezier(0.25,0.46,0.45,0.94) infinite 3s;
 }
 
-/* Layer 3 — smaller, fast, lower-mid zone */
+/* Layer 3 — agile, lower-mid zone */
 .cw-l3 {
-  width: 42%; height: 25%;
-  top: 55%; right: -28%;
-  background: radial-gradient(ellipse at 50% 50%,
-    rgba(140,215,245,0.08) 0%,
-    rgba(90,180,225,0.03) 55%,
+  width: 45%; height: 29%;
+  top: 52%; right: -30%;
+  background: radial-gradient(ellipse 54% 52% at 50% 48%,
+    rgba(140,222,250,0.11) 0%,
+    rgba(90,184,232,0.04) 52%,
     transparent 100%);
-  animation: cwWave3 13s cubic-bezier(0.4,0,0.2,1) infinite 5s;
+  animation: cwWave3 11s cubic-bezier(0.25,0.46,0.45,0.94) infinite 6s;
 }
 
-/* Layer 4 — thin ribbon, upper-mid */
+/* Layer 4 — thin wide ribbon, upper sweep */
 .cw-l4 {
-  width: 70%; height: 18%;
-  top: 18%; right: -45%;
-  background: radial-gradient(ellipse at 60% 50%,
-    rgba(80,190,230,0.07) 0%,
-    rgba(50,145,195,0.03) 60%,
+  width: 80%; height: 22%;
+  top: 14%; right: -52%;
+  background: radial-gradient(ellipse 66% 56% at 58% 52%,
+    rgba(82,198,240,0.09) 0%,
+    rgba(52,150,205,0.03) 58%,
     transparent 100%);
-  animation: cwWave2 25s cubic-bezier(0.4,0,0.2,1) infinite 8s;
+  animation: cwWave2 24s cubic-bezier(0.25,0.46,0.45,0.94) infinite 9s;
 }
 
-/* Layer 5 — bottom sweep */
+/* Layer 5 — deep bottom sweep */
 .cw-l5 {
-  width: 55%; height: 28%;
-  top: 72%; right: -32%;
-  background: radial-gradient(ellipse at 55% 50%,
-    rgba(100,200,240,0.07) 0%,
-    rgba(60,160,210,0.03) 55%,
+  width: 62%; height: 33%;
+  top: 68%; right: -38%;
+  background: radial-gradient(ellipse 62% 54% at 56% 50%,
+    rgba(102,208,245,0.10) 0%,
+    rgba(62,164,215,0.04) 55%,
     transparent 100%);
-  animation: cwWave1 19s cubic-bezier(0.4,0,0.2,1) infinite 11s;
+  animation: cwWave1 18s cubic-bezier(0.25,0.46,0.45,0.94) infinite 12s;
 }
 
-/* Sine-wave path animations (Y oscillates like a real breeze) */
+/* Organic sweep keyframes — Y sines like a true breeze */
 @keyframes cwWave1 {
-  0%   { transform: translateX(5vw)   translateY(0%)    scaleY(0.75) skewX(5deg);  opacity: 0; }
+  0%   { transform: translateX(6vw)   translateY(0%)    scaleY(0.72) skewX(4deg);  opacity: 0;
+         border-radius: 62% 38% 58% 42% / 46% 54% 42% 58%; }
   8%   { opacity: 1; }
-  25%  { transform: translateX(-30vw) translateY(-3%)   scaleY(1.1)  skewX(7deg);  opacity: 0.9; }
-  50%  { transform: translateX(-80vw) translateY(4%)    scaleY(1.2)  skewX(9deg);  opacity: 0.85;
-         border-radius: 40% 60% 50% 50% / 55% 45% 60% 40%; }
-  75%  { transform: translateX(-120vw) translateY(-2%)  scaleY(1.0)  skewX(8deg);  opacity: 0.4; }
-  100% { transform: translateX(-165vw) translateY(5%)   scaleY(0.8)  skewX(10deg); opacity: 0; }
+  22%  { transform: translateX(-20vw) translateY(-4%)   scaleY(1.08) skewX(6deg);  opacity: 0.88; }
+  48%  { transform: translateX(-76vw) translateY(6%)    scaleY(1.18) skewX(9deg);  opacity: 0.82;
+         border-radius: 42% 58% 50% 50% / 55% 45% 60% 40%; }
+  74%  { transform: translateX(-120vw) translateY(-4%)  scaleY(0.96) skewX(8deg);  opacity: 0.35; }
+  100% { transform: translateX(-170vw) translateY(7%)   scaleY(0.76) skewX(11deg); opacity: 0;
+         border-radius: 62% 38% 58% 42% / 46% 54% 42% 58%; }
 }
 
 @keyframes cwWave2 {
-  0%   { transform: translateX(5vw)   translateY(0%)    scaleY(0.8)  skewX(4deg);  opacity: 0; }
+  0%   { transform: translateX(6vw)   translateY(0%)    scaleY(0.78) skewX(3deg);  opacity: 0;
+         border-radius: 55% 45% 62% 38% / 42% 58% 44% 56%; }
   10%  { opacity: 1; }
-  30%  { transform: translateX(-25vw) translateY(5%)    scaleY(1.15) skewX(6deg);  opacity: 0.85; }
-  55%  { transform: translateX(-75vw) translateY(-3%)   scaleY(1.25) skewX(8deg);  opacity: 0.8;
-         border-radius: 50% 50% 45% 55% / 40% 60% 50% 50%; }
-  80%  { transform: translateX(-125vw) translateY(2%)   scaleY(1.0)  skewX(9deg);  opacity: 0.3; }
-  100% { transform: translateX(-170vw) translateY(-4%)  scaleY(0.85) skewX(11deg); opacity: 0; }
+  28%  { transform: translateX(-18vw) translateY(6%)    scaleY(1.12) skewX(5deg);  opacity: 0.84; }
+  54%  { transform: translateX(-72vw) translateY(-5%)   scaleY(1.24) skewX(8deg);  opacity: 0.80;
+         border-radius: 48% 52% 44% 56% / 38% 62% 48% 52%; }
+  80%  { transform: translateX(-124vw) translateY(3%)   scaleY(0.94) skewX(10deg); opacity: 0.26; }
+  100% { transform: translateX(-174vw) translateY(-6%)  scaleY(0.80) skewX(13deg); opacity: 0;
+         border-radius: 55% 45% 62% 38% / 42% 58% 44% 56%; }
 }
 
 @keyframes cwWave3 {
-  0%   { transform: translateX(5vw)   translateY(0%)    scaleY(0.7)  skewX(6deg);  opacity: 0; }
+  0%   { transform: translateX(5vw)   translateY(0%)    scaleY(0.68) skewX(5deg);  opacity: 0;
+         border-radius: 60% 40% 55% 45% / 50% 50% 42% 58%; }
   12%  { opacity: 1; }
-  40%  { transform: translateX(-50vw) translateY(-5%)   scaleY(1.3)  skewX(9deg);  opacity: 0.9; }
-  70%  { transform: translateX(-110vw) translateY(4%)   scaleY(1.1)  skewX(7deg);  opacity: 0.5; }
-  100% { transform: translateX(-168vw) translateY(-3%)  scaleY(0.85) skewX(12deg); opacity: 0; }
+  38%  { transform: translateX(-44vw) translateY(-7%)   scaleY(1.30) skewX(8deg);  opacity: 0.90; }
+  70%  { transform: translateX(-108vw) translateY(6%)   scaleY(1.06) skewX(7deg);  opacity: 0.42; }
+  100% { transform: translateX(-170vw) translateY(-4%)  scaleY(0.80) skewX(14deg); opacity: 0;
+         border-radius: 60% 40% 55% 45% / 50% 50% 42% 58%; }
 }
 
-/* Speed-line wind streaks — like Japanese wind lines */
+/* Speed-line streaks */
 .cw-streaks {
   position: absolute;
   inset: -5% -2%;
   background: repeating-linear-gradient(
-    170deg,
-    transparent             0px,
-    transparent             28px,
-    rgba(74,173,219,0.055)  28px,
-    rgba(74,173,219,0.055)  29px,
-    transparent             29px,
-    transparent             55px,
-    rgba(100,200,235,0.035) 55px,
-    rgba(100,200,235,0.035) 56px,
-    transparent             56px,
-    transparent             84px,
-    rgba(130,215,245,0.025) 84px,
-    rgba(130,215,245,0.025) 85px,
-    transparent             85px,
-    transparent             110px
+    172deg,
+    transparent              0px,
+    transparent              26px,
+    rgba(74,178,224,0.062)   26px,
+    rgba(74,178,224,0.062)   27px,
+    transparent              27px,
+    transparent              52px,
+    rgba(100,208,240,0.042)  52px,
+    rgba(100,208,240,0.042)  53px,
+    transparent              53px,
+    transparent              80px,
+    rgba(130,222,250,0.028)  80px,
+    rgba(130,222,250,0.028)  81px,
+    transparent              81px,
+    transparent              108px
   );
-  animation: cwStreakDrift 18s linear infinite;
+  animation: cwStreakDrift 15s linear infinite;
 }
 
-/* Fine mist layer */
+/* Fine mist — reverse direction for depth */
 .cw-mist {
   position: absolute;
   inset: 0;
   background: repeating-linear-gradient(
-    175deg,
-    transparent             0px,
-    transparent             8px,
-    rgba(74,173,219,0.018)  8px,
-    rgba(74,173,219,0.018)  9px,
-    transparent             9px,
-    transparent             22px
+    174deg,
+    transparent              0px,
+    transparent              10px,
+    rgba(74,178,224,0.022)   10px,
+    rgba(74,178,224,0.022)   11px,
+    transparent              11px,
+    transparent              28px
   );
   animation: cwStreakDrift 9s linear infinite reverse;
-  opacity: 0.7;
+  opacity: 0.6;
 }
 
 @keyframes cwStreakDrift {
-  from { transform: translateX(0px)    translateY(0px); }
-  to   { transform: translateX(-200px) translateY(-40px); }
+  from { transform: translateX(0)      translateY(0); }
+  to   { transform: translateX(-220px) translateY(-48px); }
 }
 
-/* Mobile — simplify to 2 layers only */
+/* Frost sparkle particles — glide with the breeze */
+.cw-sparkle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(210,248,255,0.92);
+  box-shadow: 0 0 5px rgba(130,215,252,0.75), 0 0 14px rgba(100,195,245,0.38);
+  animation:
+    cwSparkleGlide var(--sp-dur, 14s) linear infinite var(--sp-delay, 0s),
+    cwSparkleFade  var(--sp-fade,4s)  ease-in-out infinite var(--sp-delay, 0s);
+  will-change: transform, opacity;
+}
+
+/* cwSparkleGlide owns transform; cwSparkleFade owns opacity — no conflict */
+@keyframes cwSparkleGlide {
+  0%   { transform: translateX(0vw)   translateY(0vh)    scale(0.4); }
+  12%  { transform: translateX(-4vw)  translateY(-1vh)   scale(1.1); }
+  50%  { transform: translateX(-16vw) translateY(1.5vh)  scale(1.0); }
+  88%  { transform: translateX(-28vw) translateY(-0.8vh) scale(0.9); }
+  100% { transform: translateX(-36vw) translateY(2vh)    scale(0.3); }
+}
+
+@keyframes cwSparkleFade {
+  0%, 100% { opacity: 0; }
+  25%, 75%  { opacity: 0.78; }
+  50%       { opacity: 1; }
+}
+
+.cw-s1 { --sp-dur:13s; --sp-fade:3.8s; --sp-delay:0s;    left:10%; top:16%; }
+.cw-s2 { --sp-dur:16s; --sp-fade:4.6s; --sp-delay:1.5s;  left:30%; top:44%; }
+.cw-s3 { --sp-dur:11s; --sp-fade:3.2s; --sp-delay:2.8s;  left:56%; top:12%; }
+.cw-s4 { --sp-dur:18s; --sp-fade:5.1s; --sp-delay:0.8s;  left:76%; top:62%; }
+.cw-s5 { --sp-dur:14s; --sp-fade:4.2s; --sp-delay:3.6s;  left:20%; top:74%; }
+.cw-s6 { --sp-dur:12s; --sp-fade:3.5s; --sp-delay:2.2s;  left:66%; top:30%; }
+.cw-s7 { --sp-dur:17s; --sp-fade:4.8s; --sp-delay:0.4s;  left:42%; top:84%; }
+.cw-s8 { --sp-dur:10s; --sp-fade:3.0s; --sp-delay:3.3s;  left:88%; top:20%; }
+
+/* Card shine — premium hover sweep (applies globally to all .card) */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    108deg,
+    transparent 38%,
+    rgba(255,255,255,0.07) 50%,
+    transparent 62%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.55s ease;
+  pointer-events: none;
+}
+.card:hover::after { transform: translateX(120%); }
+
+/* Mobile — 2 blob layers + 4 sparkles only */
 @media (max-width: 768px) {
   .cw-l3, .cw-l4, .cw-l5 { display: none; }
   .cw-mist { display: none; }
-  .cw-streaks { opacity: 0.5; }
+  .cw-streaks { opacity: 0.38; }
+  .cw-s3, .cw-s4, .cw-s7, .cw-s8 { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cw-layer, .cw-streaks, .cw-mist {
+  .cw-layer, .cw-streaks, .cw-mist, .cw-sparkle {
     animation: none !important;
-    transform: translateX(-80vw) !important;
-    opacity: 0.2 !important;
+    opacity: 0 !important;
   }
 }
 </style>
@@ -1159,6 +1220,14 @@ ADVANCED SEO META (HVAC DOMINATION)
   <div class="cw-layer cw-l5"></div>
   <div class="cw-streaks"></div>
   <div class="cw-mist"></div>
+  <div class="cw-sparkle cw-s1"></div>
+  <div class="cw-sparkle cw-s2"></div>
+  <div class="cw-sparkle cw-s3"></div>
+  <div class="cw-sparkle cw-s4"></div>
+  <div class="cw-sparkle cw-s5"></div>
+  <div class="cw-sparkle cw-s6"></div>
+  <div class="cw-sparkle cw-s7"></div>
+  <div class="cw-sparkle cw-s8"></div>
 </div>
 
 <nav id="mainNav">
@@ -3081,26 +3150,76 @@ setTimeout(initReveal, 120);
 
   gsap.registerPlugin(ScrollTrigger);
 
-  /* ── Helper: check if device prefers reduced motion ── */
-  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  /* ── Helper: detect mobile for performance tuning ── */
-  var isMobile = window.innerWidth <= 768;
+  /* ── Shared state ── */
+  var reducedMotion   = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isMobile        = window.innerWidth <= 768;
+  var gaugeShownOnce  = false; /* hoisted here so MutationObserver can read it */
 
   /* ── 1. SCROLL PROGRESS BAR + COOL WIND ACTIVATION ── */
   var progressBar = document.getElementById('scroll-progress');
-  var coolWind = document.getElementById('cool-wind-overlay');
+  var coolWind    = document.getElementById('cool-wind-overlay');
+
   if (progressBar) {
     ScrollTrigger.create({
       start: 0,
       end: 'max',
       onUpdate: function(self) {
         progressBar.style.width = (self.progress * 100) + '%';
-        /* Cool wind fades in after scrolling past hero (15% down) */
-        if (coolWind) {
-          coolWind.classList.toggle('active', self.progress > 0.08);
-        }
+        if (coolWind) coolWind.classList.toggle('active', self.progress > 0.06);
       }
     });
+  }
+
+  /* ── COOL WIND: randomise start phases + scroll-velocity acceleration ── */
+  if (coolWind && !reducedMotion) {
+    /* Randomise each blob layer so they appear mid-cycle on load (avoids
+       all five starting in lockstep from the right edge) */
+    coolWind.querySelectorAll('.cw-layer').forEach(function(el) {
+      var durText = getComputedStyle(el).animationDuration.split(',')[0];
+      var dur     = parseFloat(durText) || 15;
+      /* Negative delay = playhead starts this many seconds into the cycle */
+      el.style.animationDelay = '-' + (Math.random() * dur).toFixed(2) + 's';
+    });
+
+    /* Scroll-velocity acceleration via Web Animations API playbackRate.
+       Cached after a short settle period so CSS animations are running. */
+    var cwAnims      = [];
+    var cwRate       = 1;
+    var cwDecayRaf   = null;
+    var cwLastY      = window.scrollY;
+
+    setTimeout(function() {
+      coolWind.querySelectorAll('.cw-layer, .cw-streaks, .cw-mist').forEach(function(el) {
+        el.getAnimations().forEach(function(a) { cwAnims.push(a); });
+      });
+    }, 800);
+
+    function cwSetRate(r) {
+      cwRate = r;
+      for (var i = 0; i < cwAnims.length; i++) {
+        try { cwAnims[i].playbackRate = r; } catch(e) {}
+      }
+    }
+
+    function cwDecay() {
+      cwRate += (1 - cwRate) * 0.07;
+      cwSetRate(cwRate);
+      if (Math.abs(cwRate - 1) > 0.015) {
+        cwDecayRaf = requestAnimationFrame(cwDecay);
+      } else {
+        cwSetRate(1);
+      }
+    }
+
+    window.addEventListener('scroll', function() {
+      var delta = Math.abs(window.scrollY - cwLastY);
+      cwLastY   = window.scrollY;
+      /* delta px/frame → speed multiplier capped at 5× */
+      var speed = 1 + Math.min(delta * 0.10, 4);
+      if (cwDecayRaf) cancelAnimationFrame(cwDecayRaf);
+      cwSetRate(speed);
+      cwDecayRaf = requestAnimationFrame(cwDecay);
+    }, { passive: true });
   }
 
   /* ── 2. TEMPERATURE GAUGE ── */
@@ -3110,7 +3229,6 @@ setTimeout(initReveal, 120);
   var gaugeSnow  = document.getElementById('temp-gauge-bottom-icon');
   if (gauge && gaugeFill) {
     /* Show on first scroll — home page only */
-    var gaugeShownOnce = false;
     window.addEventListener('scroll', function showGauge() {
       if (typeof activePage !== 'undefined' && activePage !== 'home') return;
       gauge.classList.add('visible');
@@ -3151,7 +3269,7 @@ setTimeout(initReveal, 120);
     });
   }
 
-    /* ── 4. PARALLAX BACKGROUNDS ── */
+  /* ── 4. PARALLAX BACKGROUNDS ── */
   if (!reducedMotion) {
     /* Hero bg */
     var heroBgEl = document.getElementById('hero-parallax-bg');
@@ -3190,18 +3308,17 @@ setTimeout(initReveal, 120);
   }
 
   /* ── 5. SECTION CONTENT ENTRANCE ANIMATIONS ── */
-  /* Fade + rise for all section headings inside parallax sections */
   gsap.utils.toArray('h2, h3').forEach(function(el) {
     if (el.closest('.parallax-section')) {
       gsap.fromTo(el,
-        { opacity: 0, y: 40 },
+        { opacity: 0, y: 44, filter: 'blur(4px)' },
         {
-          opacity: 1, y: 0,
-          duration: 0.9,
-          ease: 'power3.out',
+          opacity: 1, y: 0, filter: 'blur(0px)',
+          duration: 1.0,
+          ease: 'power4.out',
           scrollTrigger: {
             trigger: el,
-            start: 'top 85%',
+            start: 'top 88%',
             toggleActions: 'play none none none'
           }
         }
@@ -3209,41 +3326,65 @@ setTimeout(initReveal, 120);
     }
   });
 
-  /* Cards / grid items stagger */
-  var cardSelectors = ['.pillar-card', '.srv-card', '.rev-card', '.ind-card', '.guar-card', '.principle-card'];
+  /* Stat numbers: count up when entering view */
+  document.querySelectorAll('.hstat-num, .fc-stat-num, .cs-num').forEach(function(el) {
+    var text   = el.textContent.trim();
+    var numStr = text.replace(/[^0-9]/g, '');
+    var num    = parseInt(numStr, 10);
+    if (!num) return;
+    var suffix = text.replace(numStr, '');
+    gsap.fromTo({ val: 0 },
+      { val: 0 },
+      {
+        val: num,
+        duration: 1.6,
+        ease: 'power2.out',
+        onUpdate: function() {
+          el.textContent = Math.round(this.targets()[0].val) + suffix;
+        },
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 85%',
+          toggleActions: 'play none none none'
+        }
+      }
+    );
+  });
+
+  /* Cards — stagger with subtle scale + blur reveal */
+  var cardSelectors = ['.pillar-card', '.srv-card', '.rev-card', '.ind-card', '.guar-card', '.principle-card', '.safety-card'];
   cardSelectors.forEach(function(sel) {
     var cards = document.querySelectorAll(sel);
-    if (cards.length) {
-      gsap.fromTo(cards,
-        { opacity: 0, y: 35, scale: 0.97 },
-        {
-          opacity: 1, y: 0, scale: 1,
-          duration: 0.7,
-          ease: 'power2.out',
-          stagger: 0.1,
-          scrollTrigger: {
-            trigger: cards[0].parentElement,
-            start: 'top 80%',
-            toggleActions: 'play none none none'
-          }
+    if (!cards.length) return;
+    gsap.fromTo(cards,
+      { opacity: 0, y: 38, scale: 0.96 },
+      {
+        opacity: 1, y: 0, scale: 1,
+        duration: 0.75,
+        ease: 'power3.out',
+        stagger: { amount: 0.5, from: 'start' },
+        scrollTrigger: {
+          trigger: cards[0].parentElement,
+          start: 'top 82%',
+          toggleActions: 'play none none none'
         }
-      );
-    }
+      }
+    );
   });
 
   /* ── 6. TIMELINE SECTION ANIMATION ── */
   var timelineItems = document.querySelectorAll('.tl-item');
   if (timelineItems.length) {
     gsap.fromTo(timelineItems,
-      { opacity: 0, x: -30 },
+      { opacity: 0, x: -36 },
       {
         opacity: 1, x: 0,
-        duration: 0.8,
-        ease: 'power2.out',
-        stagger: 0.18,
+        duration: 0.85,
+        ease: 'power3.out',
+        stagger: 0.16,
         scrollTrigger: {
           trigger: timelineItems[0].parentElement,
-          start: 'top 75%',
+          start: 'top 78%',
           toggleActions: 'play none none none'
         }
       }
@@ -3267,13 +3408,20 @@ setTimeout(initReveal, 120);
     );
   });
 
-  /* ── 8. HERO H1 ENTRANCE ANIMATION ── */
-  var heroH1 = document.querySelector('.hero h1');
-  if (heroH1 && !reducedMotion) {
-    gsap.fromTo(heroH1,
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.1, ease: 'power4.out', delay: 0.25 }
-    );
+  /* ── 8. HERO ENTRANCE SEQUENCE ── */
+  if (!reducedMotion) {
+    var heroBadge   = document.querySelector('.hero .hero-badge');
+    var heroH1      = document.querySelector('.hero h1');
+    var heroSub     = document.querySelector('.hero .hero-sub');
+    var heroActions = document.querySelector('.hero .hero-actions');
+    var heroStats   = document.querySelector('.hero .hero-stats-row');
+
+    var heroTl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+    if (heroBadge)   heroTl.fromTo(heroBadge,   { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, 0.15);
+    if (heroH1)      heroTl.fromTo(heroH1,       { y: 52, opacity: 0, filter: 'blur(6px)' }, { y: 0, opacity: 1, filter: 'blur(0px)', duration: 1.1 }, 0.35);
+    if (heroSub)     heroTl.fromTo(heroSub,      { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, 0.72);
+    if (heroActions) heroTl.fromTo(heroActions,   { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, 0.95);
+    if (heroStats)   heroTl.fromTo(heroStats,     { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.65 }, 1.18);
   }
 
   /* ── 9. NAVBAR: Glass effect on scroll ── */
