@@ -423,8 +423,6 @@ ADVANCED SEO META (HVAC DOMINATION)
 }
 </script>
 <!-- GSAP + ScrollTrigger for parallax system -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
 <style id="parallax-system">
 
@@ -751,6 +749,34 @@ ADVANCED SEO META (HVAC DOMINATION)
 .page-hero.parallax-section .container {
   position: relative;
   z-index: 2;
+}
+
+/* ══════════════════════════════════════════
+   READABILITY FIX: Light-background content
+   sections use matching light overlays so dark
+   text always has high contrast background.
+   Dark sections (section-dark, page-hero,
+   .hero) keep their strong dark overlays.
+   ══════════════════════════════════════════ */
+
+/* Regular content sections (cream bg) */
+.section:not(.section-dark).parallax-section > .parallax-overlay {
+  background: rgba(248, 246, 241, 0.93) !important;
+}
+
+/* section-light — light blue-grey bg */
+.section.section-light.parallax-section > .parallax-overlay {
+  background: rgba(238, 242, 248, 0.94) !important;
+}
+
+/* section-cream — warm cream bg */
+.section.section-cream.parallax-section > .parallax-overlay {
+  background: rgba(240, 236, 227, 0.94) !important;
+}
+
+/* Reduce image intensity under light overlays (subtle texture only) */
+.section:not(.section-dark).parallax-section > .parallax-bg {
+  opacity: 0.55;
 }
 
 /* ══════════════════════════════════════════
@@ -2842,6 +2868,8 @@ setTimeout(initReveal, 120);
 
 </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script id="parallax-engine">
 (function() {
   'use strict';
@@ -3094,22 +3122,12 @@ setTimeout(initReveal, 120);
     );
   });
 
-  /* ── 8. HERO H1 WORD SPLIT ANIMATION ── */
+  /* ── 8. HERO H1 ENTRANCE ANIMATION ── */
   var heroH1 = document.querySelector('.hero h1');
   if (heroH1 && !reducedMotion) {
-    var words = heroH1.innerHTML.split(' ');
-    heroH1.innerHTML = words.map(function(w) {
-      return '<span style="display:inline-block;overflow:hidden"><span class="word-inner" style="display:inline-block">' + w + '</span></span>';
-    }).join(' ');
-    gsap.fromTo('.hero .word-inner',
-      { y: '105%', opacity: 0 },
-      {
-        y: '0%', opacity: 1,
-        duration: 0.9,
-        ease: 'power4.out',
-        stagger: 0.08,
-        delay: 0.3
-      }
+    gsap.fromTo(heroH1,
+      { y: 50, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1.1, ease: 'power4.out', delay: 0.25 }
     );
   }
 
