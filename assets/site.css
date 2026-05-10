@@ -137,16 +137,4 @@
 #mainNav.scrolled{height:56px}
 @media(max-width:768px){#mainNav{height:60px;padding:0 14px}.mobile-nav{top:60px}.nav-brand-sub{display:none}.nav-logo-mark{width:36px!important;height:36px!important}.nav-brand-name{font-size:16px}}
 
-*{margin:0;padding:0;box-sizing:border-box;}body{font-family:sans-serif;background:#060e1a;color:#f8f6f1;padding:36px;min-height:100vh;}
-  h2{font-family:Georgia,serif;font-size:1.8rem;color:#c8a84b;margin-bottom:6px;}
-  .sub{color:rgba(255,255,255,.4);font-size:.85rem;margin-bottom:24px;}
-  .actions{display:flex;gap:12px;margin-bottom:28px;}
-  button{background:#1e4db7;color:#fff;border:none;padding:10px 22px;border-radius:8px;font-size:.9rem;cursor:pointer;}
-  button:hover{background:#4a90d9;}.danger{background:#c0392b !important;}
-  table{width:100%;border-collapse:collapse;font-size:.82rem;}
-  th{background:rgba(200,168,75,.15);color:#c8a84b;padding:12px 14px;text-align:left;font-weight:600;border-bottom:1px solid rgba(255,255,255,.08);}
-  td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.7);vertical-align:top;}
-  tr:hover td{background:rgba(255,255,255,.03);}
-  .empty{text-align:center;padding:48px;color:rgba(255,255,255,.3);}
-  .badge{background:rgba(30,77,183,.25);color:#4a90d9;padding:2px 8px;border-radius:4px;font-size:.75rem;}
-  
+
