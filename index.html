@@ -1004,11 +1004,11 @@ ADVANCED SEO META (HVAC DOMINATION)
 #wind-canvas {
   position: fixed;
   inset: 0;
-  z-index: 1;
+  z-index: 100;
   pointer-events: none;
   opacity: 0;
   transition: opacity 1.2s ease;
-  filter: blur(28px);          /* key: turns circles into soft cloud puffs */
+  filter: blur(16px);
   will-change: opacity;
 }
 #wind-canvas.active { opacity: 1; }
@@ -3132,7 +3132,7 @@ setTimeout(initReveal, 120);
         sway: Math.random() * Math.PI * 2,   /* horizontal sway phase */
         swayAmt : 30 + Math.random() * 50,   /* sway amplitude px */
         swaySpd : 0.003 + Math.random() * 0.004,
-        alpha   : 0.055 + Math.random() * 0.065, /* very transparent */
+        alpha   : 0.15 + Math.random() * 0.13,
       };
     }
 
