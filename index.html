@@ -2736,9 +2736,9 @@ function navigate(page, push=true){
   }
 
   if(doExit){
-    prev.style.animation = 'pageExitUp 0.26s ease-in both';
+    prev.style.animation = 'pageExitUp 0.15s ease-in both';
     prev.style.pointerEvents = 'none';
-    setTimeout(doSwitch, 270);
+    setTimeout(doSwitch, 160);
   } else {
     doSwitch();
   }
@@ -3333,78 +3333,107 @@ setTimeout(initReveal, 120);
     });
   }
 
-  /* ── COOL WIND: randomise start phases + scroll-velocity acceleration ── */
+  /* ── COOL WIND: physics-accurate breeze — hot at top, cold at bottom ── */
   if (coolWind && !reducedMotion) {
-    /* Randomise each blob layer so they appear mid-cycle on load (avoids
-       all five starting in lockstep from the right edge) */
+    /* Stagger blob start phases so they appear mid-cycle immediately */
     coolWind.querySelectorAll('.cw-layer').forEach(function(el) {
-      var durText = getComputedStyle(el).animationDuration.split(',')[0];
-      var dur     = parseFloat(durText) || 15;
-      /* Negative delay = playhead starts this many seconds into the cycle */
+      var dur = parseFloat(getComputedStyle(el).animationDuration) || 15;
       el.style.animationDelay = '-' + (Math.random() * dur).toFixed(2) + 's';
     });
 
-    /* Scroll-velocity acceleration via Web Animations API playbackRate.
-       Cached after a short settle period so CSS animations are running. */
-    var cwAnims      = [];
-    var cwRate       = 1;
-    var cwDecayRaf   = null;
-    var cwLastY      = window.scrollY;
+    /* Physics constants */
+    var CW_FRICTION  = 0.88;   /* velocity multiplied each frame — exponential decay */
+    var CW_MIN_RATE  = 0.6;    /* minimum playback rate (wind never fully stops) */
+    var CW_MAX_RATE  = 6.0;    /* maximum burst rate */
 
+    var cwAnims    = [];
+    var cwVelocity = 0;        /* current physics velocity */
+    var cwRaf      = null;
+    var cwLastY    = window.scrollY;
+    var cwLeanX    = 0;        /* current lean angle */
+    var cwTargetLeanX = 0;
+
+    /* Collect Web Animations API handles */
     setTimeout(function() {
       coolWind.querySelectorAll('.cw-layer, .cw-streaks, .cw-mist').forEach(function(el) {
         el.getAnimations().forEach(function(a) { cwAnims.push(a); });
       });
-    }, 80);
+    }, 60);
 
-    function cwSetRate(r) {
-      cwRate = r;
+    function cwApplyRate(r) {
+      var clamped = Math.max(CW_MIN_RATE, Math.min(CW_MAX_RATE, r));
       for (var i = 0; i < cwAnims.length; i++) {
-        try { cwAnims[i].playbackRate = r; } catch(e) {}
+        try { cwAnims[i].playbackRate = clamped; } catch(e) {}
       }
     }
 
-    function cwDecay() {
-      cwRate += (1 - cwRate) * 0.07;
-      cwSetRate(cwRate);
-      if (Math.abs(cwRate - 1) > 0.015) {
-        cwDecayRaf = requestAnimationFrame(cwDecay);
+    function cwPhysicsLoop() {
+      /* Exponential decay — like real air resistance: F = -kv */
+      cwVelocity *= CW_FRICTION;
+      /* Wind base rate is 1; velocity adds on top */
+      cwApplyRate(1 + cwVelocity);
+      /* Smooth lean toward target */
+      cwLeanX += (cwTargetLeanX - cwLeanX) * 0.1;
+      coolWind.style.transform = 'skewX(' + cwLeanX.toFixed(2) + 'deg)';
+      if (Math.abs(cwVelocity) > 0.01 || Math.abs(cwLeanX - cwTargetLeanX) > 0.05) {
+        cwRaf = requestAnimationFrame(cwPhysicsLoop);
       } else {
-        cwSetRate(1);
+        cwVelocity = 0;
+        cwApplyRate(1);
       }
     }
 
+    function cwImpulse(v) {
+      cwVelocity = Math.min(CW_MAX_RATE - 1, cwVelocity + v);
+      if (cwRaf) cancelAnimationFrame(cwRaf);
+      cwRaf = requestAnimationFrame(cwPhysicsLoop);
+    }
+
+    /* SCROLL: impulse proportional to scroll speed */
     window.addEventListener('scroll', function() {
-      var delta = Math.abs(window.scrollY - cwLastY);
+      var delta = window.scrollY - cwLastY;
       cwLastY   = window.scrollY;
-      /* delta px/frame → speed multiplier capped at 5× */
-      var speed = 1 + Math.min(delta * 0.10, 4);
-      if (cwDecayRaf) cancelAnimationFrame(cwDecayRaf);
-      cwSetRate(speed);
-      cwDecayRaf = requestAnimationFrame(cwDecay);
+      /* Scroll impulse: larger scrolls give bigger burst */
+      cwImpulse(Math.min(Math.abs(delta) * 0.18, 4.5));
     }, { passive: true });
 
-    /* ── POINTER / TOUCH PHYSICS: fast movement accelerates wind ── */
-    var cwPtrLastX = 0, cwPtrLastY = 0;
+    /* POINTER / TOUCH: directional physics */
+    var cwPtrVX = 0, cwPtrVY = 0, cwPtrLastX = 0, cwPtrLastY = 0;
+    var cwPtrTs = 0;
+
     window.addEventListener('pointermove', function(e) {
-      var dx = e.clientX - cwPtrLastX;
-      var dy = e.clientY - cwPtrLastY;
+      var now = performance.now();
+      var dt  = Math.max(1, now - cwPtrTs);
+      cwPtrTs = now;
+      var dx  = e.clientX - cwPtrLastX;
+      var dy  = e.clientY - cwPtrLastY;
       cwPtrLastX = e.clientX;
       cwPtrLastY = e.clientY;
+      /* Instantaneous velocity in px/ms */
+      cwPtrVX = dx / dt;
+      cwPtrVY = dy / dt;
       var speed = Math.sqrt(dx * dx + dy * dy);
-      if (speed > 1.5) {
-        var rate = 1 + Math.min(speed * 0.072, 3.4);
-        if (cwDecayRaf) cancelAnimationFrame(cwDecayRaf);
-        cwSetRate(rate);
-        cwDecayRaf = requestAnimationFrame(cwDecay);
+      if (speed > 1.2) {
+        cwImpulse(Math.min(speed * 0.10, 3.5));
       }
-      /* Subtle directional lean: pointer position subtly angles the wind */
+      /* Lean: pointer X position determines wind angle (-3° to +3°) */
       var nx = (e.clientX / window.innerWidth - 0.5) * 2; /* -1..1 */
-      coolWind.style.transform = 'skewX(' + (nx * -2.2).toFixed(1) + 'deg)';
+      cwTargetLeanX = nx * -3.0;
+      if (!cwRaf) cwRaf = requestAnimationFrame(cwPhysicsLoop);
+    }, { passive: true });
+
+    /* TOUCH END: release with momentum */
+    window.addEventListener('pointerup', function() {
+      /* Carry velocity from last pointer move as wind impulse */
+      var speed = Math.sqrt(cwPtrVX * cwPtrVX + cwPtrVY * cwPtrVY) * 16; /* scale to px/frame */
+      if (speed > 0.5) cwImpulse(Math.min(speed * 0.08, 3.0));
+      cwTargetLeanX = 0;
+      if (!cwRaf) cwRaf = requestAnimationFrame(cwPhysicsLoop);
     }, { passive: true });
 
     document.addEventListener('pointerleave', function() {
-      coolWind.style.transform = '';
+      cwTargetLeanX = 0;
+      cwPtrVX = 0; cwPtrVY = 0;
     }, { passive: true });
   }
 
@@ -3628,9 +3657,9 @@ setTimeout(initReveal, 120);
       { opacity: 0, x: -36 },
       {
         opacity: 1, x: 0,
-        duration: 0.85,
-        ease: 'power3.out',
-        stagger: 0.16,
+        duration: 0.2,
+        ease: 'power2.out',
+        stagger: 0.05,
         scrollTrigger: {
           trigger: timelineItems[0].parentElement,
           start: 'top 78%',
@@ -3646,8 +3675,8 @@ setTimeout(initReveal, 120);
       { scaleX: 0, opacity: 0 },
       {
         scaleX: 1, opacity: 0.7,
-        duration: 1,
-        ease: 'power3.inOut',
+        duration: 0.2,
+        ease: 'power2.inOut',
         scrollTrigger: {
           trigger: line,
           start: 'top 88%',
@@ -3695,7 +3724,7 @@ setTimeout(initReveal, 120);
   /* ── 10. REVIEW CARDS HOVER LIFT ── */
   var reviewCards = document.querySelectorAll('.rev-card');
   reviewCards.forEach(function(card) {
-    card.style.transition = 'transform 0.4s ease, box-shadow 0.4s ease';
+    card.style.transition = 'transform 0.12s ease, box-shadow 0.12s ease';
     card.addEventListener('mouseenter', function() {
       card.style.transform = 'translateY(-6px)';
       card.style.boxShadow = '0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(201,168,76,0.08)';
