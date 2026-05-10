@@ -3209,7 +3209,8 @@ setTimeout(initReveal, 120);
   /* ── Shared state ── */
   var reducedMotion   = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var isMobile        = window.innerWidth <= 768;
-  var gaugeShownOnce  = false; /* hoisted here so MutationObserver can read it */
+  var gaugeShownOnce   = false;  /* hoisted so MutationObserver can read it */
+  var gaugeScrollTimer = null;   /* hoisted so MutationObserver can cancel it */
 
   /* ── 1. SCROLL PROGRESS BAR + COOL WIND ACTIVATION ── */
   var progressBar = document.getElementById('scroll-progress');
@@ -3284,30 +3285,23 @@ setTimeout(initReveal, 120);
   var gaugeRead  = document.getElementById('temp-gauge-reading');
   var gaugeSnow  = document.getElementById('temp-gauge-bottom-icon');
   if (gauge && gaugeFill) {
-    /* On first scroll: reveal gauge, auto-expand 2.2s to announce it, then retract */
-    var gaugeIntroTimer = null;
-    window.addEventListener('scroll', function initGaugeOnce() {
+    /* Scroll-driven: slides in when scrolling, clears when stopped */
+    function hideGaugeAfterScroll() {
+      gauge.classList.remove('expanded');
+      /* Wait for the slide-back transition to finish, then fade out */
+      setTimeout(function() {
+        if (!gauge.classList.contains('expanded')) {
+          gauge.classList.remove('visible');
+        }
+      }, 560);
+    }
+
+    window.addEventListener('scroll', function() {
       if (typeof activePage !== 'undefined' && activePage !== 'home') return;
-      if (gauge.classList.contains('visible')) return;
-      gauge.classList.add('visible');
       gaugeShownOnce = true;
-      gauge.classList.add('expanded');
-      gaugeIntroTimer = setTimeout(function() {
-        gauge.classList.remove('expanded');
-        gaugeIntroTimer = null;
-      }, 2200);
-    }, { passive: true });
-
-    /* Tap/click: toggle peek ↔ expand */
-    gauge.addEventListener('click', function(e) {
-      e.stopPropagation();
-      if (gaugeIntroTimer) { clearTimeout(gaugeIntroTimer); gaugeIntroTimer = null; }
-      gauge.classList.toggle('expanded');
-    });
-
-    /* Collapse when touching/clicking anywhere outside the gauge */
-    document.addEventListener('pointerdown', function(e) {
-      if (!gauge.contains(e.target)) gauge.classList.remove('expanded');
+      gauge.classList.add('visible', 'expanded');
+      clearTimeout(gaugeScrollTimer);
+      gaugeScrollTimer = setTimeout(hideGaugeAfterScroll, 850);
     }, { passive: true });
 
     /* Delhi summer peak = 47°C, Air Control delivered = 20°C */
@@ -3540,11 +3534,13 @@ setTimeout(initReveal, 120);
         var el = m.target;
         if (el.classList.contains('page') && el.classList.contains('active')) {
           setTimeout(function() { ScrollTrigger.refresh(); }, 120);
-          /* Gauge: only visible on home page; always retract to peek on navigate */
+          /* Gauge: only on home page; immediately clear on navigate away */
           if (gauge) {
             var isHome = el.id === 'page-home';
-            gauge.classList.toggle('visible', isHome && gaugeShownOnce);
-            if (!isHome) gauge.classList.remove('expanded');
+            if (!isHome) {
+              clearTimeout(gaugeScrollTimer);
+              gauge.classList.remove('visible', 'expanded');
+            }
           }
         }
       }
