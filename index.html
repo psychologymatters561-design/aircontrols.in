@@ -1007,46 +1007,47 @@ ADVANCED SEO META (HVAC DOMINATION)
 #cool-wind-overlay {
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: 2;              /* above page content, below nav (z:9000) */
   pointer-events: none;
   opacity: 1;
   overflow: hidden;
-  /* hue-rotate driven by --cw-hue: -155deg=hot-orange at top, 0deg=cool-blue at bottom */
-  filter: hue-rotate(var(--cw-hue, -155deg)) saturate(var(--cw-sat, 1.5));
-  transition: filter 0.15s ease;
-  will-change: filter;
+  mix-blend-mode: screen;  /* glows on dark navy, subtle on cream — ideal */
+  will-change: transform;
 }
 #cool-wind-overlay.active { opacity: 1; }
-/* Heat shimmer at top of page — fades as you scroll into cool zone */
+
+/* Hot at top: warm orange shimmer — driven by --cw-heat (1=hot, 0=cold) */
 #cool-wind-overlay::after {
   content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(255,95,20,0.13)  0%,
-    rgba(255,155,40,0.06) 30%,
-    transparent           60%
+    rgba(255,120,30,0.55)  0%,
+    rgba(255,180,60,0.28)  25%,
+    rgba(255,210,80,0.10)  50%,
+    transparent            70%
   );
   opacity: var(--cw-heat, 1);
   pointer-events: none;
-  transition: opacity 0.15s ease;
+  transition: opacity 0.2s ease;
+  mix-blend-mode: screen;
 }
 
-/* Multi-angle frost vignette — cold-room atmosphere */
+/* Multi-angle frost vignette edges */
 #cool-wind-overlay::before {
   content: '';
   position: absolute;
   inset: 0;
   background:
     radial-gradient(ellipse 70% 55% at 108% 50%,
-      rgba(74,173,219,0.08) 0%, transparent 65%),
+      rgba(74,173,219,0.35) 0%, transparent 65%),
     radial-gradient(ellipse 55% 65% at 50% -8%,
-      rgba(100,210,245,0.05) 0%, transparent 60%),
+      rgba(100,210,245,0.20) 0%, transparent 60%),
     radial-gradient(ellipse 45% 55% at -8% 108%,
-      rgba(60,155,210,0.04) 0%, transparent 55%),
+      rgba(60,155,210,0.18) 0%, transparent 55%),
     radial-gradient(ellipse 32% 42% at 108% 4%,
-      rgba(150,225,255,0.06) 0%, transparent 50%);
+      rgba(150,225,255,0.25) 0%, transparent 50%);
   pointer-events: none;
 }
 
@@ -1060,55 +1061,55 @@ ADVANCED SEO META (HVAC DOMINATION)
 
 /* Layer 1 — large, leisurely, upper zone */
 .cw-l1 {
-  width: 72%; height: 48%;
+  width: 72%; height: 52%;
   top: -2%; right: -50%;
   background: radial-gradient(ellipse 65% 55% at 58% 44%,
-    rgba(74,178,224,0.13) 0%,
-    rgba(40,132,195,0.06) 42%,
+    rgba(74,178,224,0.48) 0%,
+    rgba(40,132,195,0.22) 42%,
     transparent 100%);
   animation: cwWave1 14s cubic-bezier(0.25,0.46,0.45,0.94) infinite;
 }
 
 /* Layer 2 — medium, mid zone */
 .cw-l2 {
-  width: 56%; height: 36%;
+  width: 58%; height: 40%;
   top: 28%; right: -38%;
   background: radial-gradient(ellipse 60% 54% at 56% 48%,
-    rgba(110,215,245,0.12) 0%,
-    rgba(70,170,218,0.05) 48%,
+    rgba(110,215,245,0.44) 0%,
+    rgba(70,170,218,0.20) 48%,
     transparent 100%);
   animation: cwWave2 19s cubic-bezier(0.25,0.46,0.45,0.94) infinite 3s;
 }
 
 /* Layer 3 — agile, lower-mid zone */
 .cw-l3 {
-  width: 45%; height: 29%;
+  width: 48%; height: 32%;
   top: 52%; right: -30%;
   background: radial-gradient(ellipse 54% 52% at 50% 48%,
-    rgba(140,222,250,0.11) 0%,
-    rgba(90,184,232,0.04) 52%,
+    rgba(140,222,250,0.40) 0%,
+    rgba(90,184,232,0.18) 52%,
     transparent 100%);
   animation: cwWave3 11s cubic-bezier(0.25,0.46,0.45,0.94) infinite 6s;
 }
 
 /* Layer 4 — thin wide ribbon, upper sweep */
 .cw-l4 {
-  width: 80%; height: 22%;
+  width: 82%; height: 26%;
   top: 14%; right: -52%;
   background: radial-gradient(ellipse 66% 56% at 58% 52%,
-    rgba(82,198,240,0.09) 0%,
-    rgba(52,150,205,0.03) 58%,
+    rgba(82,198,240,0.36) 0%,
+    rgba(52,150,205,0.15) 58%,
     transparent 100%);
   animation: cwWave2 24s cubic-bezier(0.25,0.46,0.45,0.94) infinite 9s;
 }
 
 /* Layer 5 — deep bottom sweep */
 .cw-l5 {
-  width: 62%; height: 33%;
+  width: 64%; height: 36%;
   top: 68%; right: -38%;
   background: radial-gradient(ellipse 62% 54% at 56% 50%,
-    rgba(102,208,245,0.10) 0%,
-    rgba(62,164,215,0.04) 55%,
+    rgba(102,208,245,0.42) 0%,
+    rgba(62,164,215,0.18) 55%,
     transparent 100%);
   animation: cwWave1 18s cubic-bezier(0.25,0.46,0.45,0.94) infinite 12s;
 }
@@ -1156,16 +1157,16 @@ ADVANCED SEO META (HVAC DOMINATION)
     172deg,
     transparent              0px,
     transparent              26px,
-    rgba(74,178,224,0.062)   26px,
-    rgba(74,178,224,0.062)   27px,
+    rgba(74,178,224,0.28)    26px,
+    rgba(74,178,224,0.28)    27px,
     transparent              27px,
     transparent              52px,
-    rgba(100,208,240,0.042)  52px,
-    rgba(100,208,240,0.042)  53px,
+    rgba(100,208,240,0.18)   52px,
+    rgba(100,208,240,0.18)   53px,
     transparent              53px,
     transparent              80px,
-    rgba(130,222,250,0.028)  80px,
-    rgba(130,222,250,0.028)  81px,
+    rgba(130,222,250,0.12)   80px,
+    rgba(130,222,250,0.12)   81px,
     transparent              81px,
     transparent              108px
   );
@@ -1180,13 +1181,13 @@ ADVANCED SEO META (HVAC DOMINATION)
     174deg,
     transparent              0px,
     transparent              10px,
-    rgba(74,178,224,0.022)   10px,
-    rgba(74,178,224,0.022)   11px,
+    rgba(74,178,224,0.12)    10px,
+    rgba(74,178,224,0.12)    11px,
     transparent              11px,
     transparent              28px
   );
   animation: cwStreakDrift 9s linear infinite reverse;
-  opacity: 0.6;
+  opacity: 1;
 }
 
 @keyframes cwStreakDrift {
@@ -1197,11 +1198,11 @@ ADVANCED SEO META (HVAC DOMINATION)
 /* Frost sparkle particles — glide with the breeze */
 .cw-sparkle {
   position: absolute;
-  width: 3px;
-  height: 3px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  background: rgba(210,248,255,0.92);
-  box-shadow: 0 0 5px rgba(130,215,252,0.75), 0 0 14px rgba(100,195,245,0.38);
+  background: rgba(210,248,255,1);
+  box-shadow: 0 0 8px 2px rgba(130,215,252,1), 0 0 22px 4px rgba(100,195,245,0.65);
   animation:
     cwSparkleGlide var(--sp-dur, 14s) linear infinite var(--sp-delay, 0s),
     cwSparkleFade  var(--sp-fade,4s)  ease-in-out infinite var(--sp-delay, 0s);
@@ -1254,7 +1255,7 @@ ADVANCED SEO META (HVAC DOMINATION)
 @media (max-width: 768px) {
   .cw-l3, .cw-l4, .cw-l5 { display: none; }
   .cw-mist { display: none; }
-  .cw-streaks { opacity: 0.38; }
+  .cw-streaks { opacity: 0.9; }
   .cw-s3, .cw-s4, .cw-s7, .cw-s8 { display: none; }
 }
 
@@ -3320,15 +3321,9 @@ setTimeout(initReveal, 120);
       onUpdate: function(self) {
         progressBar.style.width = (self.progress * 100) + '%';
         if (!coolWind) return;
-        /* Hot at top (-155deg → orange), cold at bottom (0deg → blue) */
-        var hue  = (-155 * (1 - self.progress)).toFixed(1);
-        /* Heat shimmer fully visible at top, gone by 50% scroll */
+        /* Heat shimmer: fully visible at top, gone by 50% scroll */
         var heat = Math.max(0, 1 - self.progress * 2).toFixed(2);
-        coolWind.style.setProperty('--cw-hue',  hue  + 'deg');
         coolWind.style.setProperty('--cw-heat', heat);
-        /* Intensity: slightly stronger at top (full heat) and bottom (full cold) */
-        var sat = (1.3 + Math.abs(self.progress - 0.5) * 0.4).toFixed(2);
-        coolWind.style.setProperty('--cw-sat', sat);
       }
     });
   }
