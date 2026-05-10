@@ -244,7 +244,7 @@ footer .container{position:relative;z-index:1}
 #parallax-scene{position:sticky;top:0;width:100%;height:100vh;overflow:hidden;z-index:0}
 #parallax-scene>*{position:absolute;width:100%;height:100%;top:0;left:0}
 #pl-sky{width:100%;height:100%;background:linear-gradient(180deg,#8B1A00 0%,#FF6B35 35%,#FF8C42 65%,#FFB347 100%)}
-#parallax-overlay{position:sticky;top:0;height:100vh;z-index:10;background:linear-gradient(to right,rgba(6,14,26,0.88) 0%,rgba(6,14,26,0.75) 45%,rgba(6,14,26,0.15) 100%);display:flex;align-items:center}
+#parallax-overlay{position:sticky;top:0;height:100vh;z-index:10;background:linear-gradient(to right,rgba(6,14,26,0.72) 0%,rgba(6,14,26,0.55) 42%,rgba(6,14,26,0.08) 100%);display:flex;align-items:center}
 #parallax-overlay .hero,#parallax-overlay [class*="hero"]{background:transparent!important;min-height:100vh;width:100%}
 #pl-city-back,#pl-city-front,#pl-trees{will-change:transform}
 #pl-particles{will-change:opacity}
@@ -255,12 +255,32 @@ footer .container{position:relative;z-index:1}
 .pl-star:nth-child(3n+2){animation:twinkle 3.4s ease-in-out 0.6s infinite}
 .pl-star:nth-child(3n){animation:twinkle 2.8s ease-in-out 1.2s infinite}
 
-/* Mobile: collapse parallax, static sky */
+/* Suppress ALL canvas/mesh/grid decorations inside the parallax overlay —
+   the parallax scene is the sole animated background for the hero */
+#parallax-overlay #heroCanvas,
+#parallax-overlay .hero-bg-mesh,
+#parallax-overlay .hero-grid-lines,
+#parallax-overlay .hero-ac-bg { display:none !important; }
+
+/* Hero inside overlay: fully transparent so parallax scene shows through */
+#parallax-overlay .hero {
+  background:transparent !important;
+  overflow:visible;
+}
+
+/* Ensure hero content sits above the overlay gradient */
+#parallax-overlay .hero-content-wrap { position:relative; z-index:2; }
+
+/* Mobile: collapse parallax, restore hero background */
 @media(max-width:768px){
   #parallax-hero-wrapper{height:auto}
   #parallax-scene{display:none}
-  #parallax-overlay{position:relative;height:auto;background:linear-gradient(160deg,#060e1a 0%,#0a1628 50%,#1a2a4a 100%)}
+  #parallax-overlay{position:relative;height:auto;background:transparent}
   #parallax-overlay .hero{background:radial-gradient(ellipse 80% 70% at 50% 30%,rgba(20,60,140,.25) 0%,rgba(10,22,40,1) 70%)!important}
+  #parallax-overlay #heroCanvas{display:block !important}
+  #parallax-overlay .hero-bg-mesh,
+  #parallax-overlay .hero-grid-lines,
+  #parallax-overlay .hero-ac-bg{display:block !important}
 }
 </style>
 <!-- =========================================================
