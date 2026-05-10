@@ -1007,11 +1007,11 @@ ADVANCED SEO META (HVAC DOMINATION)
   z-index: 100;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 1.2s ease;
-  filter: blur(16px);
+  transition: opacity 1.4s ease;
+  filter: blur(12px);
   will-change: opacity;
 }
-#wind-canvas.active { opacity: 1; }
+#wind-canvas.active { opacity: 0.72; }
 
 @media (prefers-reduced-motion: reduce) {
   #wind-canvas { display: none; }
@@ -3086,13 +3086,16 @@ setTimeout(initReveal, 120);
     });
   }
 
-  /* ── WIND CANVAS — soft cloud puffs, top→bottom, physics-reactive ── */
+  /* ── WIND CANVAS — scroll-temperature puffs, per-puff physics ── */
   var windCanvas = document.getElementById('wind-canvas');
   if (windCanvas && !reducedMotion) {
     var wctx  = windCanvas.getContext('2d');
     var windW = 0, windH = 0;
-    var windSpd = 1.0;   /* physics speed multiplier — decays toward 1 */
     var puffs = [];
+    /* 0 = top of page (hot amber), 1 = bottom of page (ice blue) */
+    var windScrollFrac = 0;
+    /* signed scroll velocity — positive = scrolling down, negative = up */
+    var windScrollVel  = 0;
 
     function windResize() {
       windW = windCanvas.width  = window.innerWidth;
@@ -3100,75 +3103,78 @@ setTimeout(initReveal, 120);
       spawnAll();
     }
 
-    /* Color: warm amber at top → icy blue-white at bottom */
-    function puffColor(y) {
-      var t = Math.max(0, Math.min(1, y / windH));
+    /*
+     * Temperature driven by scroll position, not viewport Y.
+     * canvasY adds a subtle ±15% gradient within the viewport.
+     * Colors are richly saturated so they're visible on cream backgrounds.
+     */
+    function puffColor(canvasY) {
+      var yMod = (canvasY / Math.max(1, windH)) * 0.15;
+      var t = Math.min(1, Math.max(0, windScrollFrac + yMod));
       var r, g, b;
-      if (t < 0.35) {
-        /* Hot zone: amber-orange */
-        r = 255; g = Math.round(190 - t * 80); b = Math.round(140 - t * 200);
-      } else if (t < 0.6) {
-        /* Transition: warm white → cool white */
-        var u = (t - 0.35) / 0.25;
-        r = Math.round(255 - u * 55); g = Math.round(180 + u * 50); b = Math.round(140 + u * 100);
+      if (t < 0.4) {
+        var u = t / 0.4;
+        r = 255; g = Math.round(115 + u * 65); b = Math.round(30 + u * 70);
+      } else if (t < 0.65) {
+        var u = (t - 0.4) / 0.25;
+        r = Math.round(255 - u * 50); g = Math.round(180 + u * 45); b = Math.round(100 + u * 130);
       } else {
-        /* Cold zone: ice blue */
-        var u = (t - 0.6) / 0.4;
-        r = Math.round(200 - u * 60); g = Math.round(230 - u * 30); b = 255;
+        var u = (t - 0.65) / 0.35;
+        r = Math.round(205 - u * 105); g = Math.round(225 - u * 55); b = 255;
       }
       return [r, g, b];
     }
 
     function makePuff(startY) {
-      var rx = 80  + Math.random() * 160;   /* ellipse x-radius */
-      var ry = 50  + Math.random() * 100;   /* ellipse y-radius (shorter = cloud shape) */
-      var y  = startY !== undefined ? startY : -ry - Math.random() * windH;
+      var rx     = 90  + Math.random() * 150;
+      var ry     = 55  + Math.random() * 90;
+      var baseVy = 0.3 + Math.random() * 0.5;
+      var y      = startY !== undefined ? startY : -ry - Math.random() * windH;
       return {
-        x   : Math.random() * windW,
-        y   : y,
-        rx  : rx,
-        ry  : ry,
-        vy  : 0.25 + Math.random() * 0.55,  /* downward drift speed */
-        sway: Math.random() * Math.PI * 2,   /* horizontal sway phase */
-        swayAmt : 30 + Math.random() * 50,   /* sway amplitude px */
-        swaySpd : 0.003 + Math.random() * 0.004,
-        alpha   : 0.15 + Math.random() * 0.13,
+        x      : Math.random() * windW,
+        y      : y,
+        rx     : rx,
+        ry     : ry,
+        baseVy : baseVy,
+        vy     : baseVy,
+        vx     : (Math.random() - 0.5) * 0.25,
+        sway   : Math.random() * Math.PI * 2,
+        swayAmt: 25 + Math.random() * 45,
+        swaySpd: 0.003 + Math.random() * 0.004,
+        alpha  : 0.22 + Math.random() * 0.18,
       };
     }
 
     function spawnAll() {
       puffs = [];
-      var N = isMobile ? 14 : 22;
+      var N = isMobile ? 12 : 20;
       for (var i = 0; i < N; i++) {
-        /* Distribute evenly through viewport on init so screen isn't empty */
         puffs.push(makePuff(Math.random() * (windH + 200) - 100));
       }
     }
 
     windResize();
     window.addEventListener('resize', windResize, { passive: true });
-    setTimeout(function() { windCanvas.classList.add('active'); }, 200);
+    setTimeout(function() { windCanvas.classList.add('active'); }, 300);
 
     function drawPuff(p) {
-      var col  = puffColor(p.y);
-      var cx   = p.x + Math.sin(p.sway) * p.swayAmt;
+      var col = puffColor(p.y);
+      var cx  = p.x + Math.sin(p.sway) * p.swayAmt;
 
-      /* Fade near top and bottom edges for seamless loop */
       var edgeFade = 1;
-      if (p.y < 80)           edgeFade = Math.max(0, p.y / 80);
-      if (p.y > windH - 100)  edgeFade = Math.max(0, (windH - p.y) / 100);
+      if (p.y < 100)          edgeFade = Math.max(0, p.y / 100);
+      if (p.y > windH - 120)  edgeFade = Math.max(0, (windH - p.y) / 120);
       var a = p.alpha * edgeFade;
-      if (a < 0.004) return;
+      if (a < 0.006) return;
 
-      /* Soft radial gradient — center opaque, edge transparent */
       var grd = wctx.createRadialGradient(cx, p.y, 0, cx, p.y, Math.max(p.rx, p.ry));
-      grd.addColorStop(0,   'rgba('+col[0]+','+col[1]+','+col[2]+','+(a)     +')');
-      grd.addColorStop(0.45,'rgba('+col[0]+','+col[1]+','+col[2]+','+(a*0.7) +')');
+      grd.addColorStop(0,   'rgba('+col[0]+','+col[1]+','+col[2]+','+a+')');
+      grd.addColorStop(0.5, 'rgba('+col[0]+','+col[1]+','+col[2]+','+(a*0.45)+')');
       grd.addColorStop(1,   'rgba('+col[0]+','+col[1]+','+col[2]+',0)');
 
       wctx.save();
       wctx.translate(cx, p.y);
-      wctx.scale(1, p.ry / p.rx);  /* squash circle into ellipse */
+      wctx.scale(1, p.ry / p.rx);
       wctx.beginPath();
       wctx.arc(0, 0, p.rx, 0, Math.PI * 2);
       wctx.fillStyle = grd;
@@ -3179,37 +3185,59 @@ setTimeout(initReveal, 120);
     function frame() {
       wctx.clearRect(0, 0, windW, windH);
 
-      puffs.forEach(function(p) {
-        /* Update position */
-        p.y    += p.vy * windSpd;
-        p.sway += p.swaySpd;   /* gentle side-to-side drift */
+      /* Scroll velocity decays toward zero each frame */
+      windScrollVel *= 0.91;
 
-        /* Respawn at top when exits bottom */
+      puffs.forEach(function(p) {
+        /* Scroll impulse adds to vy; vy decays back toward baseVy */
+        p.vy += windScrollVel * 0.12;
+        p.vy += (p.baseVy - p.vy) * 0.045;
+        /* Horizontal push decays to natural drift */
+        p.vx *= 0.965;
+
+        p.x    += p.vx;
+        p.y    += p.vy;
+        p.sway += p.swaySpd;
+
+        /* Soft horizontal wrap */
+        if (p.x < -p.rx * 2)       p.x = windW + p.rx;
+        if (p.x > windW + p.rx * 2) p.x = -p.rx;
+
         if (p.y - p.ry > windH + 40) {
-          var fresh = makePuff(-p.ry - Math.random() * 60);
-          p.x = fresh.x; p.y = fresh.y; p.rx = fresh.rx; p.ry = fresh.ry;
-          p.vy = fresh.vy; p.sway = fresh.sway; p.swayAmt = fresh.swayAmt;
-          p.swaySpd = fresh.swaySpd; p.alpha = fresh.alpha;
+          var f = makePuff(-p.ry - Math.random() * 60);
+          p.x = f.x; p.y = f.y; p.rx = f.rx; p.ry = f.ry;
+          p.baseVy = f.baseVy; p.vy = f.vy; p.vx = f.vx;
+          p.sway = f.sway; p.swayAmt = f.swayAmt;
+          p.swaySpd = f.swaySpd; p.alpha = f.alpha;
         }
 
         drawPuff(p);
       });
 
-      /* Physics decay back toward base speed */
-      windSpd += (1 - windSpd) * 0.032;
       requestAnimationFrame(frame);
     }
     frame();
 
-    /* ── SCROLL: faster puffs on scroll ── */
-    var windLastY = window.scrollY;
+    /* ── SCROLL: temperature + physics impulse ── */
+    var windLastScrollY = window.scrollY;
+    var windLastScrollT = performance.now();
     window.addEventListener('scroll', function() {
-      var delta = Math.abs(window.scrollY - windLastY);
-      windLastY = window.scrollY;
-      windSpd = Math.min(5, windSpd + delta * 0.10);
+      var now   = performance.now();
+      var dt    = Math.max(8, now - windLastScrollT);
+      var delta = window.scrollY - windLastScrollY;
+      windLastScrollY = window.scrollY;
+      windLastScrollT = now;
+
+      /* Temperature: how far down the full page are we? */
+      var maxScroll = Math.max(1, document.body.scrollHeight - window.innerHeight);
+      windScrollFrac = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+
+      /* Signed velocity — scrolling down pushes puffs faster, up slows them */
+      var vel = (delta / dt) * 16;
+      windScrollVel = Math.max(-2.5, Math.min(6, windScrollVel + vel * 0.6));
     }, { passive: true });
 
-    /* ── POINTER/TOUCH: finger-drag pushes puffs downward ── */
+    /* ── POINTER/TOUCH: push puffs in actual movement direction ── */
     var wPtrVX = 0, wPtrVY = 0, wPtrLX = 0, wPtrLY = 0, wPtrTs = 0;
     window.addEventListener('pointermove', function(e) {
       var now = performance.now();
@@ -3217,27 +3245,31 @@ setTimeout(initReveal, 120);
       wPtrVX  = (e.clientX - wPtrLX) / dt;
       wPtrVY  = (e.clientY - wPtrLY) / dt;
       wPtrLX  = e.clientX; wPtrLY = e.clientY;
-      var spd = Math.sqrt(wPtrVX*wPtrVX + wPtrVY*wPtrVY);
-      if (spd > 0.4) windSpd = Math.min(4.5, windSpd + spd * 0.9);
-      /* Puffs near pointer get a downward nudge */
-      puffs.forEach(function(p) {
-        var dx = p.x - e.clientX, dy = p.y - e.clientY;
-        if (Math.sqrt(dx*dx+dy*dy) < 180) p.vy += 0.08;
-      });
+
+      var spd = Math.sqrt(wPtrVX * wPtrVX + wPtrVY * wPtrVY);
+      if (spd > 0.2) {
+        puffs.forEach(function(p) {
+          var dx   = p.x - e.clientX;
+          var dy   = p.y - e.clientY;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 220) {
+            var str = (1 - dist / 220) * spd * 0.7;
+            p.vx += wPtrVX * str;
+            p.vy += wPtrVY * str;
+          }
+        });
+      }
     }, { passive: true });
 
     window.addEventListener('pointerup', function() {
-      var spd = Math.sqrt(wPtrVX*wPtrVX + wPtrVY*wPtrVY) * 12;
-      if (spd > 0.3) windSpd = Math.min(4, windSpd + spd * 0.5);
+      var spd = Math.sqrt(wPtrVX * wPtrVX + wPtrVY * wPtrVY);
+      if (spd > 0.3) {
+        puffs.forEach(function(p) {
+          p.vx += wPtrVX * spd * 0.35;
+          p.vy += wPtrVY * spd * 0.35;
+        });
+      }
     }, { passive: true });
-
-    /* Decay individual puff velocities back to base */
-    setInterval(function() {
-      puffs.forEach(function(p) {
-        var base = 0.25 + Math.random() * 0.3;
-        p.vy += (base - p.vy) * 0.04;
-      });
-    }, 40);
   }
 
   /* ── 2. TEMPERATURE GAUGE ── */
