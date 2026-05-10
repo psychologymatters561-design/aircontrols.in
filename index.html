@@ -12,7 +12,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.web3forms.com https://www.google-analytics.com; frame-ancestors 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.web3forms.com https://www.google-analytics.com; frame-ancestors 'none';">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 <title>AC Repair Delhi NCR | AC Service, AMC & Installation | Air Control Since 1987</title>
@@ -422,8 +422,287 @@ ADVANCED SEO META (HVAC DOMINATION)
   }
 }
 </script>
+<!-- GSAP + ScrollTrigger for parallax system -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<style id="parallax-system">
+
+/* ── PARALLAX BASE ── */
+.parallax-section {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.parallax-bg {
+  position: absolute;
+  inset: -20% 0;
+  width: 100%;
+  height: 140%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  will-change: transform;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Overlay layers — controls mood of each section */
+.parallax-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Ensure all content inside parallax sections sits above bg
+   Excludes known absolutely-positioned decorative elements */
+.parallax-section > *:not(.parallax-bg):not(.parallax-overlay):not(.hero-bg-mesh):not(.hero-grid-lines):not(.page-hero-grid):not(canvas):not(.heat-shimmer) {
+  position: relative;
+  z-index: 2;
+}
+
+/* ── HEAT SHIMMER EFFECT (Hero only) ── */
+@keyframes heatShimmer {
+  0%, 100% { opacity: 0.03; transform: scaleY(1) translateY(0); }
+  50% { opacity: 0.07; transform: scaleY(1.02) translateY(-4px); }
+}
+.heat-shimmer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(201,168,76,0.04) 3px,
+    rgba(201,168,76,0.04) 4px
+  );
+  animation: heatShimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ── FLOATING DUST PARTICLES (Hero) ── */
+.particle-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* ── SECTION-SPECIFIC OVERLAYS ── */
+
+/* Hero: Scorching heat — deep orange-navy gradient */
+.overlay-hero {
+  background: linear-gradient(
+    160deg,
+    rgba(11,25,41,0.72) 0%,
+    rgba(180,80,10,0.28) 50%,
+    rgba(11,25,41,0.85) 100%
+  );
+}
+
+/* Stats/Trust bar: Precision copper — warm dark */
+.overlay-trust {
+  background: linear-gradient(
+    135deg,
+    rgba(11,25,41,0.88) 0%,
+    rgba(11,25,41,0.75) 100%
+  );
+}
+
+/* Three Pillars: Engineering depth — near-black with gold tint */
+.overlay-pillars {
+  background: linear-gradient(
+    180deg,
+    rgba(11,25,41,0.90) 0%,
+    rgba(11,25,41,0.82) 60%,
+    rgba(11,25,41,0.95) 100%
+  );
+}
+
+/* Risk/Comparison: Warning atmosphere — dark with red undertone */
+.overlay-risk {
+  background: linear-gradient(
+    135deg,
+    rgba(11,25,41,0.91) 0%,
+    rgba(120,30,20,0.22) 50%,
+    rgba(11,25,41,0.91) 100%
+  );
+}
+
+/* Services: Clean industrial cool — crisp navy */
+.overlay-services {
+  background: linear-gradient(
+    180deg,
+    rgba(11,25,41,0.94) 0%,
+    rgba(11,25,41,0.85) 100%
+  );
+}
+
+/* Industries: Institutional gravitas — deep navy */
+.overlay-industries {
+  background: linear-gradient(
+    160deg,
+    rgba(11,25,41,0.88) 0%,
+    rgba(11,25,41,0.78) 100%
+  );
+}
+
+/* Reviews: Human warmth — slightly warmer navy */
+.overlay-reviews {
+  background: linear-gradient(
+    180deg,
+    rgba(11,25,41,0.92) 0%,
+    rgba(20,35,55,0.88) 100%
+  );
+}
+
+/* Contact/Footer: Arrival — cool, calm, resolved */
+.overlay-contact {
+  background: linear-gradient(
+    180deg,
+    rgba(8,20,38,0.93) 0%,
+    rgba(11,25,41,0.97) 100%
+  );
+}
+
+/* ── FLOATING ELEMENTS ── */
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  33% { transform: translateY(-8px) translateX(4px); }
+  66% { transform: translateY(5px) translateX(-3px); }
+}
+.float-element {
+  animation: floatSlow 8s ease-in-out infinite;
+}
+
+/* ── GOLD ACCENT LINE (decorative separator) ── */
+.parallax-gold-line {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #C9A84C, transparent);
+  margin: 0 auto 2rem;
+  opacity: 0.7;
+}
+
+/* ── SCROLL PROGRESS INDICATOR ── */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #C9A84C, #e8c96c);
+  z-index: 9999;
+  width: 0%;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 8px rgba(201,168,76,0.6);
+}
+
+/* ── TEMPERATURE GAUGE (decorative, right side) ── */
+#temp-gauge {
+  position: fixed;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+#temp-gauge.visible { opacity: 1; }
+#temp-gauge-track {
+  width: 3px;
+  height: 120px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+#temp-gauge-fill {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(180deg, #4A9EDB 0%, #C9A84C 50%, #E84A2F 100%);
+  transition: height 0.3s ease;
+  border-radius: 2px;
+}
+#temp-gauge-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: rgba(201,168,76,0.7);
+  letter-spacing: 0.1em;
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+}
+
+/* ── MOBILE: reduce parallax intensity ── */
+@media (max-width: 768px) {
+  .parallax-bg {
+    height: 120%;
+    inset: -10% 0;
+    /* On mobile use background-attachment:scroll for performance */
+    background-attachment: scroll;
+  }
+  #temp-gauge { display: none; }
+  #dust-canvas { display: none; }
+  .heat-shimmer { animation: none; opacity: 0.02; }
+}
+
+/* ── TABLET: moderate parallax ── */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .parallax-bg {
+    height: 130%;
+    inset: -15% 0;
+  }
+}
+
+/* ── PREFERS-REDUCED-MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  .parallax-bg { transform: none !important; transition: none !important; }
+  .heat-shimmer { animation: none; }
+  .float-element { animation: none; }
+  #scroll-progress { transition: none; }
+}
+
+/* ── TRUST STRIP — override bg for parallax ── */
+.trust-strip.parallax-section {
+  background: transparent;
+}
+.trust-strip.parallax-section .trust-strip-inner {
+  position: relative;
+  z-index: 2;
+}
+
+/* ── PAGE-HERO parallax content z-index fix ── */
+.page-hero.parallax-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+</style>
 </head>
 <body>
+
+<!-- Scroll progress bar -->
+<div id="scroll-progress" role="presentation" aria-hidden="true"></div>
+
+<!-- Temperature gauge — symbolizes Delhi heat to cool journey -->
+<div id="temp-gauge" aria-hidden="true">
+  <span id="temp-gauge-label">TEMP</span>
+  <div id="temp-gauge-track">
+    <div id="temp-gauge-fill" style="height: 100%"></div>
+  </div>
+  <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(201,168,76,0.5);">❄</span>
+</div>
+
+<!-- Hero particle canvas -->
+<canvas id="dust-canvas" class="particle-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;" aria-hidden="true"></canvas>
 
 <!-- =========================================================
      NAVIGATION
@@ -521,7 +800,12 @@ ADVANCED SEO META (HVAC DOMINATION)
      PAGE 1: HOME
      ========================================================= -->
 <div class="page" id="page-home">
-  <section class="hero">
+  <section class="hero parallax-section">
+    <div class="parallax-bg" id="hero-parallax-bg"
+      style="background-image: url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1920&q=85');"
+      aria-hidden="true"></div>
+    <div class="parallax-overlay overlay-hero" aria-hidden="true"></div>
+    <div class="heat-shimmer" aria-hidden="true"></div>
     <div class="hero-bg-mesh"></div>
     <div class="hero-grid-lines"></div>
     <canvas id="heroCanvas"></canvas>
@@ -587,7 +871,11 @@ ADVANCED SEO META (HVAC DOMINATION)
     </div>
   </section>
 
-  <div class="trust-strip">
+  <div class="trust-strip parallax-section">
+    <div class="parallax-bg"
+      style="background-image: url('https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1920&q=85');"
+      aria-hidden="true"></div>
+    <div class="parallax-overlay overlay-trust" aria-hidden="true"></div>
     <div class="trust-strip-inner">
       <div class="ts-item">❄️ <strong>Split &amp; Window</strong> AC Repair</div>
       <div class="ts-item">🔧 <strong>All Brands:</strong> Daikin · LG · Voltas · Samsung · Hitachi · Blue Star</div>
@@ -598,7 +886,11 @@ ADVANCED SEO META (HVAC DOMINATION)
     </div>
   </div>
 
-  <section class="section">
+  <section class="section parallax-section">
+    <div class="parallax-bg"
+      style="background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1920&q=85');"
+      aria-hidden="true"></div>
+    <div class="parallax-overlay overlay-pillars" aria-hidden="true"></div>
     <div class="container">
       <div class="text-center reveal">
         <div class="section-label text-royal">Our Foundation</div>
@@ -629,7 +921,11 @@ ADVANCED SEO META (HVAC DOMINATION)
     </div>
   </section>
 
-  <section class="section section-cream">
+  <section class="section section-cream parallax-section">
+    <div class="parallax-bg"
+      style="background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=1920&q=85');"
+      aria-hidden="true"></div>
+    <div class="parallax-overlay overlay-trust" aria-hidden="true"></div>
     <div class="container">
       <div class="promise-bar">
         <div class="promise-bar-inner">
@@ -717,7 +1013,11 @@ ADVANCED SEO META (HVAC DOMINATION)
      PAGE 2: WHY AIR CONTROL
      ========================================================= -->
 <div class="page" id="page-why">
-  <section class="page-hero">
+  <section class="page-hero parallax-section">
+    <div class="parallax-bg"
+      style="background-image: url('https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=1920&q=85');"
+      aria-hidden="true"></div>
+    <div class="parallax-overlay overlay-risk" aria-hidden="true"></div>
     <div class="page-hero-grid"></div>
     <div class="container">
       <div class="section-label text-gold reveal">The Unspoken Risk</div>
@@ -726,7 +1026,11 @@ ADVANCED SEO META (HVAC DOMINATION)
     </div>
   </section>
 
-  <section class="section">
+  <section class="section parallax-section">
+    <div class="parallax-bg"
+      style="background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1920&q=85');"
+      aria-hidden="true"></div>
+    <div class="parallax-overlay overlay-pillars" aria-hidden="true"></div>
     <div class="container">
       <div class="risk-alert reveal">
         <span class="ra-icon">⚠️</span>
@@ -764,7 +1068,11 @@ ADVANCED SEO META (HVAC DOMINATION)
     </div>
   </section>
 
-  <section class="section section-light">
+  <section class="section section-light parallax-section">
+    <div class="parallax-bg"
+      style="background-image: url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1920&q=85');"
+      aria-hidden="true"></div>
+    <div class="parallax-overlay overlay-services" aria-hidden="true"></div>
     <div class="container">
       <div class="section-label text-royal reveal">Our Philosophy</div>
       <div class="gold-rule reveal d1"></div>
@@ -813,7 +1121,11 @@ ADVANCED SEO META (HVAC DOMINATION)
     </div>
   </section>
 
-  <section class="section">
+  <section class="section parallax-section">
+    <div class="parallax-bg"
+      style="background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=1920&q=85');"
+      aria-hidden="true"></div>
+    <div class="parallax-overlay overlay-trust" aria-hidden="true"></div>
     <div class="container">
       <div class="section-label text-royal reveal">Our Journey</div>
       <div class="gold-rule reveal d1"></div>
@@ -843,7 +1155,11 @@ ADVANCED SEO META (HVAC DOMINATION)
      PAGE 3: SERVICES
      ========================================================= -->
 <div class="page" id="page-services">
-  <section class="page-hero">
+  <section class="page-hero parallax-section">
+    <div class="parallax-bg"
+      style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1920&q=85');"
+      aria-hidden="true"></div>
+    <div class="parallax-overlay overlay-services" aria-hidden="true"></div>
     <div class="page-hero-grid"></div>
     <div class="container">
       <div class="section-label text-gold reveal">What We Deliver</div>
@@ -852,7 +1168,11 @@ ADVANCED SEO META (HVAC DOMINATION)
     </div>
   </section>
 
-  <section class="section">
+  <section class="section parallax-section">
+    <div class="parallax-bg"
+      style="background-image: url('https://images.unsplash.com/photo-1631700611307-37dbcb89ef7e?auto=format&fit=crop&w=1920&q=85');"
+      aria-hidden="true"></div>
+    <div class="parallax-overlay overlay-services" aria-hidden="true"></div>
     <div class="container">
       <div class="process-rail reveal">
         <div class="ps-step active">
@@ -974,7 +1294,11 @@ Our 24/7 HVAC repair services ensure minimal downtime and quick restoration of c
      PAGE 4: INDUSTRIES
      ========================================================= -->
 <div class="page" id="page-industries">
-  <section class="page-hero">
+  <section class="page-hero parallax-section">
+    <div class="parallax-bg"
+      style="background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=85');"
+      aria-hidden="true"></div>
+    <div class="parallax-overlay overlay-industries" aria-hidden="true"></div>
     <div class="page-hero-grid"></div>
     <div class="container">
       <div class="section-label text-gold reveal">Our Clients</div>
@@ -983,7 +1307,11 @@ Our 24/7 HVAC repair services ensure minimal downtime and quick restoration of c
     </div>
   </section>
 
-  <section class="section">
+  <section class="section parallax-section">
+    <div class="parallax-bg"
+      style="background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=85');"
+      aria-hidden="true"></div>
+    <div class="parallax-overlay overlay-industries" aria-hidden="true"></div>
     <div class="container">
       <div class="client-logos-strip">
         <div class="logo-pill">******* Embassy</div>
@@ -1117,7 +1445,11 @@ Our 24/7 HVAC repair services ensure minimal downtime and quick restoration of c
      PAGE 5: REVIEWS & CONTACT
      ========================================================= -->
 <div class="page" id="page-contact">
-  <section class="page-hero">
+  <section class="page-hero parallax-section">
+    <div class="parallax-bg"
+      style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1920&q=85');"
+      aria-hidden="true"></div>
+    <div class="parallax-overlay overlay-contact" aria-hidden="true"></div>
     <div class="page-hero-grid"></div>
     <div class="container">
       <div class="section-label text-gold reveal">⭐ 4.9/5.0 · 200+ Verified Customer Reviews</div>
@@ -1126,7 +1458,11 @@ Our 24/7 HVAC repair services ensure minimal downtime and quick restoration of c
     </div>
   </section>
 
-  <section class="section">
+  <section class="section parallax-section">
+    <div class="parallax-bg"
+      style="background-image: url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1920&q=85');"
+      aria-hidden="true"></div>
+    <div class="parallax-overlay overlay-reviews" aria-hidden="true"></div>
     <div class="container">
       <div class="reviews-grid" style="grid-template-columns:repeat(3,1fr)">
 
@@ -1577,7 +1913,11 @@ Our 24/7 HVAC repair services ensure minimal downtime and quick restoration of c
      PAGE 6: BLOG
      ========================================================= -->
 <div class="page" id="page-blog">
-  <section class="page-hero">
+  <section class="page-hero parallax-section">
+    <div class="parallax-bg"
+      style="background-image: url('https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=1920&q=85');"
+      aria-hidden="true"></div>
+    <div class="parallax-overlay overlay-trust" aria-hidden="true"></div>
     <div class="page-hero-grid"></div>
     <div class="container">
       <div class="section-label text-gold reveal">📝 AC Tips & Expert Guides</div>
@@ -1586,7 +1926,11 @@ Our 24/7 HVAC repair services ensure minimal downtime and quick restoration of c
     </div>
   </section>
 
-  <section class="section section-cream">
+  <section class="section section-cream parallax-section">
+    <div class="parallax-bg"
+      style="background-image: url('https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=1920&q=85');"
+      aria-hidden="true"></div>
+    <div class="parallax-overlay overlay-trust" aria-hidden="true"></div>
     <div class="container">
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;margin-top:8px;">
 
@@ -2276,6 +2620,306 @@ document.querySelectorAll('.ps-step').forEach((s,i)=>{
    ================================================================ */
 setTimeout(initReveal, 120);
 
+</script>
+
+<script id="parallax-engine">
+(function() {
+  'use strict';
+
+  /* ── SAFETY: Only run if GSAP is available ── */
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+    console.warn('Air Control Parallax: GSAP not ready, skipping parallax engine.');
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ── Helper: check if device prefers reduced motion ── */
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* ── Helper: detect mobile for performance tuning ── */
+  var isMobile = window.innerWidth <= 768;
+
+  /* ── 1. SCROLL PROGRESS BAR ── */
+  var progressBar = document.getElementById('scroll-progress');
+  if (progressBar) {
+    ScrollTrigger.create({
+      start: 0,
+      end: 'max',
+      onUpdate: function(self) {
+        progressBar.style.width = (self.progress * 100) + '%';
+      }
+    });
+  }
+
+  /* ── 2. TEMPERATURE GAUGE ── */
+  var gauge = document.getElementById('temp-gauge');
+  var gaugeFill = document.getElementById('temp-gauge-fill');
+  if (gauge && gaugeFill && !isMobile) {
+    window.addEventListener('scroll', function showGauge() {
+      gauge.classList.add('visible');
+      window.removeEventListener('scroll', showGauge);
+    }, { once: true });
+
+    ScrollTrigger.create({
+      start: 0,
+      end: 'max',
+      onUpdate: function(self) {
+        /* Invert: 100% at top (hot Delhi), 0% at bottom (cool relief) */
+        var hotness = 100 - (self.progress * 100);
+        gaugeFill.style.height = hotness + '%';
+      }
+    });
+  }
+
+  /* ── 3. DUST PARTICLE SYSTEM (Hero) ── */
+  var canvas = document.getElementById('dust-canvas');
+  if (canvas && !isMobile && !reducedMotion) {
+    var ctx = canvas.getContext('2d');
+    var W = canvas.width = window.innerWidth;
+    var H = canvas.height = window.innerHeight;
+    var heroVisible = true;
+
+    var particles = [];
+    for (var i = 0; i < 55; i++) {
+      particles.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.8 + 0.3,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: -Math.random() * 0.5 - 0.1,
+        alpha: Math.random() * 0.4 + 0.05,
+        color: Math.random() > 0.6 ? '#C9A84C' : '#ffffff'
+      });
+    }
+
+    function drawParticles() {
+      if (!heroVisible) {
+        ctx.clearRect(0, 0, W, H);
+        return;
+      }
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach(function(p) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.alpha;
+        ctx.fill();
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.y < -5) { p.y = H + 5; p.x = Math.random() * W; }
+        if (p.x < -5) p.x = W + 5;
+        if (p.x > W + 5) p.x = -5;
+      });
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(drawParticles);
+    }
+
+    var heroBg = document.getElementById('hero-parallax-bg');
+    if (heroBg) {
+      ScrollTrigger.create({
+        trigger: heroBg,
+        start: 'bottom 30%',
+        onEnter: function() { heroVisible = false; },
+        onLeaveBack: function() { heroVisible = true; }
+      });
+    }
+
+    window.addEventListener('resize', function() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    });
+
+    requestAnimationFrame(drawParticles);
+  }
+
+  /* ── 4. PARALLAX BACKGROUNDS ── */
+  if (!reducedMotion) {
+    /* Hero bg */
+    var heroBgEl = document.getElementById('hero-parallax-bg');
+    if (heroBgEl) {
+      gsap.to(heroBgEl, {
+        yPercent: isMobile ? -10 : -25,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroBgEl.parentElement,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+    }
+
+    /* All other parallax backgrounds */
+    var allBgs = document.querySelectorAll('.parallax-bg:not(#hero-parallax-bg)');
+    allBgs.forEach(function(bg, i) {
+      var section = bg.parentElement;
+      if (!section) return;
+      /* Alternate speeds for visual rhythm — reduced on mobile */
+      var yBase = isMobile ? 8 : 18;
+      var yAmount = (i % 3 === 0) ? -yBase : (i % 3 === 1) ? -(yBase + 4) : -(yBase - 3);
+      gsap.to(bg, {
+        yPercent: yAmount,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+    });
+  }
+
+  /* ── 5. SECTION CONTENT ENTRANCE ANIMATIONS ── */
+  /* Fade + rise for all section headings inside parallax sections */
+  gsap.utils.toArray('h2, h3').forEach(function(el) {
+    if (el.closest('.parallax-section')) {
+      gsap.fromTo(el,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1, y: 0,
+          duration: 0.9,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+    }
+  });
+
+  /* Cards / grid items stagger */
+  var cardSelectors = ['.pillar-card', '.srv-card', '.rev-card', '.ind-card', '.guar-card', '.principle-card'];
+  cardSelectors.forEach(function(sel) {
+    var cards = document.querySelectorAll(sel);
+    if (cards.length) {
+      gsap.fromTo(cards,
+        { opacity: 0, y: 35, scale: 0.97 },
+        {
+          opacity: 1, y: 0, scale: 1,
+          duration: 0.7,
+          ease: 'power2.out',
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: cards[0].parentElement,
+            start: 'top 80%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+    }
+  });
+
+  /* ── 6. TIMELINE SECTION ANIMATION ── */
+  var timelineItems = document.querySelectorAll('.tl-item');
+  if (timelineItems.length) {
+    gsap.fromTo(timelineItems,
+      { opacity: 0, x: -30 },
+      {
+        opacity: 1, x: 0,
+        duration: 0.8,
+        ease: 'power2.out',
+        stagger: 0.18,
+        scrollTrigger: {
+          trigger: timelineItems[0].parentElement,
+          start: 'top 75%',
+          toggleActions: 'play none none none'
+        }
+      }
+    );
+  }
+
+  /* ── 7. GOLD LINE SEPARATORS ── */
+  gsap.utils.toArray('.parallax-gold-line').forEach(function(line) {
+    gsap.fromTo(line,
+      { scaleX: 0, opacity: 0 },
+      {
+        scaleX: 1, opacity: 0.7,
+        duration: 1,
+        ease: 'power3.inOut',
+        scrollTrigger: {
+          trigger: line,
+          start: 'top 88%',
+          toggleActions: 'play none none none'
+        }
+      }
+    );
+  });
+
+  /* ── 8. HERO H1 WORD SPLIT ANIMATION ── */
+  var heroH1 = document.querySelector('.hero h1');
+  if (heroH1 && !reducedMotion) {
+    var words = heroH1.innerHTML.split(' ');
+    heroH1.innerHTML = words.map(function(w) {
+      return '<span style="display:inline-block;overflow:hidden"><span class="word-inner" style="display:inline-block">' + w + '</span></span>';
+    }).join(' ');
+    gsap.fromTo('.hero .word-inner',
+      { y: '105%', opacity: 0 },
+      {
+        y: '0%', opacity: 1,
+        duration: 0.9,
+        ease: 'power4.out',
+        stagger: 0.08,
+        delay: 0.3
+      }
+    );
+  }
+
+  /* ── 9. NAVBAR: Glass effect on scroll ── */
+  var nav = document.querySelector('#mainNav');
+  if (nav) {
+    ScrollTrigger.create({
+      start: 80,
+      onEnter: function() {
+        nav.style.background = 'rgba(11,25,41,0.92)';
+        nav.style.backdropFilter = 'blur(16px)';
+        nav.style.borderBottom = '1px solid rgba(201,168,76,0.15)';
+        nav.style.transition = 'all 0.4s ease';
+      },
+      onLeaveBack: function() {
+        nav.style.background = '';
+        nav.style.backdropFilter = '';
+        nav.style.borderBottom = '';
+      }
+    });
+  }
+
+  /* ── 10. REVIEW CARDS HOVER LIFT ── */
+  var reviewCards = document.querySelectorAll('.rev-card');
+  reviewCards.forEach(function(card) {
+    card.style.transition = 'transform 0.4s ease, box-shadow 0.4s ease';
+    card.addEventListener('mouseenter', function() {
+      card.style.transform = 'translateY(-6px)';
+      card.style.boxShadow = '0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(201,168,76,0.08)';
+    });
+    card.addEventListener('mouseleave', function() {
+      card.style.transform = '';
+      card.style.boxShadow = '';
+    });
+  });
+
+  /* ── 11. SPA PAGE NAVIGATION: refresh ScrollTrigger on page change ── */
+  /* Watch for .page.active class changes so parallax recalculates on navigate() */
+  var pageObserver = new MutationObserver(function(mutations) {
+    mutations.forEach(function(m) {
+      if (m.type === 'attributes' && m.attributeName === 'class') {
+        var el = m.target;
+        if (el.classList.contains('page') && el.classList.contains('active')) {
+          setTimeout(function() {
+            ScrollTrigger.refresh();
+          }, 120);
+        }
+      }
+    });
+  });
+  document.querySelectorAll('.page').forEach(function(page) {
+    pageObserver.observe(page, { attributes: true, attributeFilter: ['class'] });
+  });
+
+  console.log('[Air Control] Parallax system initialized — Delhi Ki Garmi to Cool Relief ❄️');
+})();
 </script>
 </body>
 </html>
