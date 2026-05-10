@@ -594,7 +594,7 @@ ADVANCED SEO META (HVAC DOMINATION)
 /* ── TEMPERATURE GAUGE (fixed right side — hot→cool as you scroll) ── */
 #temp-gauge {
   position: fixed;
-  right: 20px;
+  right: -38px;  /* peek: pill hides behind edge; pull-tab still visible */
   top: 50%;
   transform: translateY(-50%);
   z-index: 9500;
@@ -603,17 +603,68 @@ ADVANCED SEO META (HVAC DOMINATION)
   align-items: center;
   gap: 10px;
   opacity: 0;
-  transition: opacity 0.6s ease;
-  /* Glass pill container */
-  background: rgba(8, 18, 36, 0.72);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(201,168,76,0.22);
+  transition: right 0.55s cubic-bezier(0.16,1,0.3,1),
+              opacity 0.6s ease,
+              box-shadow 0.4s ease;
+  background: rgba(8, 18, 36, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(201,168,76,0.24);
   border-radius: 40px;
   padding: 14px 10px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06);
+  cursor: pointer;
 }
 #temp-gauge.visible { opacity: 1; }
+
+/* Slide fully into view on hover (desktop) or .expanded (tap) */
+#temp-gauge.visible:hover,
+#temp-gauge.expanded {
+  right: 20px;
+  box-shadow: 0 12px 44px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.09);
+}
+
+/* Pull-tab — sits to the LEFT of the pill, always within viewport.
+   Acts as the expand affordance: gold shimmer signals interactivity. */
+#temp-gauge::before {
+  content: '‹';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) translateX(-100%);
+  width: 22px;
+  height: 56px;
+  background: rgba(6,14,26,0.84);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(201,168,76,0.24);
+  border-right: none;
+  border-radius: 12px 0 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  color: rgba(201,168,76,0.65);
+  font-weight: 300;
+  line-height: 1;
+  transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.16,1,0.3,1);
+  pointer-events: none;
+}
+
+/* Gold heartbeat on pull-tab */
+@keyframes tgTabPulse {
+  0%,100% { color: rgba(201,168,76,0.38); }
+  50%      { color: rgba(201,168,76,1.0);  }
+}
+#temp-gauge.visible::before { animation: tgTabPulse 2.6s ease-in-out infinite; }
+
+/* Hide pull-tab once gauge is open */
+#temp-gauge.visible:hover::before,
+#temp-gauge.expanded::before {
+  opacity: 0;
+  transform: translateY(-50%) translateX(-140%);
+  animation: none;
+}
 
 /* Top icon label — flame at top */
 #temp-gauge-top-icon {
@@ -708,30 +759,35 @@ ADVANCED SEO META (HVAC DOMINATION)
   }
   .heat-shimmer { animation: none; opacity: 0.02; }
 
-  /* Temperature gauge — compact pill at top-right on mobile, below nav */
+  /* Temperature gauge — peek from right edge on mobile, tap to expand */
   #temp-gauge {
     display: flex;
-    right: 10px;
-    top: 80px;         /* 72px nav + 8px clearance */
+    right: -24px;  /* peek: pill mostly hidden, pull-tab visible */
+    top: 80px;
     bottom: auto;
     transform: none;
     padding: 10px 7px;
     gap: 7px;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    background: rgba(6, 14, 26, 0.88);
+    background: rgba(6, 14, 26, 0.90);
     box-shadow: 0 4px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.07);
     border-radius: 28px;
-    border: 1px solid rgba(201,168,76,0.18);
+    border: 1px solid rgba(201,168,76,0.20);
   }
-  #temp-gauge-track {
-    height: 72px;
-    width: 4px;
+  /* Scale pull-tab for mobile */
+  #temp-gauge::before {
+    width: 18px;
+    height: 46px;
+    font-size: 14px;
+    border-radius: 9px 0 0 9px;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
-  #temp-gauge-reading {
-    font-size: 8px;
-    min-width: 18px;
-  }
+  /* Expanded state: slide fully into view */
+  #temp-gauge.expanded { right: 10px; }
+  #temp-gauge-track { height: 72px; width: 4px; }
+  #temp-gauge-reading { font-size: 8px; min-width: 18px; }
   #temp-gauge-top-icon    { font-size: 11px; }
   #temp-gauge-bottom-icon { font-size: 10px; }
 }
@@ -3228,12 +3284,31 @@ setTimeout(initReveal, 120);
   var gaugeRead  = document.getElementById('temp-gauge-reading');
   var gaugeSnow  = document.getElementById('temp-gauge-bottom-icon');
   if (gauge && gaugeFill) {
-    /* Show on first scroll — home page only */
-    window.addEventListener('scroll', function showGauge() {
+    /* On first scroll: reveal gauge, auto-expand 2.2s to announce it, then retract */
+    var gaugeIntroTimer = null;
+    window.addEventListener('scroll', function initGaugeOnce() {
       if (typeof activePage !== 'undefined' && activePage !== 'home') return;
+      if (gauge.classList.contains('visible')) return;
       gauge.classList.add('visible');
       gaugeShownOnce = true;
+      gauge.classList.add('expanded');
+      gaugeIntroTimer = setTimeout(function() {
+        gauge.classList.remove('expanded');
+        gaugeIntroTimer = null;
+      }, 2200);
+    }, { passive: true });
+
+    /* Tap/click: toggle peek ↔ expand */
+    gauge.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (gaugeIntroTimer) { clearTimeout(gaugeIntroTimer); gaugeIntroTimer = null; }
+      gauge.classList.toggle('expanded');
     });
+
+    /* Collapse when touching/clicking anywhere outside the gauge */
+    document.addEventListener('pointerdown', function(e) {
+      if (!gauge.contains(e.target)) gauge.classList.remove('expanded');
+    }, { passive: true });
 
     /* Delhi summer peak = 47°C, Air Control delivered = 20°C */
     var TEMP_HOT  = 47;
@@ -3465,10 +3540,11 @@ setTimeout(initReveal, 120);
         var el = m.target;
         if (el.classList.contains('page') && el.classList.contains('active')) {
           setTimeout(function() { ScrollTrigger.refresh(); }, 120);
-          /* Gauge: only visible on home page */
+          /* Gauge: only visible on home page; always retract to peek on navigate */
           if (gauge) {
             var isHome = el.id === 'page-home';
             gauge.classList.toggle('visible', isHome && gaugeShownOnce);
+            if (!isHome) gauge.classList.remove('expanded');
           }
         }
       }
