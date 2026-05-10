@@ -730,10 +730,29 @@ ADVANCED SEO META (HVAC DOMINATION)
 /* ── TRUST STRIP — override bg for parallax ── */
 .trust-strip.parallax-section {
   background: transparent;
+  overflow: hidden;
 }
 .trust-strip.parallax-section .trust-strip-inner {
   position: relative;
   z-index: 2;
+}
+/* ── TICKER (news-ticker infinite scroll) ── */
+.ticker-wrap {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: tickerScroll 32s linear infinite;
+  will-change: transform;
+}
+.ticker-track:hover { animation-play-state: paused; }
+@keyframes tickerScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 /* ── PAGE-HERO parallax content z-index fix ── */
@@ -896,6 +915,102 @@ ADVANCED SEO META (HVAC DOMINATION)
   .hw-streaks { animation: none; }
 }
 
+
+/* ══════════════════════════════════════════════════════════════
+   COOL WIND — site-wide ambient cool breeze effect
+   Fixed layer behind all content, fades in below hero,
+   conveys AC relief / engineered cool as you scroll down.
+   ══════════════════════════════════════════════════════════════ */
+
+#cool-wind-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+#cool-wind-overlay.active { opacity: 1; }
+
+.cw-layer {
+  position: absolute;
+  border-radius: 55% 45% 60% 40% / 45% 60% 40% 55%;
+  opacity: 0;
+}
+
+.cw-l1 {
+  width: 55%; height: 35%;
+  top: 5%; right: -30%;
+  background: radial-gradient(ellipse at 55% 50%,
+    rgba(74,173,219,0.07) 0%,
+    rgba(40,130,180,0.03) 55%,
+    transparent 100%);
+  animation: cwFlow 14s cubic-bezier(0.25,0.46,0.45,0.94) infinite;
+}
+
+.cw-l2 {
+  width: 45%; height: 28%;
+  top: 50%; right: -25%;
+  background: radial-gradient(ellipse at 55% 50%,
+    rgba(100,200,230,0.06) 0%,
+    rgba(60,160,200,0.02) 55%,
+    transparent 100%);
+  animation: cwFlow 18s cubic-bezier(0.25,0.46,0.45,0.94) infinite 3s;
+}
+
+.cw-l3 {
+  width: 40%; height: 22%;
+  top: 75%; right: -20%;
+  background: radial-gradient(ellipse at 55% 50%,
+    rgba(130,210,240,0.05) 0%,
+    transparent 65%);
+  animation: cwFlow 22s cubic-bezier(0.25,0.46,0.45,0.94) infinite 7s;
+}
+
+@keyframes cwFlow {
+  0% {
+    transform: translateX(0vw) translateY(0%) scaleY(0.8) skewX(6deg);
+    opacity: 0;
+    border-radius: 55% 45% 60% 40% / 45% 60% 40% 55%;
+  }
+  10% { opacity: 1; }
+  50% {
+    transform: translateX(-90vw) translateY(3%) scaleY(1.15) skewX(8deg);
+    border-radius: 40% 60% 45% 55% / 60% 40% 55% 45%;
+    opacity: 0.8;
+  }
+  90% { opacity: 0.2; }
+  100% {
+    transform: translateX(-160vw) translateY(6%) scaleY(0.9) skewX(10deg);
+    opacity: 0;
+  }
+}
+
+.cw-streaks {
+  position: absolute;
+  inset: -10% -5%;
+  background: repeating-linear-gradient(
+    8deg,
+    transparent            0px,
+    transparent            60px,
+    rgba(74,173,219,0.025) 60px,
+    rgba(74,173,219,0.025) 61px,
+    transparent            61px,
+    transparent            120px,
+    rgba(100,190,220,0.018) 120px,
+    rgba(100,190,220,0.018) 121px,
+    transparent            121px
+  );
+  animation: cwStreakDrift 24s linear infinite;
+}
+@keyframes cwStreakDrift {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-120px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cw-layer, .cw-streaks { animation: none; opacity: 0.3; }
+}
 </style>
 </head>
 <body>
@@ -1088,13 +1203,30 @@ ADVANCED SEO META (HVAC DOMINATION)
       style="background-image: url('https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1920&q=85');"
       aria-hidden="true"></div>
     <div class="parallax-overlay overlay-trust" aria-hidden="true"></div>
-    <div class="trust-strip-inner">
-      <div class="ts-item">❄️ <strong>Split &amp; Window</strong> AC Repair</div>
-      <div class="ts-item">🔧 <strong>All Brands:</strong> Daikin · LG · Voltas · Samsung · Hitachi · Blue Star</div>
-      <div class="ts-item">⚡ <strong>Same-Day</strong> AC Service Available</div>
-      <div class="ts-item">💰 <strong>Transparent</strong> Pricing — From ₹499</div>
-      <div class="ts-item">🛡 <strong>90-Day</strong> Repair Warranty</div>
-      <div class="ts-item">⭐ <strong>4.9/5.0</strong> · 200+ Verified Reviews · Since 1987</div>
+    <div class="ticker-wrap" aria-label="Service highlights">
+      <div class="ticker-track">
+        <div class="ts-item">❄️ <strong>Split &amp; Window</strong> AC Repair</div>
+        <div class="ts-item">🔧 <strong>All Brands:</strong> Daikin · LG · Voltas · Samsung · Hitachi · Blue Star</div>
+        <div class="ts-item">⚡ <strong>Same-Day</strong> AC Service Available</div>
+        <div class="ts-item">💰 <strong>Transparent</strong> Pricing — From ₹499</div>
+        <div class="ts-item">🛡 <strong>90-Day</strong> Repair Warranty</div>
+        <div class="ts-item">⭐ <strong>4.9/5.0</strong> · 200+ Verified Reviews · Since 1987</div>
+        <div class="ts-item">🏠 <strong>Delhi NCR</strong> · Gurgaon · Noida · Faridabad</div>
+        <div class="ts-item">📞 <strong>2-Hour</strong> Emergency Response</div>
+        <div class="ts-item">🔬 <strong>38 Years</strong> of Engineering Excellence</div>
+        <div class="ts-item">✅ <strong>10,000+</strong> ACs Repaired Since 1987</div>
+        <!-- duplicate for seamless loop -->
+        <div class="ts-item">❄️ <strong>Split &amp; Window</strong> AC Repair</div>
+        <div class="ts-item">🔧 <strong>All Brands:</strong> Daikin · LG · Voltas · Samsung · Hitachi · Blue Star</div>
+        <div class="ts-item">⚡ <strong>Same-Day</strong> AC Service Available</div>
+        <div class="ts-item">💰 <strong>Transparent</strong> Pricing — From ₹499</div>
+        <div class="ts-item">🛡 <strong>90-Day</strong> Repair Warranty</div>
+        <div class="ts-item">⭐ <strong>4.9/5.0</strong> · 200+ Verified Reviews · Since 1987</div>
+        <div class="ts-item">🏠 <strong>Delhi NCR</strong> · Gurgaon · Noida · Faridabad</div>
+        <div class="ts-item">📞 <strong>2-Hour</strong> Emergency Response</div>
+        <div class="ts-item">🔬 <strong>38 Years</strong> of Engineering Excellence</div>
+        <div class="ts-item">✅ <strong>10,000+</strong> ACs Repaired Since 1987</div>
+      </div>
     </div>
   </div>
 
@@ -1227,7 +1359,7 @@ ADVANCED SEO META (HVAC DOMINATION)
 <div class="page" id="page-why">
   <section class="page-hero parallax-section">
     <div class="parallax-bg"
-      style="background-image: url('https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=1920&q=85');"
+      style="background-image: url('https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1920&q=85');"
       aria-hidden="true"></div>
     <div class="parallax-overlay overlay-risk" aria-hidden="true"></div>
     <div class="page-hero-grid"></div>
@@ -2127,7 +2259,7 @@ Our 24/7 HVAC repair services ensure minimal downtime and quick restoration of c
 <div class="page" id="page-blog">
   <section class="page-hero parallax-section">
     <div class="parallax-bg"
-      style="background-image: url('https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=1920&q=85');"
+      style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1920&q=85');"
       aria-hidden="true"></div>
     <div class="parallax-overlay overlay-trust" aria-hidden="true"></div>
     <div class="page-hero-grid"></div>
@@ -2140,7 +2272,7 @@ Our 24/7 HVAC repair services ensure minimal downtime and quick restoration of c
 
   <section class="section section-cream parallax-section">
     <div class="parallax-bg"
-      style="background-image: url('https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=1920&q=85');"
+      style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1920&q=85');"
       aria-hidden="true"></div>
     <div class="parallax-overlay overlay-trust" aria-hidden="true"></div>
     <div class="container">
@@ -2825,14 +2957,19 @@ setTimeout(initReveal, 120);
   /* ── Helper: detect mobile for performance tuning ── */
   var isMobile = window.innerWidth <= 768;
 
-  /* ── 1. SCROLL PROGRESS BAR ── */
+  /* ── 1. SCROLL PROGRESS BAR + COOL WIND ACTIVATION ── */
   var progressBar = document.getElementById('scroll-progress');
+  var coolWind = document.getElementById('cool-wind-overlay');
   if (progressBar) {
     ScrollTrigger.create({
       start: 0,
       end: 'max',
       onUpdate: function(self) {
         progressBar.style.width = (self.progress * 100) + '%';
+        /* Cool wind fades in after scrolling past hero (15% down) */
+        if (coolWind) {
+          coolWind.classList.toggle('active', self.progress > 0.08);
+        }
       }
     });
   }
@@ -2843,11 +2980,13 @@ setTimeout(initReveal, 120);
   var gaugeRead  = document.getElementById('temp-gauge-reading');
   var gaugeSnow  = document.getElementById('temp-gauge-bottom-icon');
   if (gauge && gaugeFill) {
-    /* Show on first scroll */
+    /* Show on first scroll — home page only */
+    var gaugeShownOnce = false;
     window.addEventListener('scroll', function showGauge() {
+      if (typeof activePage !== 'undefined' && activePage !== 'home') return;
       gauge.classList.add('visible');
-      window.removeEventListener('scroll', showGauge);
-    }, { once: true });
+      gaugeShownOnce = true;
+    });
 
     /* Delhi summer peak = 47°C, Air Control delivered = 20°C */
     var TEMP_HOT  = 47;
@@ -3048,9 +3187,12 @@ setTimeout(initReveal, 120);
       if (m.type === 'attributes' && m.attributeName === 'class') {
         var el = m.target;
         if (el.classList.contains('page') && el.classList.contains('active')) {
-          setTimeout(function() {
-            ScrollTrigger.refresh();
-          }, 120);
+          setTimeout(function() { ScrollTrigger.refresh(); }, 120);
+          /* Gauge: only visible on home page */
+          if (gauge) {
+            var isHome = el.id === 'page-home';
+            gauge.classList.toggle('visible', isHome && gaugeShownOnce);
+          }
         }
       }
     });
