@@ -1108,36 +1108,92 @@ ADVANCED SEO META (HVAC DOMINATION)
 .hiw-icon { font-size: 36px; margin-bottom: 16px; display: block; }
 @media (max-width: 768px) { .hiw-grid { grid-template-columns: 1fr; } }
 
-/* ── HOME TESTIMONIALS ── */
-.home-testi-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+/* ── HOME TESTIMONIALS CAROUSEL ── */
+.testi-carousel-outer {
+  position: relative;
+  overflow: hidden;
   margin-top: 52px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 6px 0 12px;
 }
-.home-testi-card {
+.testi-carousel-outer::before,
+.testi-carousel-outer::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 180px;
+  z-index: 3;
+  pointer-events: none;
+}
+.testi-carousel-outer::before {
+  left: 0;
+  background: linear-gradient(to right, #f8f6f1 0%, rgba(248,246,241,0) 100%);
+}
+.testi-carousel-outer::after {
+  right: 0;
+  background: linear-gradient(to left, #f8f6f1 0%, rgba(248,246,241,0) 100%);
+}
+.testi-row {
+  display: flex;
+  gap: 18px;
+  width: max-content;
+  will-change: transform;
+}
+.testi-row:hover { animation-play-state: paused; }
+.testi-row-ltr { animation: testiLTR 70s linear infinite; }
+.testi-row-rtl { animation: testiRTL 58s linear infinite; }
+@keyframes testiLTR {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes testiRTL {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+.tsc {
+  width: 316px;
+  flex-shrink: 0;
   background: var(--white);
   border-radius: var(--r20);
-  padding: 32px 28px;
+  padding: 26px 24px 22px;
   border: 1px solid var(--border);
-  box-shadow: var(--shadow-soft);
-  transition: all .3s;
+  box-shadow: 0 2px 18px rgba(10,22,40,0.07);
+  transition: box-shadow .3s, transform .3s;
+  cursor: default;
 }
-.home-testi-card:hover { box-shadow: var(--shadow-med); transform: translateY(-4px); }
-.ht-stars { color: #FBBF24; font-size: 16px; letter-spacing: 2px; margin-bottom: 14px; }
-.ht-quote { font-size: 14px; color: var(--gray); line-height: 1.75; font-style: italic; margin-bottom: 20px; }
-.ht-author { display: flex; align-items: center; gap: 12px; }
-.ht-avatar {
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--royal), var(--accent));
+.tsc:hover { box-shadow: var(--shadow-med); transform: translateY(-4px); }
+.tsc-stars { color: #FBBF24; font-size: 14px; letter-spacing: 2.5px; margin-bottom: 11px; }
+.tsc-quote {
+  font-size: 13.5px; color: var(--gray); line-height: 1.72;
+  font-style: italic; margin-bottom: 18px;
+  display: -webkit-box; -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical; overflow: hidden;
+}
+.tsc-foot { display: flex; align-items: center; gap: 11px; }
+.tsc-av {
+  width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
-  font-size: 18px; color: white; font-weight: 700; font-family: 'Playfair Display', serif;
-  flex-shrink: 0;
+  font-size: 15px; font-weight: 700; color: white;
+  font-family: 'Playfair Display', serif;
 }
-.ht-name { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--navy); }
-.ht-location { font-size: 12px; color: var(--gray-l); }
-@media (max-width: 768px) { .home-testi-grid { grid-template-columns: 1fr; } }
+.tsc-av-b { background: linear-gradient(135deg,#1e4db7,#4a90d9); }
+.tsc-av-g { background: linear-gradient(135deg,#c8a84b,#e8c96b); color:#0a1628; }
+.tsc-av-e { background: linear-gradient(135deg,#2ecc71,#1a9850); }
+.tsc-av-r { background: linear-gradient(135deg,#e74c3c,#c0392b); }
+.tsc-av-p { background: linear-gradient(135deg,#8e44ad,#6c3483); }
+.tsc-av-t { background: linear-gradient(135deg,#1565A3,#1E88C8); }
+.tsc-name { font-family: 'Playfair Display', serif; font-size: 13.5px; font-weight: 700; color: var(--navy); }
+.tsc-loc { font-size: 11px; color: var(--gray-l); margin-top: 2px; }
+.tsc-ok { font-size: 10.5px; color: var(--success); font-weight: 600; margin-top: 3px; }
+.tsc-ok::before { content: '✓ '; }
+@media (max-width: 768px) {
+  .testi-carousel-outer::before, .testi-carousel-outer::after { width: 56px; }
+  .tsc { width: 256px; padding: 20px 18px 16px; }
+  .testi-row-ltr { animation-duration: 42s; }
+  .testi-row-rtl { animation-duration: 36s; }
+}
 
 /* ── UPDATED PILLAR CARDS ── */
 .pillar-card {
@@ -1423,40 +1479,66 @@ ADVANCED SEO META (HVAC DOMINATION)
         <h2 class="headline">What Our <span class="text-gold">Customers</span> Say</h2>
         <p class="lead-text" style="max-width:540px;margin:16px auto 0;">Trusted by thousands of Delhi families and businesses — here's what they experience.</p>
       </div>
-      <div class="home-testi-grid">
-        <div class="home-testi-card reveal d1">
-          <div class="ht-stars">★★★★★</div>
-          <p class="ht-quote">"AC stopped cooling at 2 AM during peak summer. Air Control sent a technician by 7 AM — gas refilled, unit tested, and cooling perfectly. Genuinely impressive service."</p>
-          <div class="ht-author">
-            <div class="ht-avatar">R</div>
-            <div>
-              <div class="ht-name">Rahul S.</div>
-              <div class="ht-location">South Delhi · Split AC Repair</div>
-            </div>
-          </div>
+      <div class="testi-carousel-outer" aria-label="Customer reviews">
+
+        <!-- ROW 1 — scrolls left -->
+        <div class="testi-row testi-row-ltr">
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"My Daikin 1.5-ton split AC was blowing warm air on a 46°C afternoon in May. Called Air Control at 10am — technician arrived by noon, found the refrigerant was low due to a pinhole leak in the copper pipe, soldered it and refilled R32. AC was ice-cold by 2pm. Total cost ₹2,800, fully explained before starting."</p><div class="tsc-foot"><div class="tsc-av tsc-av-b">P</div><div><div class="tsc-name">Pradeep Arora</div><div class="tsc-loc">Defence Colony, South Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"AC was running but room just wouldn't cool below 28°C. Air Control's technician diagnosed a dirty condenser coil — completely clogged with construction dust. High-pressure wash done in 45 minutes, temperature dropped to 22°C within an hour. Wish I had called them earlier instead of suffering two weeks."</p><div class="tsc-foot"><div class="tsc-av tsc-av-t">A</div><div><div class="tsc-name">Amit Malhotra</div><div class="tsc-loc">DLF Phase 3, Gurgaon</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"My Samsung inverter AC stopped cooling. A local repair guy said I needed a new compressor (₹18,000!). Air Control's technician identified it was just a weak start capacitor — replaced for ₹650. AC working perfectly since. Saved me a fortune. Honest, skilled team."</p><div class="tsc-foot"><div class="tsc-av tsc-av-e">R</div><div><div class="tsc-name">Rahul Kapoor</div><div class="tsc-loc">Sector 62, Noida</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Our LG 2-ton AC had ice forming on the copper pipe — classic sign of low gas. Air Control found a micro-leak, repaired it, and recharged with R410A. They also checked electrical connections and cleaned filters during the same visit. AC has been running flawlessly all summer."</p><div class="tsc-foot"><div class="tsc-av tsc-av-b">D</div><div><div class="tsc-name">Deepak Tyagi</div><div class="tsc-loc">Sector 21, Faridabad</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"My 5-star inverter AC was showing E1 error — means refrigerant pressure is too low. Air Control used a manifold gauge, confirmed the gas level, found the leak at the valve fitting, tightened and re-charged R32. My electricity bill dropped ₹400 the next month."</p><div class="tsc-foot"><div class="tsc-av tsc-av-p">K</div><div><div class="tsc-name">Kiran Mehta</div><div class="tsc-loc">Vasant Kunj, Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Voltas AC was making a hissing sound and not cooling at night. Air Control confirmed gas leak, found the joint was loose near the outdoor unit, brazed it properly and topped up the gas. The hissing stopped immediately. Transparent and professional."</p><div class="tsc-foot"><div class="tsc-av tsc-av-r">R</div><div><div class="tsc-name">Rekha Pandey</div><div class="tsc-loc">Pitampura, Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"My AC started making a grinding noise at night — completely ruining sleep. Air Control diagnosed the blower fan, deep cleaned it, lubricated the motor, and the noise was gone completely. They also noticed the drain tray was about to overflow and cleaned that too."</p><div class="tsc-foot"><div class="tsc-av tsc-av-t">V</div><div><div class="tsc-name">Vikas Chauhan</div><div class="tsc-loc">Sushant Lok, Gurgaon</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Loud rattling from my outdoor AC unit was driving the neighbours crazy. Turned out the compressor feet rubber mounts were worn out. New anti-vibration pads fitted, bracket tightened. Silence restored in one hour. They also straightened bent fins with a fin comb."</p><div class="tsc-foot"><div class="tsc-av tsc-av-g">N</div><div><div class="tsc-name">Neha Singh</div><div class="tsc-loc">Indirapuram, Ghaziabad</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Split AC making a loud clicking sound every time it started. Air Control diagnosed a loose panel cover vibrating against the body, and a slightly burnt relay. Fixed both issues in 40 minutes for ₹1,200 all-inclusive. No upselling, no unnecessary parts."</p><div class="tsc-foot"><div class="tsc-av tsc-av-b">S</div><div><div class="tsc-name">Sanjay Bhatia</div><div class="tsc-loc">Rohini Sector 7, Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Water was dripping from my AC onto the sofa below — I panicked thinking it needed replacement. Air Control explained this is almost always a blocked drain pipe. Flushed the drain, cleaned the tray, re-angled the indoor unit. Fixed in 30 minutes. No more dripping!"</p><div class="tsc-foot"><div class="tsc-av tsc-av-p">P</div><div><div class="tsc-name">Pooja Mehta</div><div class="tsc-loc">Lajpat Nagar, South Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Water stains were appearing on my wall from the AC during monsoon. Turned out the drain pipe was partly disconnected inside the wall channel. Air Control reconnected the pipe properly, sealed it, and cleaned the entire evaporator coil. No water damage since."</p><div class="tsc-foot"><div class="tsc-av tsc-av-e">S</div><div><div class="tsc-name">Shreya Agarwal</div><div class="tsc-loc">Mayur Vihar Phase 1, Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"AC was leaking so much water it damaged the false ceiling. Air Control found both: a blocked drain AND low refrigerant causing coil to freeze and thaw and drip. Fixed both same day. Amazed they spotted two problems that a previous service had missed entirely."</p><div class="tsc-foot"><div class="tsc-av tsc-av-t">A</div><div><div class="tsc-name">Aakash Mehrotra</div><div class="tsc-loc">Greater Noida West</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <!-- duplicate for seamless loop -->
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"My Daikin 1.5-ton split AC was blowing warm air on a 46°C afternoon in May. Called Air Control at 10am — technician arrived by noon, found the refrigerant was low due to a pinhole leak in the copper pipe, soldered it and refilled R32. AC was ice-cold by 2pm. Total cost ₹2,800, fully explained before starting."</p><div class="tsc-foot"><div class="tsc-av tsc-av-b">P</div><div><div class="tsc-name">Pradeep Arora</div><div class="tsc-loc">Defence Colony, South Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"AC was running but room just wouldn't cool below 28°C. Air Control's technician diagnosed a dirty condenser coil — completely clogged with construction dust. High-pressure wash done in 45 minutes, temperature dropped to 22°C within an hour. Wish I had called them earlier instead of suffering two weeks."</p><div class="tsc-foot"><div class="tsc-av tsc-av-t">A</div><div><div class="tsc-name">Amit Malhotra</div><div class="tsc-loc">DLF Phase 3, Gurgaon</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"My Samsung inverter AC stopped cooling. A local repair guy said I needed a new compressor (₹18,000!). Air Control's technician identified it was just a weak start capacitor — replaced for ₹650. AC working perfectly since. Saved me a fortune. Honest, skilled team."</p><div class="tsc-foot"><div class="tsc-av tsc-av-e">R</div><div><div class="tsc-name">Rahul Kapoor</div><div class="tsc-loc">Sector 62, Noida</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Our LG 2-ton AC had ice forming on the copper pipe — classic sign of low gas. Air Control found a micro-leak, repaired it, and recharged with R410A. They also checked electrical connections and cleaned filters during the same visit. AC has been running flawlessly all summer."</p><div class="tsc-foot"><div class="tsc-av tsc-av-b">D</div><div><div class="tsc-name">Deepak Tyagi</div><div class="tsc-loc">Sector 21, Faridabad</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"My 5-star inverter AC was showing E1 error — means refrigerant pressure is too low. Air Control used a manifold gauge, confirmed the gas level, found the leak at the valve fitting, tightened and re-charged R32. My electricity bill dropped ₹400 the next month."</p><div class="tsc-foot"><div class="tsc-av tsc-av-p">K</div><div><div class="tsc-name">Kiran Mehta</div><div class="tsc-loc">Vasant Kunj, Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Voltas AC was making a hissing sound and not cooling at night. Air Control confirmed gas leak, found the joint was loose near the outdoor unit, brazed it properly and topped up the gas. The hissing stopped immediately. Transparent and professional."</p><div class="tsc-foot"><div class="tsc-av tsc-av-r">R</div><div><div class="tsc-name">Rekha Pandey</div><div class="tsc-loc">Pitampura, Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"My AC started making a grinding noise at night — completely ruining sleep. Air Control diagnosed the blower fan, deep cleaned it, lubricated the motor, and the noise was gone completely. They also noticed the drain tray was about to overflow and cleaned that too."</p><div class="tsc-foot"><div class="tsc-av tsc-av-t">V</div><div><div class="tsc-name">Vikas Chauhan</div><div class="tsc-loc">Sushant Lok, Gurgaon</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Loud rattling from my outdoor AC unit was driving the neighbours crazy. Turned out the compressor feet rubber mounts were worn out. New anti-vibration pads fitted, bracket tightened. Silence restored in one hour. They also straightened bent fins with a fin comb."</p><div class="tsc-foot"><div class="tsc-av tsc-av-g">N</div><div><div class="tsc-name">Neha Singh</div><div class="tsc-loc">Indirapuram, Ghaziabad</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Split AC making a loud clicking sound every time it started. Air Control diagnosed a loose panel cover vibrating against the body, and a slightly burnt relay. Fixed both issues in 40 minutes for ₹1,200 all-inclusive. No upselling, no unnecessary parts."</p><div class="tsc-foot"><div class="tsc-av tsc-av-b">S</div><div><div class="tsc-name">Sanjay Bhatia</div><div class="tsc-loc">Rohini Sector 7, Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Water was dripping from my AC onto the sofa below — I panicked thinking it needed replacement. Air Control explained this is almost always a blocked drain pipe. Flushed the drain, cleaned the tray, re-angled the indoor unit. Fixed in 30 minutes. No more dripping!"</p><div class="tsc-foot"><div class="tsc-av tsc-av-p">P</div><div><div class="tsc-name">Pooja Mehta</div><div class="tsc-loc">Lajpat Nagar, South Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Water stains were appearing on my wall from the AC during monsoon. Turned out the drain pipe was partly disconnected inside the wall channel. Air Control reconnected the pipe properly, sealed it, and cleaned the entire evaporator coil. No water damage since."</p><div class="tsc-foot"><div class="tsc-av tsc-av-e">S</div><div><div class="tsc-name">Shreya Agarwal</div><div class="tsc-loc">Mayur Vihar Phase 1, Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"AC was leaking so much water it damaged the false ceiling. Air Control found both: a blocked drain AND low refrigerant causing coil to freeze and thaw and drip. Fixed both same day. Amazed they spotted two problems that a previous service had missed entirely."</p><div class="tsc-foot"><div class="tsc-av tsc-av-t">A</div><div><div class="tsc-name">Aakash Mehrotra</div><div class="tsc-loc">Greater Noida West</div><div class="tsc-ok">Verified Review</div></div></div></div>
         </div>
-        <div class="home-testi-card reveal d2">
-          <div class="ht-stars">★★★★★</div>
-          <p class="ht-quote">"Professional, punctual, and transparent pricing. The technician explained everything before starting. First time I've had an AC repair where there were zero surprises."</p>
-          <div class="ht-author">
-            <div class="ht-avatar">D</div>
-            <div>
-              <div class="ht-name">Deepika M.</div>
-              <div class="ht-location">Gurgaon · AC Service &amp; Cleaning</div>
-            </div>
-          </div>
+
+        <!-- ROW 2 — scrolls right -->
+        <div class="testi-row testi-row-rtl">
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Bought a new Hitachi 1.5-ton inverter AC. Air Control booked it for the same afternoon — two technicians arrived on time, installed both units, ran proper copper piping, pressure tested before adding gas, and did a full cooling test. Clean work, no mess left behind."</p><div class="tsc-foot"><div class="tsc-av tsc-av-g">D</div><div><div class="tsc-name">Divya Sharma</div><div class="tsc-loc">Dwarka Sector 12, Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Got 4 new split ACs installed — Daikin 1-ton and 1.5-ton units. Air Control planned the piping route carefully to keep it neat inside conduits, used proper copper piping. Each unit was tested before they left. All 4 work perfectly after 6 months."</p><div class="tsc-foot"><div class="tsc-av tsc-av-b">M</div><div><div class="tsc-name">Manish Gupta</div><div class="tsc-loc">Sector 75, Noida</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Air Control helped select the right tonnage for our room (they actually measured — other companies just guessed). Installation done in 3 hours including proper wall drilling and conduit. The new AC costs ₹600 less per month in electricity. Worth every rupee."</p><div class="tsc-foot"><div class="tsc-av tsc-av-p">M</div><div><div class="tsc-name">Meenakshi Joshi</div><div class="tsc-loc">Vasant Vihar, Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"On Air Control's AMC for 7 years now — 3 ACs covered. Every year they service all three before summer: deep coil wash, gas pressure check, drain flush. In 7 years not a single breakdown during summer. Once they proactively replaced a capacitor before it could fail."</p><div class="tsc-foot"><div class="tsc-av tsc-av-t">S</div><div><div class="tsc-name">Suresh Nair</div><div class="tsc-loc">Hauz Khas, South Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Signed an AMC for 2 ACs in Gurgaon after a costly emergency repair last summer. This year Air Control serviced both in March, found one had a weak capacitor and low gas — fixed before summer. Our electricity bills in April and May were 18% lower than last year."</p><div class="tsc-foot"><div class="tsc-av tsc-av-e">R</div><div><div class="tsc-name">Rajesh Kumar</div><div class="tsc-loc">Sector 47, Gurgaon</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Old Carrier AC hadn't been serviced in 3 years. Air Control did a full chemical wash of the evaporator, cleaned the blower, descaled the drain, and checked refrigerant pressure. The difference was immediate — cooling improved massively and the musty smell completely disappeared."</p><div class="tsc-foot"><div class="tsc-av tsc-av-r">P</div><div><div class="tsc-name">Parveen Kumar</div><div class="tsc-loc">Janakpuri, West Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"AC died at 11pm when temperature was still 41°C. Called Air Control — the technician picked up, diagnosed over phone as likely PCB issue, came the next morning at 8am with the part already arranged. Fixed by 10am. Emergency AC repair — responsive and caring team."</p><div class="tsc-foot"><div class="tsc-av tsc-av-g">H</div><div><div class="tsc-name">Harinder Gill</div><div class="tsc-loc">Punjabi Bagh, West Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"My Panasonic AC stopped working on a Sunday afternoon — outdoor unit fan wouldn't spin. Called Air Control, told it's Sunday but they confirmed availability. Technician arrived in 2.5 hours, replaced the fan capacitor. ₹850 total, AC running before evening."</p><div class="tsc-foot"><div class="tsc-av tsc-av-b">A</div><div><div class="tsc-name">Anita Sharma</div><div class="tsc-loc">South Extension Part 2, Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Air Control has maintained our embassy's air conditioning systems for over 35 years. In a diplomatic facility, we cannot compromise on reliability, safety, or confidentiality. Their professionalism, discretion, and technical excellence remain consistent across three decades."</p><div class="tsc-foot"><div class="tsc-av tsc-av-t">F</div><div><div class="tsc-name">Facility Manager</div><div class="tsc-loc">Vatican Embassy, New Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"My Hitachi AC was showing F3 error and not cooling. Air Control explained the error means high discharge temperature and methodically checked each cause: condenser was clogged (cleaned it), gas was fine. F3 error stopped, AC cooling normally. No parts replaced, just knowledge."</p><div class="tsc-foot"><div class="tsc-av tsc-av-p">K</div><div><div class="tsc-name">Kavita Srivastava</div><div class="tsc-loc">Vaishali, Ghaziabad</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Made the mistake of choosing a cheap AC repair company first. Called Air Control to fix the mess — they removed excess gas, found and repaired the original leak, and properly cleaned the unit. Higher cost but worth every rupee. Honest AC service company — don't compromise."</p><div class="tsc-foot"><div class="tsc-av tsc-av-r">V</div><div><div class="tsc-name">Vikram Singh</div><div class="tsc-loc">Sector 14, Gurgaon</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Data center cooling is mission-critical for us. Air Control designed and installed a redundant precision cooling system — main plus backup — with automatic failover. Six years of operation, zero thermal incidents. They understand what 'zero downtime' means."</p><div class="tsc-foot"><div class="tsc-av tsc-av-e">O</div><div><div class="tsc-name">Operations Director</div><div class="tsc-loc">IT Data Center, Noida</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <!-- duplicate for seamless loop -->
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Bought a new Hitachi 1.5-ton inverter AC. Air Control booked it for the same afternoon — two technicians arrived on time, installed both units, ran proper copper piping, pressure tested before adding gas, and did a full cooling test. Clean work, no mess left behind."</p><div class="tsc-foot"><div class="tsc-av tsc-av-g">D</div><div><div class="tsc-name">Divya Sharma</div><div class="tsc-loc">Dwarka Sector 12, Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Got 4 new split ACs installed — Daikin 1-ton and 1.5-ton units. Air Control planned the piping route carefully to keep it neat inside conduits, used proper copper piping. Each unit was tested before they left. All 4 work perfectly after 6 months."</p><div class="tsc-foot"><div class="tsc-av tsc-av-b">M</div><div><div class="tsc-name">Manish Gupta</div><div class="tsc-loc">Sector 75, Noida</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Air Control helped select the right tonnage for our room (they actually measured — other companies just guessed). Installation done in 3 hours including proper wall drilling and conduit. The new AC costs ₹600 less per month in electricity. Worth every rupee."</p><div class="tsc-foot"><div class="tsc-av tsc-av-p">M</div><div><div class="tsc-name">Meenakshi Joshi</div><div class="tsc-loc">Vasant Vihar, Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"On Air Control's AMC for 7 years now — 3 ACs covered. Every year they service all three before summer: deep coil wash, gas pressure check, drain flush. In 7 years not a single breakdown during summer. Once they proactively replaced a capacitor before it could fail."</p><div class="tsc-foot"><div class="tsc-av tsc-av-t">S</div><div><div class="tsc-name">Suresh Nair</div><div class="tsc-loc">Hauz Khas, South Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Signed an AMC for 2 ACs in Gurgaon after a costly emergency repair last summer. This year Air Control serviced both in March, found one had a weak capacitor and low gas — fixed before summer. Our electricity bills in April and May were 18% lower than last year."</p><div class="tsc-foot"><div class="tsc-av tsc-av-e">R</div><div><div class="tsc-name">Rajesh Kumar</div><div class="tsc-loc">Sector 47, Gurgaon</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Old Carrier AC hadn't been serviced in 3 years. Air Control did a full chemical wash of the evaporator, cleaned the blower, descaled the drain, and checked refrigerant pressure. The difference was immediate — cooling improved massively and the musty smell completely disappeared."</p><div class="tsc-foot"><div class="tsc-av tsc-av-r">P</div><div><div class="tsc-name">Parveen Kumar</div><div class="tsc-loc">Janakpuri, West Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"AC died at 11pm when temperature was still 41°C. Called Air Control — the technician picked up, diagnosed over phone as likely PCB issue, came the next morning at 8am with the part already arranged. Fixed by 10am. Emergency AC repair — responsive and caring team."</p><div class="tsc-foot"><div class="tsc-av tsc-av-g">H</div><div><div class="tsc-name">Harinder Gill</div><div class="tsc-loc">Punjabi Bagh, West Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"My Panasonic AC stopped working on a Sunday afternoon — outdoor unit fan wouldn't spin. Called Air Control, told it's Sunday but they confirmed availability. Technician arrived in 2.5 hours, replaced the fan capacitor. ₹850 total, AC running before evening."</p><div class="tsc-foot"><div class="tsc-av tsc-av-b">A</div><div><div class="tsc-name">Anita Sharma</div><div class="tsc-loc">South Extension Part 2, Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Air Control has maintained our embassy's air conditioning systems for over 35 years. In a diplomatic facility, we cannot compromise on reliability, safety, or confidentiality. Their professionalism, discretion, and technical excellence remain consistent across three decades."</p><div class="tsc-foot"><div class="tsc-av tsc-av-t">F</div><div><div class="tsc-name">Facility Manager</div><div class="tsc-loc">Vatican Embassy, New Delhi</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"My Hitachi AC was showing F3 error and not cooling. Air Control explained the error means high discharge temperature and methodically checked each cause: condenser was clogged (cleaned it), gas was fine. F3 error stopped, AC cooling normally. No parts replaced, just knowledge."</p><div class="tsc-foot"><div class="tsc-av tsc-av-p">K</div><div><div class="tsc-name">Kavita Srivastava</div><div class="tsc-loc">Vaishali, Ghaziabad</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Made the mistake of choosing a cheap AC repair company first. Called Air Control to fix the mess — they removed excess gas, found and repaired the original leak, and properly cleaned the unit. Higher cost but worth every rupee. Honest AC service company — don't compromise."</p><div class="tsc-foot"><div class="tsc-av tsc-av-r">V</div><div><div class="tsc-name">Vikram Singh</div><div class="tsc-loc">Sector 14, Gurgaon</div><div class="tsc-ok">Verified Review</div></div></div></div>
+          <div class="tsc"><div class="tsc-stars">★★★★★</div><p class="tsc-quote">"Data center cooling is mission-critical for us. Air Control designed and installed a redundant precision cooling system — main plus backup — with automatic failover. Six years of operation, zero thermal incidents. They understand what 'zero downtime' means."</p><div class="tsc-foot"><div class="tsc-av tsc-av-e">O</div><div><div class="tsc-name">Operations Director</div><div class="tsc-loc">IT Data Center, Noida</div><div class="tsc-ok">Verified Review</div></div></div></div>
         </div>
-        <div class="home-testi-card reveal d3">
-          <div class="ht-stars">★★★★★</div>
-          <p class="ht-quote">"Our office VRF system was showing errors. Air Control diagnosed and fixed it same day — no disruption to business. We've been using them for annual maintenance ever since."</p>
-          <div class="ht-author">
-            <div class="ht-avatar">A</div>
-            <div>
-              <div class="ht-name">Arjun K.</div>
-              <div class="ht-location">Noida · VRF System Repair</div>
-            </div>
-          </div>
-        </div>
+
       </div>
     </div>
   </section>
