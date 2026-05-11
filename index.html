@@ -2473,6 +2473,7 @@ Our 24/7 HVAC repair services ensure minimal downtime and quick restoration of c
    ================================================================ */
 const CFG = {
   web3formsKey: '0b3287e6-ba3f-4a09-93ed-2212b40ea680',
+  notifyEmail: 'ajay.aircontrol@gmail.com',
   phone: '+919312264832',
   company: 'Air Control'
 };
@@ -2716,7 +2717,7 @@ function sendMailtoNotification(lead){
     `View all leads: Open admin panel at yoursite.html#admin`
   );
   const a = document.createElement('a');
-  a.href = 'mailto:' + ['ajay','aircontrols.in'].join('@') + '?subject=' + sub + '&body=' + body;
+  a.href = 'mailto:' + CFG.notifyEmail + '?subject=' + sub + '&body=' + body;
   a.style.display='none';
   document.body.appendChild(a);
   setTimeout(()=>{ a.click(); document.body.removeChild(a); }, 800);
