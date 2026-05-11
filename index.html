@@ -1049,6 +1049,103 @@ ADVANCED SEO META (HVAC DOMINATION)
     display: none !important;
   }
 }
+
+/* ── FLOATING SNOWFLAKES ── */
+.hero-snowflake {
+  position: absolute;
+  color: rgba(255,255,255,0.55);
+  font-size: 22px;
+  pointer-events: none;
+  z-index: 2;
+  animation: snowflakeDrift 6s ease-in-out infinite;
+  user-select: none;
+}
+.hero-snowflake:nth-child(1) { top: 12%; right: 28%; animation-delay: 0s; font-size: 28px; }
+.hero-snowflake:nth-child(2) { top: 28%; right: 8%;  animation-delay: 1.2s; font-size: 18px; }
+.hero-snowflake:nth-child(3) { top: 55%; right: 22%; animation-delay: 0.8s; font-size: 32px; color: rgba(180,220,255,0.5); }
+.hero-snowflake:nth-child(4) { top: 72%; right: 6%;  animation-delay: 2s;   font-size: 20px; }
+.hero-snowflake:nth-child(5) { top: 18%; right: 42%; animation-delay: 1.6s; font-size: 16px; opacity: 0.4; }
+.hero-snowflake:nth-child(6) { top: 80%; right: 35%; animation-delay: 2.4s; font-size: 14px; opacity: 0.35; }
+@keyframes snowflakeDrift {
+  0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.55; }
+  50%       { transform: translateY(-12px) rotate(20deg); opacity: 0.75; }
+}
+@media (max-width: 768px) { .hero-snowflake { display: none; } }
+
+/* ── HOW IT WORKS SECTION ── */
+.hiw-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 52px;
+}
+.hiw-card {
+  background: var(--white);
+  border-radius: var(--r20);
+  padding: 40px 32px;
+  border: 1px solid var(--border);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all .3s;
+}
+.hiw-card:hover { box-shadow: var(--shadow-med); transform: translateY(-5px); }
+.hiw-num {
+  width: 56px; height: 56px;
+  background: linear-gradient(135deg, var(--royal), var(--accent));
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 900; color: var(--white);
+  margin: 0 auto 20px;
+  box-shadow: 0 8px 24px rgba(30,77,183,0.35);
+}
+.hiw-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px; color: var(--navy); margin-bottom: 12px;
+}
+.hiw-card p { color: var(--gray); font-size: 14.5px; line-height: 1.7; }
+.hiw-icon { font-size: 36px; margin-bottom: 16px; display: block; }
+@media (max-width: 768px) { .hiw-grid { grid-template-columns: 1fr; } }
+
+/* ── HOME TESTIMONIALS ── */
+.home-testi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 52px;
+}
+.home-testi-card {
+  background: var(--white);
+  border-radius: var(--r20);
+  padding: 32px 28px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+  transition: all .3s;
+}
+.home-testi-card:hover { box-shadow: var(--shadow-med); transform: translateY(-4px); }
+.ht-stars { color: #FBBF24; font-size: 16px; letter-spacing: 2px; margin-bottom: 14px; }
+.ht-quote { font-size: 14px; color: var(--gray); line-height: 1.75; font-style: italic; margin-bottom: 20px; }
+.ht-author { display: flex; align-items: center; gap: 12px; }
+.ht-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--royal), var(--accent));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: white; font-weight: 700; font-family: 'Playfair Display', serif;
+  flex-shrink: 0;
+}
+.ht-name { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--navy); }
+.ht-location { font-size: 12px; color: var(--gray-l); }
+@media (max-width: 768px) { .home-testi-grid { grid-template-columns: 1fr; } }
+
+/* ── UPDATED PILLAR CARDS ── */
+.pillar-card {
+  border-top: 3px solid transparent;
+}
+.pillar-card:nth-child(1) { border-top-color: var(--royal); }
+.pillar-card:nth-child(2) { border-top-color: var(--gold); }
+.pillar-card:nth-child(3) { border-top-color: var(--success); }
 </style>
 </head>
 <body>
@@ -1177,6 +1274,12 @@ ADVANCED SEO META (HVAC DOMINATION)
     <div class="heat-shimmer" aria-hidden="true"></div>
     <div class="hero-bg-mesh"></div>
     <div class="hero-grid-lines"></div>
+    <span class="hero-snowflake" aria-hidden="true">❄</span>
+    <span class="hero-snowflake" aria-hidden="true">❄</span>
+    <span class="hero-snowflake" aria-hidden="true">❄</span>
+    <span class="hero-snowflake" aria-hidden="true">❄</span>
+    <span class="hero-snowflake" aria-hidden="true">❄</span>
+    <span class="hero-snowflake" aria-hidden="true">❄</span>
     <div class="hero-content-wrap">
       <div class="hero-left">
         <div class="hero-badge reveal"><span class="pulse-dot"></span>Same-Day AC Repair &amp; Service · Delhi NCR · Since 1987</div>
@@ -1270,6 +1373,93 @@ ADVANCED SEO META (HVAC DOMINATION)
       </div>
     </div>
   </div>
+
+  <!-- HOW IT WORKS -->
+  <section class="section section-light parallax-section">
+    <div class="parallax-bg"
+      style="background-image: url('https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1920&q=85');"
+      aria-hidden="true"></div>
+    <div class="parallax-overlay" aria-hidden="true"></div>
+    <div class="container">
+      <div class="text-center reveal">
+        <div class="section-label text-royal">Simple Process</div>
+        <div class="gold-rule" style="margin:0 auto 20px;"></div>
+        <h2 class="headline">How It <span class="text-gold">Works</span></h2>
+        <p class="lead-text" style="max-width:520px;margin:16px auto 0;">From booking to cool comfort — we make AC repair fast, transparent, and stress-free.</p>
+      </div>
+      <div class="hiw-grid">
+        <div class="hiw-card reveal d1">
+          <span class="hiw-icon">📱</span>
+          <div class="hiw-num">1</div>
+          <h3>Instant Booking</h3>
+          <p>Fill the quick form or call us directly. Our team confirms your booking in minutes — no waiting, no uncertainty.</p>
+        </div>
+        <div class="hiw-card reveal d2">
+          <span class="hiw-icon">🔧</span>
+          <div class="hiw-num">2</div>
+          <h3>Expert Dispatch</h3>
+          <p>A certified AC technician is dispatched to your location within 2 hours, equipped with the right parts and diagnostic tools.</p>
+        </div>
+        <div class="hiw-card reveal d3">
+          <span class="hiw-icon">❄️</span>
+          <div class="hiw-num">3</div>
+          <h3>Refreshing Comfort</h3>
+          <p>Your AC is diagnosed, fixed, and tested — same day. Enjoy cool, comfortable air with our 90-day repair warranty.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CUSTOMER TESTIMONIALS -->
+  <section class="section parallax-section">
+    <div class="parallax-bg"
+      style="background-image: url('https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&w=1920&q=85');"
+      aria-hidden="true"></div>
+    <div class="parallax-overlay overlay-pillars" aria-hidden="true"></div>
+    <div class="container">
+      <div class="text-center reveal">
+        <div class="section-label text-royal">Customer Testimonials</div>
+        <div class="gold-rule" style="margin:0 auto 20px;"></div>
+        <h2 class="headline">What Our <span class="text-gold">Customers</span> Say</h2>
+        <p class="lead-text" style="max-width:540px;margin:16px auto 0;">Trusted by thousands of Delhi families and businesses — here's what they experience.</p>
+      </div>
+      <div class="home-testi-grid">
+        <div class="home-testi-card reveal d1">
+          <div class="ht-stars">★★★★★</div>
+          <p class="ht-quote">"AC stopped cooling at 2 AM during peak summer. Air Control sent a technician by 7 AM — gas refilled, unit tested, and cooling perfectly. Genuinely impressive service."</p>
+          <div class="ht-author">
+            <div class="ht-avatar">R</div>
+            <div>
+              <div class="ht-name">Rahul S.</div>
+              <div class="ht-location">South Delhi · Split AC Repair</div>
+            </div>
+          </div>
+        </div>
+        <div class="home-testi-card reveal d2">
+          <div class="ht-stars">★★★★★</div>
+          <p class="ht-quote">"Professional, punctual, and transparent pricing. The technician explained everything before starting. First time I've had an AC repair where there were zero surprises."</p>
+          <div class="ht-author">
+            <div class="ht-avatar">D</div>
+            <div>
+              <div class="ht-name">Deepika M.</div>
+              <div class="ht-location">Gurgaon · AC Service &amp; Cleaning</div>
+            </div>
+          </div>
+        </div>
+        <div class="home-testi-card reveal d3">
+          <div class="ht-stars">★★★★★</div>
+          <p class="ht-quote">"Our office VRF system was showing errors. Air Control diagnosed and fixed it same day — no disruption to business. We've been using them for annual maintenance ever since."</p>
+          <div class="ht-author">
+            <div class="ht-avatar">A</div>
+            <div>
+              <div class="ht-name">Arjun K.</div>
+              <div class="ht-location">Noida · VRF System Repair</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section class="section parallax-section">
     <div class="parallax-bg"
@@ -1540,16 +1730,13 @@ ADVANCED SEO META (HVAC DOMINATION)
      PAGE 3: SERVICES
      ========================================================= -->
 <div class="page" id="page-services">
-  <section class="page-hero parallax-section">
-    <div class="parallax-bg"
-      style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1920&q=85');"
-      aria-hidden="true"></div>
-    <div class="parallax-overlay overlay-services" aria-hidden="true"></div>
+  <section class="page-hero parallax-section" style="background:linear-gradient(135deg,#0D2B5E 0%,#1565A3 40%,#1E88C8 70%,#0D3D6E 100%);">
+    <div class="parallax-overlay" style="background:linear-gradient(135deg,rgba(13,43,94,0.72) 0%,rgba(21,101,163,0.45) 50%,rgba(13,61,110,0.72) 100%);" aria-hidden="true"></div>
     <div class="page-hero-grid"></div>
     <div class="container">
       <div class="section-label text-gold reveal">What We Deliver</div>
-      <h2 class="headline text-white reveal d1">Consultant-First<br><em>HVAC Solutions</em></h2>
-      <p class="reveal d2">Every engagement begins with understanding your needs — not pushing a product. We engineer your solution. Then we deliver it with precision.</p>
+      <h2 class="headline text-white reveal d1">HVAC Systems<br>&amp; <em>Services</em></h2>
+      <p class="reveal d2">Premium climate solutions for residential and commercial spaces. Every engagement begins with understanding your needs — we engineer your solution, then deliver with precision.</p>
     </div>
   </section>
 
