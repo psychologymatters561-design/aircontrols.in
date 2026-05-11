@@ -2591,19 +2591,19 @@ function checkHeroFormInstantLead(){
     heroLeadFired = true;
     const lead = { name, phone, service: document.getElementById('hf-service')?.value||'Not specified', source:'hero-form-instant', timestamp: new Date().toISOString() };
     saveLead(lead);
-    sendToWeb3Forms(lead);
+    sendToWeb3Forms(lead).then(function(ok){ if(!ok) sendMailtoNotification(lead); });
   }
 }
-function submitHeroForm(){
+async function submitHeroForm(){
   const name = document.getElementById('hf-name')?.value.trim();
   const phone = document.getElementById('hf-phone')?.value.trim();
   if(!name){ alert('Please enter your name.'); return; }
   if(!phone || phone.replace(/\D/g,'').length<10){ alert('Please enter a valid phone number.'); return; }
   const lead = { name, phone, service: document.getElementById('hf-service')?.value||'Not specified', source:'hero-form-submit', timestamp: new Date().toISOString() };
   saveLead(lead);
-  sendToWeb3Forms(lead);
-  //sendMailtoNotification(lead);
-  alert(`✅ Thank you, ${name}! Our expert will call you at ${phone} now!.`);
+  const sent = await sendToWeb3Forms(lead);
+  if(!sent) sendMailtoNotification(lead);
+  alert(`✅ Thank you, ${name}! Our expert will call you at ${phone} now!`);
   heroLeadFired = true;
 }
 
@@ -2625,24 +2625,38 @@ function saveLead(lead){
    Sign up at web3forms.com → paste your access_key above
    ================================================================ */
 async function sendToWeb3Forms(lead){
-  if(!CFG.web3formsKey) return;
+  if(!CFG.web3formsKey){
+    console.warn('[Lead] Web3Forms key not configured');
+    return false;
+  }
   try {
-    await fetch('https://api.web3forms.com/submit',{
+    const res = await fetch('https://api.web3forms.com/submit',{
       method:'POST',
       headers:{'Content-Type':'application/json','Accept':'application/json'},
       body: JSON.stringify({
         access_key: CFG.web3formsKey,
-        subject: `🔔 New Lead: ${lead.name} — ${lead.service||lead.requirement||'HVAC Enquiry'}`,
+        subject: lead.subject || `🔔 New Lead: ${lead.name} — ${lead.service||lead.requirement||'HVAC Enquiry'}`,
         from_name: 'Air Control Website',
-        name: lead.name, phone: lead.phone, email: lead.email||'—',
+        name: lead.name||'—', phone: lead.phone||'—', email: lead.email||'',
         service: lead.service||lead.requirement||'—',
         facility: lead.facility||lead.propertyType||'—',
         location: lead.location||'—', message: lead.message||'—',
-        source: lead.source, timestamp: lead.timestamp,
+        source: lead.source||'website', timestamp: lead.timestamp||new Date().toISOString(),
         botcheck: ''
       })
     });
-  } catch(e){}
+    const result = await res.json();
+    if(result.success){
+      console.log('[Lead] ✅ Web3Forms sent OK');
+      return true;
+    } else {
+      console.error('[Lead] ❌ Web3Forms rejected:', result.message, result);
+      return false;
+    }
+  } catch(e){
+    console.error('[Lead] ❌ Web3Forms network error:', e);
+    return false;
+  }
 }
 
 /* ================================================================
@@ -2657,7 +2671,7 @@ async function sendToWeb3Forms(lead){
     var orig = btn.innerHTML;
     btn.disabled = true;
     btn.innerHTML = '⏳ Sending…';
-    var data = {};
+    var data = { botcheck: '' };
     new FormData(form).forEach(function(v,k){ data[k]=v; });
     try {
       var res = await fetch('https://api.web3forms.com/submit',{
@@ -2670,13 +2684,18 @@ async function sendToWeb3Forms(lead){
         form.style.display='none';
         var succ = document.getElementById('cfSuccess');
         if(succ){ succ.style.display='block'; }
-        // also save to local leads
         saveLead({name:(data.first_name||'')+' '+(data.last_name||''),phone:data.phone,email:data.email,service:data.service,facility:data.facility,location:data.location,message:data.message,source:'contact-form'});
+        console.log('[Lead] ✅ Contact form sent OK');
       } else {
+        console.error('[Lead] ❌ Contact form Web3Forms error:', result.message, result);
         btn.disabled=false; btn.innerHTML=orig;
-        alert('Something went wrong. Please call us directly at +91 93122 64832.');
+        /* Fallback: open email client pre-filled */
+        if(confirm('Submission failed. Open your email client to send the enquiry instead?')){
+          sendMailtoNotification({name:(data.first_name||'')+' '+(data.last_name||''),phone:data.phone,email:data.email,service:data.service,facility:data.facility,location:data.location,message:data.message,source:'contact-form-fallback'});
+        }
       }
     } catch(err){
+      console.error('[Lead] ❌ Contact form network error:', err);
       btn.disabled=false; btn.innerHTML=orig;
       alert('Connection error. Please call +91 93122 64832 or WhatsApp us.');
     }
@@ -2877,10 +2896,8 @@ function processChat(val){
         source:'chatbot-instant', timestamp:new Date().toISOString()
       };
       saveLead(lead);
-      sendToWeb3Forms({
-        ...lead,
-        subject: ctx.emailSubFn(chatState.data.name)
-      });
+      sendToWeb3Forms({ ...lead, subject: ctx.emailSubFn(chatState.data.name) })
+        .then(function(ok){ if(!ok) sendMailtoNotification(lead); });
       const bar=document.getElementById('leadSavedBar');
       bar.style.display='flex';
       setTimeout(()=>bar.style.display='none',4000);
@@ -2906,7 +2923,8 @@ function completeChatFlow(){
   /* Send complete lead via email */
   const fullLead={...chatState.data, source:'chatbot-complete', timestamp:new Date().toISOString()};
   saveLead(fullLead);
-  sendToWeb3Forms({ ...fullLead, subject: ctx.emailSubFn(n) });
+  sendToWeb3Forms({ ...fullLead, subject: ctx.emailSubFn(n) })
+    .then(function(ok){ if(!ok) sendMailtoNotification(fullLead); });
 
   const isEmergency = chatState.data.service?.includes('Emergency');
   const callTime = isEmergency ? '**within 60 minutes**' : '**within 2 hours**';
