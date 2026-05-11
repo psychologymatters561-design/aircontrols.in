@@ -2473,7 +2473,7 @@ Our 24/7 HVAC repair services ensure minimal downtime and quick restoration of c
    ================================================================ */
 const CFG = {
   web3formsKey: '0b3287e6-ba3f-4a09-93ed-2212b40ea680',
-  notifyEmail: 'ajay.aircontrol@gmail.com',
+  notifyEmail:  'ajay.aircontrol@gmail.com',
   phone: '+919312264832',
   company: 'Air Control'
 };
@@ -2591,8 +2591,7 @@ function checkHeroFormInstantLead(){
   if(name && name.length>1 && phone && phone.replace(/\D/g,'').length>=10){
     heroLeadFired = true;
     const lead = { name, phone, service: document.getElementById('hf-service')?.value||'Not specified', source:'hero-form-instant', timestamp: new Date().toISOString() };
-    saveLead(lead);
-    sendToWeb3Forms(lead).then(function(ok){ if(!ok) sendMailtoNotification(lead); });
+    fireLead(lead);
   }
 }
 async function submitHeroForm(){
@@ -2601,9 +2600,7 @@ async function submitHeroForm(){
   if(!name){ alert('Please enter your name.'); return; }
   if(!phone || phone.replace(/\D/g,'').length<10){ alert('Please enter a valid phone number.'); return; }
   const lead = { name, phone, service: document.getElementById('hf-service')?.value||'Not specified', source:'hero-form-submit', timestamp: new Date().toISOString() };
-  saveLead(lead);
-  const sent = await sendToWeb3Forms(lead);
-  if(!sent) sendMailtoNotification(lead);
+  await fireLead(lead);
   alert(`✅ Thank you, ${name}! Our expert will call you at ${phone} now!`);
   heroLeadFired = true;
 }
@@ -2660,8 +2657,15 @@ async function sendToWeb3Forms(lead){
   }
 }
 
+/* Unified lead dispatcher — saves locally, sends via Web3Forms, mailto fallback */
+async function fireLead(lead){
+  saveLead(lead);
+  const sent = await sendToWeb3Forms(lead);
+  if(!sent) sendMailtoNotification(lead);
+}
+
 /* ================================================================
-   CONTACT FORM — AJAX submission to Web3Forms
+   CONTACT FORM — submission via Web3Forms
    ================================================================ */
 (function(){
   var form = document.getElementById('contactForm');
@@ -2672,33 +2676,26 @@ async function sendToWeb3Forms(lead){
     var orig = btn.innerHTML;
     btn.disabled = true;
     btn.innerHTML = '⏳ Sending…';
-    var data = { botcheck: '' };
-    new FormData(form).forEach(function(v,k){ data[k]=v; });
-    try {
-      var res = await fetch('https://api.web3forms.com/submit',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','Accept':'application/json'},
-        body:JSON.stringify(data)
-      });
-      var result = await res.json();
-      if(result.success){
-        form.style.display='none';
-        var succ = document.getElementById('cfSuccess');
-        if(succ){ succ.style.display='block'; }
-        saveLead({name:(data.first_name||'')+' '+(data.last_name||''),phone:data.phone,email:data.email,service:data.service,facility:data.facility,location:data.location,message:data.message,source:'contact-form'});
-        console.log('[Lead] ✅ Contact form sent OK');
-      } else {
-        console.error('[Lead] ❌ Contact form Web3Forms error:', result.message, result);
-        btn.disabled=false; btn.innerHTML=orig;
-        /* Fallback: open email client pre-filled */
-        if(confirm('Submission failed. Open your email client to send the enquiry instead?')){
-          sendMailtoNotification({name:(data.first_name||'')+' '+(data.last_name||''),phone:data.phone,email:data.email,service:data.service,facility:data.facility,location:data.location,message:data.message,source:'contact-form-fallback'});
-        }
-      }
-    } catch(err){
-      console.error('[Lead] ❌ Contact form network error:', err);
-      btn.disabled=false; btn.innerHTML=orig;
-      alert('Connection error. Please call +91 93122 64832 or WhatsApp us.');
+    var d = {};
+    new FormData(form).forEach(function(v,k){ d[k]=v; });
+    var lead = {
+      name: (d.first_name||'') + (d.last_name ? ' '+d.last_name : ''),
+      phone: d.phone, email: d.email,
+      service: d.service, facility: d.facility,
+      location: d.location, message: d.message,
+      source: 'contact-form',
+      subject: 'New Enquiry — ' + (d.service||'AC Service') + ' | ' + ((d.first_name||'') + ' ' + (d.last_name||'')).trim()
+    };
+    const sent = await sendToWeb3Forms(lead);
+    if(sent){
+      form.style.display = 'none';
+      var succ = document.getElementById('cfSuccess');
+      if(succ) succ.style.display = 'block';
+      saveLead(lead);
+    } else {
+      btn.disabled = false; btn.innerHTML = orig;
+      sendMailtoNotification(lead);
+      alert('Auto-send failed — your email client has been opened with all enquiry details. Please send that email to complete your request.');
     }
   });
 })();
@@ -2896,9 +2893,7 @@ function processChat(val){
         service:chatState.data.service||ctx.short,
         source:'chatbot-instant', timestamp:new Date().toISOString()
       };
-      saveLead(lead);
-      sendToWeb3Forms({ ...lead, subject: ctx.emailSubFn(chatState.data.name) })
-        .then(function(ok){ if(!ok) sendMailtoNotification(lead); });
+      fireLead({ ...lead, subject: ctx.emailSubFn(chatState.data.name) });
       const bar=document.getElementById('leadSavedBar');
       bar.style.display='flex';
       setTimeout(()=>bar.style.display='none',4000);
@@ -2923,9 +2918,7 @@ function completeChatFlow(){
 
   /* Send complete lead via email */
   const fullLead={...chatState.data, source:'chatbot-complete', timestamp:new Date().toISOString()};
-  saveLead(fullLead);
-  sendToWeb3Forms({ ...fullLead, subject: ctx.emailSubFn(n) })
-    .then(function(ok){ if(!ok) sendMailtoNotification(fullLead); });
+  fireLead({ ...fullLead, subject: ctx.emailSubFn(n) });
 
   const isEmergency = chatState.data.service?.includes('Emergency');
   const callTime = isEmergency ? '**within 60 minutes**' : '**within 2 hours**';
