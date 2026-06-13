@@ -825,10 +825,10 @@ button { font:inherit; }
   letter-spacing: .08em;
 }
 .svc-ctr b { color:var(--gold); }
-/* Progress bar — hidden on mobile */
+/* Progress bar — hidden on mobile/tablet */
 #svc-prog { display:none; }
-/* ── DESKTOP: horizontal scroll ── */
-@media all {
+/* ── DESKTOP ONLY (860px+): GSAP pinned horizontal scroll ── */
+@media (min-width:860px) {
   #services { overflow: hidden; }
   #svc-wrap {
     flex-direction: row;
@@ -840,9 +840,12 @@ button { font:inherit; }
     height: 100vh;
     height: 100dvh;
     flex-shrink: 0;
-    padding: clamp(4.5rem, 11vh, 5rem) clamp(1.4rem, 8%, 8rem);
+    padding: clamp(4rem, 9vh, 5.5rem) clamp(2rem, 3.5vw, 5rem);
     align-items: center;
+    justify-content: center;
   }
+  .svc-intro { max-width: clamp(640px, 76vw, 980px); }
+  .svc-card  { max-width: clamp(680px, 78vw, 1100px); }
   .svc-ctr { margin-top: 0; position: absolute; bottom: 2rem; right: 4%; }
   #svc-prog {
     display: block;
@@ -858,6 +861,19 @@ button { font:inherit; }
     transform: scaleX(0);
     transition: none;
   }
+}
+/* ── TABLET (641px – 859px): 2-column card grid, no horizontal scroll ── */
+@media (min-width:641px) and (max-width:859px) {
+  #svc-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.4rem;
+    padding: clamp(3rem, 6vw, 4.5rem) clamp(1.5rem, 4%, 2.5rem);
+  }
+  .svc-slide { padding: 0; justify-content: flex-start; align-items: stretch; }
+  .svc-slide:first-child { grid-column: 1 / -1; padding-bottom: .5rem; }
+  .svc-card { max-width: none; height: 100%; }
+  .svc-ctr  { display: none; }
 }
 
 /* ═══════════════════════════════════════
@@ -1322,6 +1338,77 @@ footer {
 .faq-item[open] summary { color:var(--gold); }
 .faq-a { padding:0 1.3rem 1.2rem; color:var(--dim); font-size:.9rem; line-height:1.75; }
 .faq-cta { display:flex; gap:.7rem; flex-wrap:wrap; justify-content:center; margin-top:2.2rem; }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE POLISH — ALL BREAKPOINTS
+═══════════════════════════════════════ */
+
+/* Tablet (641–859px): collapse two-col grids */
+@media (max-width:859px) {
+  .offer-inner   { grid-template-columns: 1fr !important; }
+  .contact-inner { grid-template-columns: 1fr !important; }
+  /* AC section: show static state, hide animated parts */
+  #ac-assembled  { opacity:1 !important; transform:none !important; }
+  .ac-stage-cta  { opacity:1 !important; }
+  .xpart,#ac-lines,#ac-bp-ghost { display:none !important; }
+}
+
+/* Mobile (≤520px): tighter spacing, bigger touch targets, readable text */
+@media (max-width:520px) {
+  :root { --sp: clamp(3.5rem,9vw,5rem) clamp(1.2rem,5.5%,1.6rem); }
+
+  /* Nav */
+  #nav        { padding:1rem 4.5%; }
+  #nav.solid  { padding:.75rem 4.5%; }
+  .nav-logo   { font-size:1.1rem; }
+
+  /* Hero */
+  .hero-h1 { font-size:clamp(2rem,7.5vw,2.6rem); }
+  .hero-sub { font-size:.88rem; }
+  .hero-cta { display:flex; flex-direction:column; align-items:center; gap:.7rem; }
+  .hero-cta a { justify-content:center; }
+
+  /* Scene */
+  .scene-pull { padding:1.3rem 1.2rem; margin:2rem 0; }
+
+  /* Services mobile: comfortable vertical cards */
+  .svc-slide { padding:2rem 1.2rem; }
+  .svc-card  { padding:1.4rem 1.2rem; }
+  .svc-n     { font-size:2.2rem; }
+
+  /* Offer */
+  .offer-tiers { grid-template-columns:1fr !important; }
+  .tier        { padding:1rem 1.1rem; }
+
+  /* Contact form */
+  .f-row { grid-template-columns:1fr !important; }
+  .f-in,.f-sel,.f-ta { padding:.88rem 1rem; font-size:.95rem; }
+
+  /* Buttons — comfortable touch targets */
+  .btn { min-height:44px; }
+
+  /* FAQ */
+  .faq-item summary { font-size:.9rem; padding:.9rem 1.1rem; }
+
+  /* Footer */
+  footer  { padding:2.5rem 4.5% 1.5rem; }
+  .ft-bot { flex-direction:column; text-align:center; gap:.25rem; }
+  .ft-top { gap:1.8rem; }
+
+  /* Chatbot — full-width panel inset from edges */
+  #chat-box { right:.75rem; bottom:4.5rem; width:calc(100vw - 1.5rem); max-height:480px; }
+  #chat-fab { right:.75rem; bottom:.75rem; width:50px; height:50px; font-size:1.2rem; }
+
+  /* Proof clients — single col on very small screens */
+  .proof-clients { grid-template-columns:1fr !important; }
+}
+
+/* Very small screens (≤360px) */
+@media (max-width:360px) {
+  .hero-h1 { font-size:clamp(1.8rem,7.8vw,2.1rem); }
+  .t-h2    { font-size:clamp(1.5rem,5.5vw,2rem); }
+  .hero-sub{ font-size:.82rem; }
+}
 </style>
 </head>
 <body>
@@ -2357,6 +2444,8 @@ footer {
     var wrap  = el('svc-wrap');
     var fill  = el('svc-fill');
     if (!sec||!wrap) return;
+    // Horizontal pinning only on desktop — tablet/mobile use CSS vertical stack.
+    if (window.innerWidth < 860) return;
     var slides = qsa('.svc-slide', wrap);
     var N = slides.length;
     wrap.style.width = (N*100)+'vw';
@@ -2683,8 +2772,11 @@ var RV=[
       initCursor();
       initHero();
       initACBg();
-      initACExplode();
-      initHScroll();
+      // Pin-heavy animations only on desktop — mobile shows static fallback via CSS.
+      if (window.innerWidth >= 860) {
+        initACExplode();
+        initHScroll();
+      }
       ScrollTrigger.refresh();
     }
   }
