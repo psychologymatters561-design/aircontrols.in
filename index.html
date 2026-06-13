@@ -825,10 +825,10 @@ button { font:inherit; }
   letter-spacing: .08em;
 }
 .svc-ctr b { color:var(--gold); }
-/* Progress bar — hidden on mobile/tablet */
+/* Progress bar — hidden on mobile */
 #svc-prog { display:none; }
-/* ── DESKTOP ONLY (860px+): GSAP pinned horizontal scroll ── */
-@media (min-width:860px) {
+/* ── ALL SCREENS: GSAP horizontal scroll — wider cards than before ── */
+@media all {
   #services { overflow: hidden; }
   #svc-wrap {
     flex-direction: row;
@@ -861,19 +861,6 @@ button { font:inherit; }
     transform: scaleX(0);
     transition: none;
   }
-}
-/* ── TABLET (641px – 859px): 2-column card grid, no horizontal scroll ── */
-@media (min-width:641px) and (max-width:859px) {
-  #svc-wrap {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.4rem;
-    padding: clamp(3rem, 6vw, 4.5rem) clamp(1.5rem, 4%, 2.5rem);
-  }
-  .svc-slide { padding: 0; justify-content: flex-start; align-items: stretch; }
-  .svc-slide:first-child { grid-column: 1 / -1; padding-bottom: .5rem; }
-  .svc-card { max-width: none; height: 100%; }
-  .svc-ctr  { display: none; }
 }
 
 /* ═══════════════════════════════════════
@@ -1343,14 +1330,10 @@ footer {
    RESPONSIVE POLISH — ALL BREAKPOINTS
 ═══════════════════════════════════════ */
 
-/* Tablet (641–859px): collapse two-col grids */
+/* Tablet & mobile: collapse two-col grids */
 @media (max-width:859px) {
   .offer-inner   { grid-template-columns: 1fr !important; }
   .contact-inner { grid-template-columns: 1fr !important; }
-  /* AC section: show static state, hide animated parts */
-  #ac-assembled  { opacity:1 !important; transform:none !important; }
-  .ac-stage-cta  { opacity:1 !important; }
-  .xpart,#ac-lines,#ac-bp-ghost { display:none !important; }
 }
 
 /* Mobile (≤520px): tighter spacing, bigger touch targets, readable text */
@@ -2444,8 +2427,6 @@ footer {
     var wrap  = el('svc-wrap');
     var fill  = el('svc-fill');
     if (!sec||!wrap) return;
-    // Horizontal pinning only on desktop — tablet/mobile use CSS vertical stack.
-    if (window.innerWidth < 860) return;
     var slides = qsa('.svc-slide', wrap);
     var N = slides.length;
     wrap.style.width = (N*100)+'vw';
@@ -2772,11 +2753,8 @@ var RV=[
       initCursor();
       initHero();
       initACBg();
-      // Pin-heavy animations only on desktop — mobile shows static fallback via CSS.
-      if (window.innerWidth >= 860) {
-        initACExplode();
-        initHScroll();
-      }
+      initACExplode();
+      initHScroll();
       ScrollTrigger.refresh();
     }
   }
