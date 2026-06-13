@@ -825,15 +825,14 @@ button { font:inherit; }
   letter-spacing: .08em;
 }
 .svc-ctr b { color:var(--gold); }
-/* Progress bar — hidden on mobile */
-#svc-prog { display:none; }
-/* ── ALL SCREENS: GSAP horizontal scroll — wider cards than before ── */
+/* ── ALL SCREENS: GSAP horizontal scroll ── */
+#services { overflow: hidden; position: relative; }
+#svc-prog { display: none; }
+
 @media all {
-  #services { overflow: hidden; }
   #svc-wrap {
     flex-direction: row;
     will-change: transform;
-    /* width set by JS */
   }
   .svc-slide {
     width: 100vw;
@@ -847,19 +846,148 @@ button { font:inherit; }
   .svc-intro { max-width: clamp(640px, 76vw, 980px); }
   .svc-card  { max-width: clamp(680px, 78vw, 1100px); }
   .svc-ctr { margin-top: 0; position: absolute; bottom: 2rem; right: 4%; }
+
+  /* Progress bar */
   #svc-prog {
     display: block;
     position: absolute;
     bottom: 0; left: 0; right: 0;
     height: 2px;
-    background: rgba(201,168,76,.1);
+    background: rgba(201,168,76,.08);
+    z-index: 10;
   }
   #svc-fill {
     height: 100%;
-    background: var(--gold);
+    background: linear-gradient(90deg, rgba(201,168,76,.4) 0%, var(--gold) 60%, #f0d87c 100%);
     transform-origin: left;
     transform: scaleX(0);
     transition: none;
+    box-shadow: 0 0 8px rgba(201,168,76,.35);
+  }
+
+  /* ── Scroll-to-explore hint ── */
+  #svc-hint {
+    position: absolute;
+    top: clamp(1.2rem, 2.5vh, 2rem);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+    opacity: 0;
+    z-index: 20;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .svc-hint-line {
+    display: block;
+    width: clamp(28px, 4vw, 48px);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,.55));
+  }
+  .svc-hint-line:last-child {
+    background: linear-gradient(90deg, rgba(201,168,76,.55), transparent);
+  }
+  .svc-hint-text {
+    font-family: var(--fm);
+    font-size: .72rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: .82;
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+  }
+  .svc-hint-arr {
+    display: inline-block;
+    animation: hintArrow 1.4s ease-in-out infinite;
+  }
+  @keyframes hintArrow {
+    0%,100% { transform: translateX(0); opacity: .6; }
+    50%      { transform: translateX(5px); opacity: 1; }
+  }
+
+  /* ── Navigation: dots + prev/next ── */
+  #svc-nav {
+    position: absolute;
+    bottom: clamp(.9rem, 2.2vh, 1.6rem);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    opacity: 0;
+    z-index: 20;
+  }
+  .svc-arrow {
+    background: none;
+    border: 1px solid rgba(201,168,76,.28);
+    color: var(--gold);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: .9rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color .25s, background .25s, opacity .25s;
+    opacity: .55;
+    line-height: 1;
+    padding: 0;
+  }
+  .svc-arrow:hover { border-color: var(--gold); background: rgba(201,168,76,.08); opacity: 1; }
+  #svc-dots {
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+  }
+  .svc-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(201,168,76,.28);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background .3s, transform .3s, width .3s;
+  }
+  .svc-dot.active {
+    background: var(--gold);
+    transform: scale(1.25);
+    width: 18px;
+    border-radius: 3px;
+  }
+
+  /* ── Card icon box ── */
+  .svc-ico {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(2.6rem, 4.5vw, 3.4rem);
+    height: clamp(2.6rem, 4.5vw, 3.4rem);
+    border-radius: 12px;
+    background: rgba(201,168,76,.08);
+    border: 1px solid rgba(201,168,76,.18);
+    font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+    margin-bottom: 1.5rem;
+    transition: background .3s, border-color .3s;
+  }
+  .svc-card:hover .svc-ico {
+    background: rgba(201,168,76,.16);
+    border-color: rgba(201,168,76,.4);
+  }
+
+  /* ── Big number depth layer ── */
+  .svc-n {
+    font-size: clamp(4rem, 12vw, 9rem);
+  }
+
+  /* ── Card hover lift ── */
+  .svc-card {
+    transition: box-shadow .35s, border-color .35s, transform .35s;
+  }
+  .svc-card:hover {
+    box-shadow: 0 20px 60px rgba(0,0,0,.35), 0 0 0 1px rgba(201,168,76,.2);
+    border-color: rgba(201,168,76,.3);
+    transform: translateY(-3px);
   }
 }
 
@@ -1518,6 +1646,11 @@ footer {
 
 <!-- ════════════════════ SERVICES ════════════════════ -->
 <section id="services">
+  <div id="svc-hint" aria-hidden="true">
+    <span class="svc-hint-line"></span>
+    <span class="svc-hint-text"><span class="svc-hint-arr">→</span>&thinsp;Scroll to explore</span>
+    <span class="svc-hint-line"></span>
+  </div>
   <div id="svc-wrap">
     <!-- Intro slide -->
     <div class="svc-slide">
@@ -1566,6 +1699,11 @@ footer {
       </div>
       <div class="svc-ctr"><b>05</b>&thinsp;/&thinsp;05</div>
     </div>
+  </div>
+  <div id="svc-nav" aria-label="Services navigation">
+    <button id="svc-prev" class="svc-arrow" aria-label="Previous service">&#8592;</button>
+    <div id="svc-dots" role="tablist"></div>
+    <button id="svc-next" class="svc-arrow" aria-label="Next service">&#8594;</button>
   </div>
   <div id="svc-prog"><div id="svc-fill"></div></div>
 </section>
@@ -2423,38 +2561,130 @@ footer {
   //  HORIZONTAL SERVICES (desktop only)
   // ────────────────────────────────────────────
   function initHScroll() {
-    var sec   = el('services');
-    var wrap  = el('svc-wrap');
-    var fill  = el('svc-fill');
-    if (!sec||!wrap) return;
-    var slides = qsa('.svc-slide', wrap);
-    var N = slides.length;
-    wrap.style.width = (N*100)+'vw';
+    var sec  = el('services');
+    var wrap = el('svc-wrap');
+    var fill = el('svc-fill');
+    if (!sec || !wrap) return;
 
-    // Main horizontal track — captured so inner layers can parallax off it.
-    var hAnim = gsap.to(wrap,{
-      x:function(){return -((N-1)*window.innerWidth);},
-      ease:'none',
-      scrollTrigger:{
-        trigger:sec,pin:true,pinSpacing:true,
-        scrub:CFG.anim.hScrollScrub,invalidateOnRefresh:true,
-        end:function(){return'+='+(N-1)*window.innerWidth;},
-        snap:{snapTo:1/(N-1),duration:{min:.3,max:.7},ease:'power2.inOut',delay:.04},
-        onUpdate:function(self){if(fill)fill.style.transform='scaleX('+self.progress+')';},
-      },
+    var slides   = qsa('.svc-slide', wrap);
+    var N        = slides.length;
+    var curIdx   = 0;
+    wrap.style.width = (N * 100) + 'vw';
+
+    // Build nav dots
+    var dotsWrap = el('svc-dots');
+    if (dotsWrap) {
+      slides.forEach(function(_, i) {
+        var d = document.createElement('button');
+        d.className = 'svc-dot' + (i === 0 ? ' active' : '');
+        d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+        d.setAttribute('role', 'tab');
+        dotsWrap.appendChild(d);
+        d.addEventListener('click', function() { goToSlide(i); });
+      });
+    }
+
+    function updateNav(idx) {
+      curIdx = idx;
+      qsa('.svc-dot').forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+      var prev = el('svc-prev');
+      var next = el('svc-next');
+      if (prev) prev.style.opacity = idx === 0     ? '.28' : '.85';
+      if (next) next.style.opacity = idx >= N - 1  ? '.28' : '.85';
+    }
+
+    function goToSlide(idx) {
+      idx = Math.max(0, Math.min(N - 1, idx));
+      if (!hTween || !hTween.scrollTrigger) return;
+      var st     = hTween.scrollTrigger;
+      var target = st.start + (idx / (N - 1)) * (st.end - st.start);
+      var start  = window.scrollY;
+      var dist   = target - start;
+      var dur    = 900;
+      var t0     = performance.now();
+      function step(now) {
+        var t = Math.min((now - t0) / dur, 1);
+        // power3.inOut easing
+        var e = t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        window.scrollTo(0, start + dist * e);
+        if (t < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    var prevBtn = el('svc-prev');
+    var nextBtn = el('svc-next');
+    if (prevBtn) prevBtn.addEventListener('click', function() { goToSlide(curIdx - 1); });
+    if (nextBtn) nextBtn.addEventListener('click', function() { goToSlide(curIdx + 1); });
+
+    // Hint element refs
+    var hint = el('svc-hint');
+    var nav  = el('svc-nav');
+
+    function showUI() {
+      gsap.fromTo(hint, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .7, ease: 'power2.out' });
+      gsap.fromTo(nav,  { opacity: 0, y: 8  }, { opacity: 1, y: 0, duration: .7, ease: 'power2.out', delay: .1 });
+    }
+    function hideUI(dir) {
+      var yOut = dir === 'back' ? 8 : -6;
+      gsap.to(hint, { opacity: 0, y: yOut, duration: .38, ease: 'power2.in' });
+      gsap.to(nav,  { opacity: 0, y: 6,    duration: .38, ease: 'power2.in', delay: .04 });
+    }
+
+    // Main horizontal track
+    var hTween = gsap.to(wrap, {
+      x: function() { return -((N - 1) * window.innerWidth); },
+      ease: 'none',
+      scrollTrigger: {
+        trigger: sec,
+        pin: true,
+        pinSpacing: true,
+        scrub: 1.8,
+        invalidateOnRefresh: true,
+        end: function() { return '+=' + (N - 1) * window.innerWidth; },
+        snap: {
+          snapTo: 1 / (N - 1),
+          duration: { min: .5, max: 1.0 },
+          ease: 'power3.inOut',
+          delay: 0.06
+        },
+        onUpdate: function(self) {
+          if (fill) fill.style.transform = 'scaleX(' + self.progress + ')';
+          updateNav(Math.round(self.progress * (N - 1)));
+        },
+        onEnter:     function() { showUI(); },
+        onLeave:     function() { hideUI('fwd'); },
+        onEnterBack: function() { showUI(); },
+        onLeaveBack: function() { hideUI('back'); }
+      }
     });
 
-    // Parallax depth — inner layers glide at different rates than the track,
-    // driven by the same horizontal tween (GSAP containerAnimation). The card
-    // content leads gently; the big faint index number drifts further behind
-    // it (clipped by the card's overflow), creating layered depth.
-    slides.forEach(function(slide){
+    // Parallax — card content and big number glide at different depths
+    slides.forEach(function(slide, i) {
       var content = slide.querySelector('.svc-card, .svc-intro');
       var bigNum  = slide.querySelector('.svc-n');
-      if (content) gsap.fromTo(content, {xPercent:9}, {xPercent:-9, ease:'none',
-        scrollTrigger:{containerAnimation:hAnim, trigger:slide, start:'left right', end:'right left', scrub:true}});
-      if (bigNum) gsap.fromTo(bigNum, {xPercent:55}, {xPercent:-55, ease:'none',
-        scrollTrigger:{containerAnimation:hAnim, trigger:slide, start:'left right', end:'right left', scrub:true}});
+
+      if (content) gsap.fromTo(content, { xPercent: 9 }, { xPercent: -9, ease: 'none',
+        scrollTrigger: { containerAnimation: hTween, trigger: slide, start: 'left right', end: 'right left', scrub: true } });
+      if (bigNum) gsap.fromTo(bigNum, { xPercent: 55 }, { xPercent: -55, ease: 'none',
+        scrollTrigger: { containerAnimation: hTween, trigger: slide, start: 'left right', end: 'right left', scrub: true } });
+
+      // Per-slide content stagger fade-in as slide enters center
+      if (i > 0) {
+        var ico   = slide.querySelector('.svc-ico');
+        var title = slide.querySelector('.svc-title');
+        var body  = slide.querySelector('.svc-body');
+        var tag   = slide.querySelector('.svc-tag');
+
+        if (ico)   gsap.fromTo(ico,   { opacity: 0, y: 22 }, { opacity: 1, y: 0,
+          scrollTrigger: { containerAnimation: hTween, trigger: slide, start: 'left right', end: 'center center', scrub: true } });
+        if (title) gsap.fromTo(title, { opacity: 0, y: 28 }, { opacity: 1, y: 0,
+          scrollTrigger: { containerAnimation: hTween, trigger: slide, start: 'left 85%', end: 'center center', scrub: true } });
+        if (body)  gsap.fromTo(body,  { opacity: 0, y: 22 }, { opacity: 1, y: 0,
+          scrollTrigger: { containerAnimation: hTween, trigger: slide, start: 'left 78%', end: 'center center', scrub: true } });
+        if (tag)   gsap.fromTo(tag,   { opacity: 0, y: 16 }, { opacity: 1, y: 0,
+          scrollTrigger: { containerAnimation: hTween, trigger: slide, start: 'left 70%', end: 'center center', scrub: true } });
+      }
     });
   }
 
