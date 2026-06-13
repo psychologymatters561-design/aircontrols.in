@@ -655,6 +655,41 @@ button { font:inherit; }
 }
 .drift-desc--fail { color: #ff6b6b; font-weight: 500; }
 
+/* ── What AMC prevents strip ── */
+.amc-prevents {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin: 2.5rem 0;
+}
+@media (min-width: 560px) { .amc-prevents { grid-template-columns: repeat(3, 1fr); } }
+.amc-pv {
+  display: flex;
+  align-items: flex-start;
+  gap: .9rem;
+  padding: 1.2rem 1.3rem;
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 10px;
+  transition: border-color .3s;
+}
+.amc-pv:hover { border-color: rgba(var(--gold-rgb),.2); }
+.amc-pv-ico { font-size: 1.5rem; flex-shrink: 0; line-height: 1; margin-top: .1rem; }
+.amc-pv-title {
+  font-family: var(--fm);
+  font-size: .62rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: .35rem;
+}
+.amc-pv-body {
+  font-size: clamp(.76rem, 1.4vw, .84rem);
+  color: var(--dim);
+  line-height: 1.6;
+}
+.amc-pv-body strong { color: var(--white); font-weight: 500; }
+
 /* ── Cost comparison ── */
 .cost-compare {
   background: rgba(var(--gold-rgb),.04);
@@ -1879,12 +1914,12 @@ footer {
         <div class="drift-step">
           <div class="drift-dot drift-dot--warn"></div>
           <div class="drift-month">Month 4</div>
-          <div class="drift-desc">15% efficiency lost. Bill rises.</div>
+          <div class="drift-desc">15% efficiency lost. Electricity bill up &#8377;1,500+/month.</div>
         </div>
         <div class="drift-step">
           <div class="drift-dot drift-dot--warn"></div>
           <div class="drift-month">Month 5</div>
-          <div class="drift-desc">Capacitor &amp; drain under stress.</div>
+          <div class="drift-desc">Capacitor overload. Arcing wires. Fire risk.</div>
         </div>
         <div class="drift-step">
           <div class="drift-dot drift-dot--bad"></div>
@@ -1895,6 +1930,30 @@ footer {
           <div class="drift-dot drift-dot--fail"></div>
           <div class="drift-month">Month 7&ndash;8</div>
           <div class="drift-desc drift-desc--fail">Failure &mdash; peak load. &#8377;15,000+ call.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="amc-prevents reveal">
+      <div class="amc-pv">
+        <span class="amc-pv-ico">&#9889;</span>
+        <div>
+          <div class="amc-pv-title">Electricity Savings</div>
+          <div class="amc-pv-body">A fouled coil forces the compressor to draw <strong>15&ndash;30% more power.</strong> Maintenance restores rated efficiency &mdash; saving &#8377;3,000&ndash;12,000 per AC unit each year on your electricity bill.</div>
+        </div>
+      </div>
+      <div class="amc-pv">
+        <span class="amc-pv-ico">&#128293;</span>
+        <div>
+          <div class="amc-pv-title">Fire Risk Eliminated</div>
+          <div class="amc-pv-body">Overloaded capacitors, arcing wire terminals, and moisture-damaged PCBs are the leading cause of <strong>AC-related electrical fires.</strong> Every AMC visit checks and torques every connection &mdash; before it becomes a hazard.</div>
+        </div>
+      </div>
+      <div class="amc-pv">
+        <span class="amc-pv-ico">&#128268;</span>
+        <div>
+          <div class="amc-pv-title">Breakdowns Prevented</div>
+          <div class="amc-pv-body">Scheduled maintenance catches component degradation before failure. <strong>&#8377;208/month</strong> versus a &#8377;15,000+ emergency call &mdash; with no documentation, no priority, and no guarantee it won&rsquo;t repeat.</div>
         </div>
       </div>
     </div>
