@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMC Pricing Calculator — Air Control Delhi</title>
+<meta name="description" content="Get instant, transparent AMC pricing for your AC fleet. Configure by tonnage, age, and quantity. Air Control Delhi — 38 years of HVAC expertise.">
+<link rel="canonical" href="https://aircontrols.in/calculator">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTMiIGZpbGw9IiMwNjBlMWMiLz48dGV4dCB4PSIzMiIgeT0iNDYiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLCdUaW1lcyBOZXcgUm9tYW4nLHNlcmlmIiBmb250LXNpemU9IjQyIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjYzlhODRjIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5BPC90ZXh0Pjwvc3ZnPg==">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:    #060e1c;
+  --navy-1:  #0a1628;
+  --navy-2:  #0f1f3d;
+  --gold:    #c9a84c;
+  --gold-l:  #e8c96e;
+  --gold-d:  #a07830;
+  --gold-rgb: 201,168,76;
+  --ice:     #5ab4ff;
+  --white:   #f8f4ef;
+  --dim:     rgba(248,244,239,.68);
+  --faint:   rgba(248,244,239,.38);
+  --glass:   rgba(255,255,255,.04);
+  --border:  rgba(201,168,76,.14);
+  --fp: 'Playfair Display', Georgia, serif;
+  --fd: 'DM Sans', system-ui, sans-serif;
+  --fm: 'JetBrains Mono', monospace;
+  --ease: cubic-bezier(.16,1,.3,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--navy);
+  color: var(--white);
+  font-family: var(--fd);
+  font-size: 15px;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ─────────────────────────────────────── */
+.calc-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(6,14,28,.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 clamp(1.2rem,4vw,2.5rem);
+  display: flex; align-items: center; justify-content: space-between;
+  height: 58px;
+}
+.calc-nav-brand {
+  font-family: var(--fp);
+  font-size: 1.15rem;
+  color: var(--gold);
+  text-decoration: none;
+  letter-spacing: .02em;
+}
+.calc-nav-back {
+  font-family: var(--fm);
+  font-size: .7rem;
+  letter-spacing: .12em;
+  color: var(--dim);
+  text-decoration: none;
+  display: flex; align-items: center; gap: .4rem;
+  transition: color .2s;
+}
+.calc-nav-back:hover { color: var(--gold); }
+.calc-nav-back::before { content: "←"; font-size: .85rem; }
+
+/* ── PAGE HEADER ─────────────────────────────── */
+.calc-hero {
+  padding: clamp(2rem,6vw,4rem) clamp(1.2rem,4vw,2.5rem) clamp(1.5rem,4vw,2.5rem);
+  max-width: 960px; margin: 0 auto; text-align: center;
+}
+.calc-label {
+  font-family: var(--fm);
+  font-size: .68rem; letter-spacing: .2em;
+  color: var(--gold); text-transform: uppercase;
+  margin-bottom: .8rem;
+}
+.calc-title {
+  font-family: var(--fp);
+  font-size: clamp(1.9rem, 5vw, 2.8rem);
+  font-weight: 400; line-height: 1.15;
+  color: var(--white);
+  margin-bottom: .75rem;
+}
+.calc-title em { color: var(--gold); font-style: italic; }
+.calc-sub {
+  font-size: .88rem; color: var(--dim); line-height: 1.6;
+  max-width: 520px; margin: 0 auto;
+}
+
+/* ── LAYOUT ──────────────────────────────────── */
+.calc-body { max-width: 960px; margin: 0 auto; padding: 0 clamp(1rem,3vw,2rem) 4rem; }
+
+/* ── PANEL ───────────────────────────────────── */
+.panel {
+  background: rgba(10,22,40,.8);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: clamp(1.2rem,3vw,1.8rem);
+  margin-bottom: 1.25rem;
+}
+.panel-label {
+  font-family: var(--fm);
+  font-size: .65rem; letter-spacing: .18em;
+  color: rgba(201,168,76,.55);
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+
+/* ── TONNAGE BUTTONS ─────────────────────────── */
+.t-row { display: flex; gap: .5rem; flex-wrap: wrap; }
+.t-btn {
+  padding: .55rem 1.1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(201,168,76,.16);
+  background: transparent;
+  color: var(--dim);
+  cursor: pointer;
+  font-family: var(--fm); font-size: .75rem; letter-spacing: .05em;
+  transition: all .15s var(--ease);
+}
+.t-btn:hover  { border-color: rgba(201,168,76,.4); color: var(--white); }
+.t-btn.active { border-color: var(--gold); background: rgba(201,168,76,.1); color: var(--gold); }
+
+/* ── AGE GRID ────────────────────────────────── */
+.age-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: .6rem; }
+.age-btn {
+  padding: .85rem .8rem;
+  border-radius: 10px;
+  border: 1px solid rgba(201,168,76,.12);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: all .15s var(--ease);
+}
+.age-btn:hover { border-color: rgba(201,168,76,.32); }
+.age-btn.active { border-color: var(--gold); background: rgba(201,168,76,.08); }
+.age-btn-label { font-family: var(--fm); font-size: .78rem; color: var(--dim); margin-bottom: .22rem; display: block; }
+.age-btn.active .age-btn-label { color: var(--white); }
+.age-btn-sub { font-size: .68rem; color: rgba(248,244,239,.3); margin-bottom: .4rem; display: block; }
+.age-badge {
+  display: inline-block;
+  font-family: var(--fm); font-size: .58rem; letter-spacing: .1em;
+  padding: 2px 6px; border-radius: 4px;
+}
+.badge-low  { background: #dcfce7; color: #166534; }
+.badge-mod  { background: #fef9c3; color: #854d0e; }
+.badge-high { background: #fee2e2; color: #991b1b; }
+.badge-crit { background: #fce7f3; color: #831843; }
+
+/* ── QTY INPUT ───────────────────────────────── */
+.qty-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.qty-ctrl { display: flex; align-items: center; }
+.qty-btn {
+  width: 40px; height: 40px;
+  background: rgba(255,255,255,.05); border: 1px solid rgba(201,168,76,.2);
+  color: var(--dim); font-size: 1.2rem;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.qty-btn:first-child { border-radius: 8px 0 0 8px; }
+.qty-btn:last-child  { border-radius: 0 8px 8px 0; }
+.qty-btn:hover { background: rgba(201,168,76,.1); color: var(--gold); }
+.qty-input {
+  width: 64px; height: 40px;
+  background: rgba(6,14,28,.8);
+  border: 1px solid rgba(201,168,76,.2); border-left: none; border-right: none;
+  color: var(--white); text-align: center;
+  font-family: var(--fm); font-size: 1rem;
+}
+.qty-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.vol-badge {
+  padding: .45rem .9rem;
+  background: rgba(90,207,158,.07);
+  border: 1px solid rgba(90,207,158,.25);
+  border-radius: 8px;
+  font-family: var(--fm); font-size: .7rem;
+  color: #5fcf9e;
+  display: none;
+}
+.vol-badge.visible { display: block; }
+
+/* ── TIER CARDS ──────────────────────────────── */
+.tier-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(248px,1fr)); gap: 1rem; margin-bottom: 1.25rem; }
+.tier-card {
+  background: rgba(10,22,40,.8);
+  border: 1px solid rgba(201,168,76,.1);
+  border-radius: 16px; padding: 1.4rem;
+  cursor: pointer; position: relative; overflow: hidden;
+  transition: all .2s var(--ease);
+}
+.tier-card:hover { border-color: rgba(201,168,76,.28); transform: translateY(-2px); }
+.tier-card.active {
+  background: rgba(10,22,40,.95);
+  transform: translateY(-2px);
+}
+.tier-card.locked { opacity: .45; cursor: not-allowed; }
+.tier-card.locked:hover { transform: none; }
+
+.tier-pop-badge {
+  position: absolute; top: .9rem; right: .9rem;
+  font-family: var(--fm); font-size: .58rem; letter-spacing: .15em;
+  padding: 3px 8px; border-radius: 4px;
+  background: var(--ice); color: var(--navy);
+}
+.tier-name { font-family: var(--fp); font-size: 1.3rem; font-weight: 400; margin-bottom: .15rem; }
+.tier-tagline { font-family: var(--fm); font-size: .62rem; letter-spacing: .14em; color: var(--faint); margin-bottom: 1rem; text-transform: uppercase; }
+.tier-price { font-family: var(--fm); font-size: 1.65rem; font-weight: 500; margin-bottom: .2rem; }
+.tier-meta  { font-family: var(--fm); font-size: .65rem; color: var(--faint); margin-bottom: .6rem; }
+.tier-per-unit { font-family: var(--fm); font-size: .65rem; color: rgba(248,244,239,.35); }
+.tier-monthly {
+  display: inline-block;
+  padding: .38rem .75rem;
+  background: rgba(255,255,255,.04);
+  border-radius: 6px;
+  margin-top: .6rem;
+  font-family: var(--fm); font-size: .75rem;
+}
+.tier-monthly span { font-size: .95rem; font-weight: 500; }
+.tier-saving { font-family: var(--fm); font-size: .64rem; color: #5fcf9e; margin-top: .4rem; }
+.tier-locked-msg { font-family: var(--fm); font-size: .7rem; color: #f87171; }
+
+/* ── DETAIL PANEL ────────────────────────────── */
+.detail-panel {
+  background: rgba(10,22,40,.8);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  transition: border-color .2s;
+}
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+@media (max-width: 540px) { .detail-grid { grid-template-columns: 1fr; } }
+.detail-col-label {
+  font-family: var(--fm); font-size: .65rem; letter-spacing: .16em;
+  margin-bottom: .75rem;
+}
+.detail-col-label.inc { color: #5fcf9e; }
+.detail-col-label.exc { color: #f87171; }
+.detail-item {
+  display: flex; align-items: flex-start; gap: .5rem;
+  font-size: .82rem; color: var(--dim);
+  margin-bottom: .55rem; line-height: 1.45;
+}
+.detail-item-ico { flex-shrink: 0; margin-top: .05rem; font-size: .8rem; }
+.detail-note {
+  margin-top: .8rem; padding: .6rem .75rem;
+  background: rgba(251,191,36,.06);
+  border: 1px solid rgba(251,191,36,.22);
+  border-radius: 8px;
+  font-family: var(--fm); font-size: .68rem; color: #fbbf24;
+  line-height: 1.55;
+}
+
+/* ── REFERENCE TABLES ────────────────────────── */
+.ref-row { display: flex; gap: .6rem; flex-wrap: wrap; }
+.ref-slab {
+  padding: .6rem 1rem; border-radius: 8px;
+  background: transparent; border: 1px solid rgba(201,168,76,.1);
+  text-align: center; min-width: 95px;
+  transition: all .15s;
+}
+.ref-slab.active { background: rgba(201,168,76,.08); border-color: var(--gold); }
+.ref-slab-label { font-family: var(--fm); font-size: .68rem; color: var(--faint); display: block; margin-bottom: .3rem; }
+.ref-slab.active .ref-slab-label { color: var(--gold); }
+.ref-slab-val  { font-family: var(--fm); font-size: 1.05rem; font-weight: 500; }
+.ref-slab-val.green { color: #5fcf9e; }
+.ref-slab-val.muted { color: rgba(248,244,239,.25); }
+
+.age-ref-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px,1fr)); gap: .6rem; }
+.age-ref-card {
+  padding: .8rem;
+  background: rgba(255,255,255,.02);
+  border: 1px solid rgba(201,168,76,.08);
+  border-radius: 10px;
+}
+.age-ref-label { font-family: var(--fm); font-size: .7rem; color: var(--dim); margin-bottom: .3rem; }
+.age-ref-pct { font-family: var(--fm); font-size: 1.1rem; color: var(--white); }
+.age-ref-note { font-size: .65rem; color: var(--faint); margin-top: .2rem; }
+.ref-footnote { font-family: var(--fm); font-size: .65rem; color: var(--faint); margin-top: .9rem; line-height: 1.6; }
+
+/* ── CTA STRIP ───────────────────────────────── */
+.calc-cta {
+  margin-top: 1.5rem; padding: 2rem 1.8rem;
+  background: linear-gradient(135deg, rgba(201,168,76,.06) 0%, rgba(10,22,40,.9) 100%);
+  border: 1px solid rgba(201,168,76,.22);
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1.5rem; flex-wrap: wrap;
+}
+.calc-cta-text h3 { font-family: var(--fp); font-size: 1.3rem; font-weight: 400; margin-bottom: .35rem; }
+.calc-cta-text p  { font-size: .82rem; color: var(--dim); }
+.cta-btns { display: flex; gap: .6rem; flex-wrap: wrap; flex-shrink: 0; }
+.btn-gold {
+  padding: .65rem 1.4rem;
+  background: var(--gold); color: var(--navy);
+  border: none; border-radius: 8px;
+  font-family: var(--fd); font-size: .82rem; font-weight: 600;
+  cursor: pointer; text-decoration: none;
+  transition: background .15s;
+  display: inline-block;
+}
+.btn-gold:hover { background: var(--gold-l); }
+.btn-ghost {
+  padding: .65rem 1.4rem;
+  background: transparent; color: var(--dim);
+  border: 1px solid rgba(201,168,76,.25); border-radius: 8px;
+  font-family: var(--fd); font-size: .82rem;
+  cursor: pointer; text-decoration: none;
+  transition: all .15s;
+  display: inline-block;
+}
+.btn-ghost:hover { border-color: var(--gold); color: var(--white); }
+
+/* ── FOOTER ──────────────────────────────────── */
+.calc-footer {
+  text-align: center; padding: 2rem 1rem;
+  font-family: var(--fm); font-size: .65rem;
+  color: rgba(248,244,239,.2); line-height: 2;
+  border-top: 1px solid rgba(201,168,76,.06);
+  margin-top: 3rem;
+}
+
+/* ── SECTION SPACING ─────────────────────────── */
+.field-group { margin-bottom: 1.4rem; }
+.field-group:last-child { margin-bottom: 0; }
+.field-label {
+  font-family: var(--fm); font-size: .65rem; letter-spacing: .14em;
+  color: rgba(248,244,239,.42); text-transform: uppercase;
+  margin-bottom: .55rem; display: block;
+}
+
+/* ── COLOR ACCENTS FOR ACTIVE TIER ──────────── */
+.detail-panel[data-tier="essential"] { border: 1px solid rgba(100,116,139,.35); }
+.detail-panel[data-tier="shield"]    { border: 1px solid rgba(56,189,248,.28); }
+.detail-panel[data-tier="fortress"]  { border: 1px solid rgba(167,139,250,.28); }
+.tier-card[data-tier="essential"].active .tier-name { color: #94a3b8; }
+.tier-card[data-tier="shield"].active    .tier-name { color: #38bdf8; }
+.tier-card[data-tier="fortress"].active  .tier-name { color: #a78bfa; }
+.tier-card[data-tier="shield"].active    { border-color: rgba(56,189,248,.5); }
+.tier-card[data-tier="fortress"].active  { border-color: rgba(167,139,250,.5); }
+.tier-card[data-tier="essential"].active { border-color: rgba(100,116,139,.5); }
+.tier-card[data-tier="shield"]    .tier-monthly span { color: #38bdf8; }
+.tier-card[data-tier="fortress"]  .tier-monthly span { color: #a78bfa; }
+.tier-card[data-tier="essential"] .tier-monthly span { color: #94a3b8; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="calc-nav">
+  <a href="/" class="calc-nav-brand">Air Control</a>
+  <a href="/" class="calc-nav-back">Back to site</a>
+</nav>
+
+<!-- HERO -->
+<div class="calc-hero">
+  <div class="calc-label">AMC Pricing Calculator</div>
+  <h1 class="calc-title">Transparent pricing,<br><em>configured for your fleet.</em></h1>
+  <p class="calc-sub">Select your AC type, machine age, and quantity. See real annual and monthly costs instantly — no calls, no guesswork.</p>
+</div>
+
+<!-- BODY -->
+<div class="calc-body">
+
+  <!-- CONFIG PANEL -->
+  <div class="panel">
+    <div class="panel-label">Configure your fleet</div>
+
+    <div class="field-group">
+      <span class="field-label">Tonnage capacity</span>
+      <div class="t-row" id="tonnage-row"></div>
+    </div>
+
+    <div class="field-group">
+      <span class="field-label">Machine age</span>
+      <div class="age-grid" id="age-grid"></div>
+    </div>
+
+    <div class="field-group">
+      <span class="field-label">Number of AC units</span>
+      <div class="qty-row">
+        <div class="qty-ctrl">
+          <button class="qty-btn" id="qty-dec">−</button>
+          <input type="number" class="qty-input" id="qty-input" min="1" max="200" value="1">
+          <button class="qty-btn" id="qty-inc">+</button>
+        </div>
+        <div class="vol-badge" id="vol-badge"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIER CARDS -->
+  <div class="panel-label" style="padding: 0 .1rem; margin-bottom: .75rem;">Your pricing options</div>
+  <div class="tier-grid" id="tier-grid"></div>
+
+  <!-- DETAIL PANEL -->
+  <div class="detail-panel" id="detail-panel"></div>
+
+  <!-- VOLUME REFERENCE -->
+  <div class="panel">
+    <div class="panel-label">Volume discount slabs</div>
+    <div class="ref-row" id="vol-ref"></div>
+  </div>
+
+  <!-- AGE RISK REFERENCE -->
+  <div class="panel">
+    <div class="panel-label">Age risk surcharge</div>
+    <div class="age-ref-grid" id="age-ref"></div>
+    <p class="ref-footnote">* Age surcharge reflects higher service frequency, parts wear, and risk exposure on older units — especially relevant for Comprehensive plans.</p>
+  </div>
+
+  <!-- CTA -->
+  <div class="calc-cta">
+    <div class="calc-cta-text">
+      <h3>Ready to protect your fleet?</h3>
+      <p>Get a written quote and a formal commercial assessment within 4 hours.</p>
+    </div>
+    <div class="cta-btns">
+      <a href="https://wa.me/919312264832" target="_blank" class="btn-gold">WhatsApp Us Now</a>
+      <a href="/#contact" class="btn-ghost">Send a Query</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="calc-footer">
+  AIR CONTROL &middot; aircontrols.in &middot; +91 93122 64832<br>
+  38 Years &middot; 15+ Embassies &middot; 0 Safety Incidents
+</footer>
+
+<script>
+var TONNAGE = [
+  {label:'1 Ton', value:1.0, base:1800},
+  {label:'1.5 Ton', value:1.5, base:2200},
+  {label:'2 Ton', value:2.0, base:2800},
+  {label:'3 Ton', value:3.0, base:3800},
+  {label:'5 Ton+', value:5.0, base:5500},
+];
+
+var AGES = [
+  {label:'0–3 Years', sub:'New & Healthy', mult:1.0, badge:'LOW RISK', badgeClass:'badge-low'},
+  {label:'3–7 Years', sub:'Mid Life',      mult:1.2, badge:'MODERATE',  badgeClass:'badge-mod'},
+  {label:'7–12 Years',sub:'Ageing',        mult:1.5, badge:'HIGH RISK', badgeClass:'badge-high'},
+  {label:'12+ Years', sub:'Legacy',        mult:1.85,badge:'CRITICAL',  badgeClass:'badge-crit'},
+];
+
+var TIERS = [
+  {
+    key:'essential', name:'Essential', tagline:'Non-Comprehensive',
+    mult:1.0, accentVar:'#94a3b8',
+    includes:[
+      '1 scheduled service visit / year',
+      'Full labour covered (all visits)',
+      'Drain flush & filter clean',
+      'Electrical safety check',
+      '10% discount on all parts',
+      'Standard response time',
+    ],
+    excludes:['Parts cost','Gas refill','Priority dispatch'],
+  },
+  {
+    key:'shield', name:'Shield', tagline:'Semi-Comprehensive',
+    mult:1.65, accentVar:'#38bdf8', popular:true,
+    includes:[
+      '2 scheduled service visits / year',
+      'Full labour covered',
+      'Minor parts: capacitor, relay, filters',
+      '1 gas top-up per year (up to 300 g)',
+      'Drain & coil deep clean',
+      'Priority response (4 hours)',
+      '15% discount on major parts',
+    ],
+    excludes:['Compressor','PCB board','Fan motor'],
+  },
+  {
+    key:'fortress', name:'Fortress', tagline:'Comprehensive',
+    mult:2.5, accentVar:'#a78bfa',
+    includes:[
+      '2 scheduled service visits / year',
+      'All labour — unlimited visits',
+      'All parts covered (see exclusion)',
+      'Unlimited gas top-ups',
+      'Chemical coil wash included',
+      '2-hour emergency priority response',
+      'Dedicated engineer per site',
+      'Written SLA with penalty clause',
+      'Annual health report per unit',
+    ],
+    excludes:['Compressor replacement','Physical damage / external cause'],
+    ageNote:'Only available for ACs under 10 years. Older units require site inspection.',
+  },
+];
+
+var SLABS = [
+  {min:1,  max:1,   label:'1 AC',    disc:0},
+  {min:2,  max:5,   label:'2–5 ACs', disc:.08},
+  {min:6,  max:10,  label:'6–10 ACs',disc:.15},
+  {min:11, max:20,  label:'11–20 ACs',disc:.22},
+  {min:21, max:999, label:'20+ ACs', disc:.28},
+];
+
+var state = { tIdx:1, aIdx:0, qty:1, tier:'shield' };
+
+function getSlab(qty) {
+  return SLABS.find(function(s){return qty>=s.min&&qty<=s.max;}) || SLABS[SLABS.length-1];
+}
+
+function calcPrice(base, aMult, tMult, qty) {
+  var perUnit   = Math.round(base * aMult * tMult / 100) * 100;
+  var total     = perUnit * qty;
+  var slab      = getSlab(qty);
+  var discounted= Math.round(total*(1-slab.disc)/100)*100;
+  return {perUnit:perUnit, total:total, discounted:discounted, slab:slab};
+}
+
+function inr(n) { return '₹' + n.toLocaleString('en-IN'); }
+
+/* ── BUILD TONNAGE ── */
+var tonnageRow = document.getElementById('tonnage-row');
+TONNAGE.forEach(function(t,i){
+  var b = document.createElement('button');
+  b.className = 't-btn' + (i===state.tIdx?' active':'');
+  b.textContent = t.label;
+  b.onclick = function(){state.tIdx=i; render();};
+  tonnageRow.appendChild(b);
+});
+
+/* ── BUILD AGE ── */
+var ageGrid = document.getElementById('age-grid');
+AGES.forEach(function(a,i){
+  var b = document.createElement('button');
+  b.className = 'age-btn' + (i===state.aIdx?' active':'');
+  b.innerHTML =
+    '<span class="age-btn-label">'+a.label+'</span>'+
+    '<span class="age-btn-sub">'+a.sub+'</span>'+
+    '<span class="age-badge '+a.badgeClass+'">'+a.badge+'</span>';
+  b.onclick = function(){state.aIdx=i; render();};
+  ageGrid.appendChild(b);
+});
+
+/* ── QTY ── */
+document.getElementById('qty-dec').onclick = function(){
+  state.qty = Math.max(1, state.qty-1);
+  document.getElementById('qty-input').value = state.qty;
+  render();
+};
+document.getElementById('qty-inc').onclick = function(){
+  state.qty = state.qty+1;
+  document.getElementById('qty-input').value = state.qty;
+  render();
+};
+document.getElementById('qty-input').oninput = function(){
+  var v = parseInt(this.value)||1;
+  state.qty = Math.max(1, Math.min(200, v));
+  render();
+};
+
+/* ── BUILD VOLUME REFERENCE ── */
+var volRef = document.getElementById('vol-ref');
+SLABS.forEach(function(s,i){
+  var d = document.createElement('div');
+  d.className = 'ref-slab';
+  d.id = 'vs-'+i;
+  d.innerHTML =
+    '<span class="ref-slab-label">'+s.label+'</span>'+
+    '<div class="ref-slab-val '+(s.disc>0?'green':'muted')+'">'+
+      (s.disc>0?'-'+Math.round(s.disc*100)+'%':'Base')+
+    '</div>';
+  volRef.appendChild(d);
+});
+
+/* ── BUILD AGE RISK REFERENCE ── */
+var ageRef = document.getElementById('age-ref');
+AGES.forEach(function(a){
+  var d = document.createElement('div');
+  d.className = 'age-ref-card';
+  d.innerHTML =
+    '<div class="age-ref-label">'+a.label+'</div>'+
+    '<span class="age-badge '+a.badgeClass+'" style="margin-bottom:.45rem;display:inline-block">'+a.badge+'</span>'+
+    '<div class="age-ref-pct">+'+Math.round((a.mult-1)*100)+'%</div>'+
+    '<div class="age-ref-note">surcharge on base</div>';
+  ageRef.appendChild(d);
+});
+
+/* ── RENDER ── */
+function render() {
+  var tonnage = TONNAGE[state.tIdx];
+  var age     = AGES[state.aIdx];
+  var slab    = getSlab(state.qty);
+
+  /* tonnage buttons */
+  var tBtns = tonnageRow.querySelectorAll('.t-btn');
+  tBtns.forEach(function(b,i){ b.classList.toggle('active', i===state.tIdx); });
+
+  /* age buttons */
+  var aBtns = ageGrid.querySelectorAll('.age-btn');
+  aBtns.forEach(function(b,i){ b.classList.toggle('active', i===state.aIdx); });
+
+  /* vol badge */
+  var volBadge = document.getElementById('vol-badge');
+  if(slab.disc>0){
+    volBadge.textContent = slab.label+' — '+Math.round(slab.disc*100)+'% volume discount applied';
+    volBadge.classList.add('visible');
+  } else {
+    volBadge.classList.remove('visible');
+  }
+
+  /* vol reference */
+  SLABS.forEach(function(s,i){
+    var el = document.getElementById('vs-'+i);
+    if(el) el.classList.toggle('active', state.qty>=s.min&&state.qty<=s.max);
+  });
+
+  /* tier cards */
+  var tierGrid = document.getElementById('tier-grid');
+  var existingCards = tierGrid.querySelectorAll('.tier-card');
+
+  if(existingCards.length !== TIERS.length) {
+    tierGrid.innerHTML = '';
+    TIERS.forEach(function(tier){
+      var card = document.createElement('div');
+      card.className = 'tier-card';
+      card.dataset.tier = tier.key;
+      card.onclick = function(){
+        if(this.classList.contains('locked')) return;
+        state.tier = tier.key; render();
+      };
+      tierGrid.appendChild(card);
+    });
+  }
+
+  TIERS.forEach(function(tier){
+    var card = tierGrid.querySelector('[data-tier="'+tier.key+'"]');
+    if(!card) return;
+    var prices = calcPrice(tonnage.base, age.mult, tier.mult, state.qty);
+    var monthly = Math.round(prices.discounted/12/10)*10;
+    var locked  = tier.key==='fortress' && state.aIdx>=3;
+
+    card.classList.toggle('active',  state.tier===tier.key);
+    card.classList.toggle('locked',  locked);
+
+    var inner = '';
+    if(tier.popular) inner += '<div class="tier-pop-badge">POPULAR</div>';
+    inner += '<div class="tier-name">'+tier.name+'</div>';
+    inner += '<div class="tier-tagline">'+tier.tagline.toUpperCase()+'</div>';
+
+    if(locked){
+      inner += '<div class="tier-locked-msg">&#9888; Site inspection required for 12+ yr units</div>';
+    } else {
+      inner += '<div class="tier-price">'+inr(prices.discounted)+'</div>';
+      inner += '<div class="tier-meta">per year &middot; '+state.qty+' AC'+(state.qty>1?'s':'')+' &middot; '+tonnage.label+'</div>';
+      if(state.qty>1){
+        inner += '<div class="tier-per-unit">'+inr(Math.round(prices.discounted/state.qty))+' per unit</div>';
+      }
+      inner += '<div class="tier-monthly">Monthly equivalent: <span>'+inr(monthly)+'/mo</span></div>';
+      if(slab.disc>0){
+        inner += '<div class="tier-saving">Saved '+inr(prices.total-prices.discounted)+' with volume pricing</div>';
+      }
+    }
+    card.innerHTML = inner;
+  });
+
+  /* detail panel */
+  var activeTier = TIERS.find(function(t){return t.key===state.tier;});
+  var dp = document.getElementById('detail-panel');
+  dp.dataset.tier = activeTier.key;
+
+  var prices = calcPrice(tonnage.base, age.mult, activeTier.mult, state.qty);
+  var dpHtml = '<div class="panel-label">'+activeTier.name.toUpperCase()+' — WHAT’S INCLUDED</div>';
+  dpHtml += '<div class="detail-grid">';
+  dpHtml += '<div>';
+  dpHtml += '<div class="detail-col-label inc">✓ INCLUDED</div>';
+  activeTier.includes.forEach(function(item){
+    dpHtml += '<div class="detail-item"><span class="detail-item-ico" style="color:#5fcf9e">✓</span>'+item+'</div>';
+  });
+  dpHtml += '</div>';
+  dpHtml += '<div>';
+  dpHtml += '<div class="detail-col-label exc">✗ NOT INCLUDED</div>';
+  activeTier.excludes.forEach(function(item){
+    dpHtml += '<div class="detail-item"><span class="detail-item-ico" style="color:#f87171">✗</span>'+item+'</div>';
+  });
+  if(activeTier.ageNote){
+    dpHtml += '<div class="detail-note">&#9888; '+activeTier.ageNote+'</div>';
+  }
+  dpHtml += '</div>';
+  dpHtml += '</div>';
+  dp.innerHTML = dpHtml;
+}
+
+render();
+</script>
+</body>
+</html>
