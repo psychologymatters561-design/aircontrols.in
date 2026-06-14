@@ -1827,6 +1827,156 @@ footer {
   .t-h2    { font-size:clamp(1.5rem,5.5vw,2rem); }
   .hero-sub{ font-size:.82rem; }
 }
+
+/* ═══════════════════════════════════════
+   MOBILE OPTIMISATION  (≤640px)
+═══════════════════════════════════════ */
+
+/* ── Protocol section: static layout on mobile ── */
+@media (max-width: 640px) {
+  #ac-section { overflow: visible; }
+  #ac-stage {
+    height: auto;
+    min-height: 0;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: clamp(5rem,13vw,7rem) 1.2rem 2.5rem;
+    gap: 1.4rem;
+    overflow: visible;
+  }
+  .ac-stage-hdr {
+    position: relative;
+    top: auto; left: auto; right: auto;
+    padding: 0;
+    pointer-events: auto;
+    text-align: center;
+  }
+  .ac-stage-hdr h2 { font-size: clamp(1.2rem,5.2vw,1.55rem); }
+  #ac-assembled {
+    position: relative;
+    width: min(300px,86vw);
+    margin: 0 auto;
+    opacity: 1 !important;
+    transform: none !important;
+    flex-shrink: 0;
+  }
+  .ac-glow { display: none; }
+  .xpart, #ac-lines { display: none !important; }
+  .ac-stage-cta {
+    position: relative;
+    bottom: auto; left: auto; right: auto;
+    opacity: 1 !important;
+    padding: 0;
+    width: 100%;
+  }
+  /* Mobile static parts grid */
+  .ac-mobile-parts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .6rem;
+    width: 100%;
+  }
+  .ac-mp-card {
+    background: rgba(10,22,40,.88);
+    border: 1px solid rgba(201,168,76,.18);
+    border-top: 1px solid rgba(201,168,76,.4);
+    border-radius: 10px;
+    padding: .7rem .75rem;
+  }
+  .ac-mp-icon { font-size: 1.1rem; margin-bottom: .28rem; display: block; line-height:1; }
+  .ac-mp-name {
+    font-family: var(--fd);
+    font-size: .67rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: .32rem;
+    line-height: 1.2;
+  }
+  .ac-mp-steps { list-style: none; padding: 0; margin: 0; }
+  .ac-mp-steps li {
+    font-size: .56rem;
+    color: var(--dim);
+    line-height: 1.38;
+    padding: .06rem 0;
+    display: flex;
+    gap: .22rem;
+    align-items: flex-start;
+    border-bottom: 1px solid rgba(255,255,255,.04);
+  }
+  .ac-mp-steps li:last-child { border-bottom: none; }
+  .ac-mp-steps li::before { content:"✓"; color:#5fcf9e; font-size:.56rem; flex-shrink:0; margin-top:.04rem; }
+}
+@media (min-width: 641px) {
+  .ac-mobile-parts { display: none !important; }
+}
+
+/* ── Drift timeline: horizontal scroll on mobile ── */
+@media (max-width: 640px) {
+  .drift-timeline { padding: 1.2rem .8rem 1rem; }
+  .drift-track { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: .6rem; scroll-snap-type: x proximity; }
+  .drift-track::before { top: 9px; left: 0; right: 0; }
+  .drift-step { min-width: 68px; flex-shrink: 0; scroll-snap-align: start; }
+  .drift-month { font-size: .45rem; }
+  .drift-desc { font-size: .54rem; }
+}
+
+/* ── Services horizontal scroll: fix content width on mobile ── */
+@media (max-width: 640px) {
+  .svc-intro { max-width: 100% !important; }
+  .svc-card  { max-width: 100% !important; }
+  .svc-slide {
+    padding: clamp(3.5rem,9vw,5rem) 1.1rem clamp(3rem,7vw,4rem) !important;
+    align-items: flex-start !important;
+  }
+  .svc-n { font-size: clamp(3rem,9vw,5rem) !important; }
+  .svc-title { font-size: clamp(1.1rem,4.5vw,1.35rem) !important; }
+}
+
+/* ── Pricing CTA section: stack on mobile ── */
+@media (max-width: 640px) {
+  #pricing > div { flex-direction: column !important; align-items: flex-start !important; }
+  #pricing .cta-btns, #pricing div:last-child { width: 100%; }
+  #pricing a { text-align: center; width: 100%; }
+}
+
+/* ── Cost compare: hide vs divider on very small screens ── */
+@media (max-width: 480px) {
+  .compare-vs { display: none; }
+  .compare-side--right { text-align: left; }
+  .cost-compare { gap: 1rem; }
+}
+
+/* ── Scene section padding ── */
+@media (max-width: 480px) {
+  .scene-inner { padding: 0 !important; }
+  .scene-header { padding: 0 1rem; }
+  .drift-timeline { border-radius: 8px; }
+  .cost-compare { border-radius: 10px; }
+}
+
+/* ── Offer section ── */
+@media (max-width: 520px) {
+  .offer-response { grid-template-columns: 1fr 1fr; gap: .6rem; }
+  .resp-time { font-size: 1.3rem; }
+}
+
+/* ── Contact form: stack row fields ── */
+@media (max-width: 520px) {
+  .contact-links { gap: .75rem; }
+  .c-link { padding: .9rem 1rem; }
+}
+
+/* ── Footer on mobile ── */
+@media (max-width: 520px) {
+  .ft-top { gap: 1.5rem; }
+}
+
+/* ── Hero buttons: stack cleanly on tiny screens ── */
+@media (max-width: 380px) {
+  .hero-cta .btn { width: 100%; justify-content: center; }
+  .hero-h1 { font-size: clamp(1.75rem,7.8vw,2.1rem); }
+}
 </style>
 </head>
 <body>
@@ -2059,6 +2209,7 @@ footer {
     <canvas id="ac-lines"></canvas>
     <div id="ac-bp-ghost"></div>
     <div id="ac-parts-wrap"></div>
+    <div id="ac-mobile-parts" class="ac-mobile-parts"></div>
 
     <div class="ac-stage-cta" id="ac-cta">
       <p style="font-family:var(--fd);font-style:italic;color:var(--dim);margin-bottom:1rem;font-size:clamp(.88rem,1.8vw,1rem)">Every six months. A written condition report. Every unit. Every reading.</p>
@@ -2951,6 +3102,24 @@ footer {
     var stage = el('ac-stage');
     var ghost = el('ac-bp-ghost');
     if (!wrap) return;
+
+    /* Mobile: skip GSAP animation, build static parts grid */
+    if (window.innerWidth < 640) {
+      var mParts = el('ac-mobile-parts');
+      if (mParts) {
+        var fm = document.createDocumentFragment();
+        PARTS.forEach(function(p){
+          var card = document.createElement('div');
+          card.className = 'ac-mp-card';
+          card.innerHTML = '<span class="ac-mp-icon">'+p.ico+'</span>'
+            +'<div class="ac-mp-name">'+p.name+'</div>'
+            +'<ul class="ac-mp-steps">'+p.steps.map(function(s){return '<li>'+s+'</li>';}).join('')+'</ul>';
+          fm.appendChild(card);
+        });
+        mParts.appendChild(fm);
+      }
+      return;
+    }
 
     function px(p) { return p.qx * (Math.min(window.innerWidth  * CFG.ac.spreadXFrac, CFG.ac.spreadXCap) / CFG.ac.spreadXFrac); }
     function py(p) { return p.qy * (Math.min(window.innerHeight * CFG.ac.spreadYFrac, CFG.ac.spreadYCap) / CFG.ac.spreadYFrac); }

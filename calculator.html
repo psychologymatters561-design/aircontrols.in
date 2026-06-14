@@ -351,6 +351,31 @@ body {
 .tier-card[data-tier="shield"]    .tier-monthly span { color: #38bdf8; }
 .tier-card[data-tier="fortress"]  .tier-monthly span { color: #a78bfa; }
 .tier-card[data-tier="essential"] .tier-monthly span { color: #94a3b8; }
+
+/* ── MOBILE ──────────────────────────────────── */
+@media (max-width: 540px) {
+  .calc-hero { padding: 1.5rem 1rem 1rem; }
+  .calc-title { font-size: clamp(1.5rem,6.5vw,2rem); }
+  .panel { padding: 1rem; }
+  .t-btn { padding: .45rem .8rem; font-size: .7rem; }
+  .tier-grid { grid-template-columns: 1fr; }
+  .tier-card { padding: 1.1rem; }
+  .tier-price { font-size: 1.4rem; }
+  .ref-row { gap: .4rem; }
+  .ref-slab { min-width: 78px; padding: .5rem .6rem; }
+  .ref-slab-val { font-size: .9rem; }
+  .age-ref-grid { grid-template-columns: 1fr 1fr; }
+  .calc-cta { flex-direction: column; padding: 1.4rem 1.2rem; }
+  .cta-btns { width: 100%; flex-direction: column; }
+  .btn-gold, .btn-ghost { text-align: center; width: 100%; }
+  .age-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 380px) {
+  .t-row { gap: .35rem; }
+  .t-btn { padding: .4rem .65rem; font-size: .65rem; }
+  .tier-price { font-size: 1.25rem; }
+  .ref-slab { min-width: 64px; }
+}
 </style>
 </head>
 <body>
