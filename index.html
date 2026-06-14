@@ -1142,7 +1142,8 @@ button { font:inherit; }
   letter-spacing: .08em;
 }
 .svc-ctr b { color:var(--gold); }
-/* ── Horizontal scroll: wrap + slides ── */
+/* ── Horizontal scroll: wrap + slides (desktop ≥641px only) ── */
+@media (min-width: 641px) {
 #svc-wrap {
   flex-direction: row;
   will-change: transform;
@@ -1159,6 +1160,7 @@ button { font:inherit; }
 .svc-intro { max-width: clamp(640px, 76vw, 980px); }
 .svc-card  { max-width: clamp(680px, 78vw, 1100px); }
 .svc-ctr { margin-top: 0; position: absolute; bottom: 2rem; right: 4%; }
+}
 
 /* Progress bar */
 #svc-prog {
@@ -1356,7 +1358,7 @@ button { font:inherit; }
 .mq-track.r3 { animation-duration:38s; }
 @keyframes mq { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
 .rv {
-  width: clamp(260px, 35vw, 310px);
+  width: clamp(min(260px, 88vw), 35vw, 310px);
   flex-shrink: 0;
   background: var(--glass);
   border: 1px solid var(--border);
@@ -1923,14 +1925,26 @@ footer {
 
 /* ── Services horizontal scroll: fix content width on mobile ── */
 @media (max-width: 640px) {
-  .svc-intro { max-width: 100% !important; }
-  .svc-card  { max-width: 100% !important; }
+  /* Services: clean vertical stack when h-scroll is disabled */
+  #services { overflow: visible; }
+  #svc-wrap { flex-direction: column !important; width: auto !important; transform: none !important; }
   .svc-slide {
-    padding: clamp(3.5rem,9vw,5rem) 1.1rem clamp(3rem,7vw,4rem) !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: clamp(2.5rem,7vw,3.5rem) clamp(1.1rem,5%,1.6rem) !important;
     align-items: flex-start !important;
+    justify-content: flex-start !important;
+    flex-shrink: unset !important;
+    border-bottom: 1px solid rgba(201,168,76,.07);
   }
-  .svc-n { font-size: clamp(3rem,9vw,5rem) !important; }
+  .svc-slide:last-child { border-bottom: none; }
+  .svc-intro { max-width: 100% !important; }
+  .svc-card  { max-width: 100% !important; width: 100% !important; }
+  .svc-n { font-size: clamp(3rem,9vw,4.5rem) !important; }
   .svc-title { font-size: clamp(1.1rem,4.5vw,1.35rem) !important; }
+  .svc-ctr { position: relative !important; bottom: auto !important; right: auto !important; margin-top: 1.2rem !important; }
+  #svc-hint, #svc-nav, #svc-prog { display: none !important; }
 }
 
 /* ── Pricing CTA section: stack on mobile ── */
@@ -3628,7 +3642,7 @@ var RV=[
       initHero();
       initACBg();
       initACExplode();
-      initHScroll();
+      if (window.innerWidth >= 641) { initHScroll(); }
       ScrollTrigger.refresh();
     }
   }
