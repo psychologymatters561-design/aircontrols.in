@@ -1295,12 +1295,25 @@ button { font:inherit; }
 
 /* Card hover lift */
 .svc-card {
-  transition: box-shadow .35s, border-color .35s, transform .35s;
+  transition: box-shadow .4s var(--ease), border-color .4s, transform .4s var(--ease);
 }
 .svc-card:hover {
-  box-shadow: 0 20px 60px rgba(0,0,0,.35), 0 0 0 1px rgba(201,168,76,.2);
-  border-color: rgba(201,168,76,.3);
-  transform: translateY(-3px);
+  box-shadow: 0 24px 72px rgba(0,0,0,.42), 0 0 0 1px rgba(201,168,76,.28), 0 0 48px rgba(201,168,76,.06);
+  border-color: rgba(201,168,76,.38);
+  transform: translateY(-4px);
+}
+/* Subtle ambient glow beneath each service slide */
+.svc-slide {
+  position: relative;
+  isolation: isolate;
+}
+.svc-slide::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 72% 55% at 50% 50%, rgba(201,168,76,.045) 0%, transparent 68%);
+  pointer-events: none;
+  z-index: -1;
 }
 
 /* ═══════════════════════════════════════
@@ -1913,14 +1926,60 @@ footer {
   .ac-mobile-parts { display: none !important; }
 }
 
-/* ── Drift timeline: horizontal scroll on mobile ── */
+/* ── Drift timeline: vertical layout on mobile (no horizontal scroll) ── */
 @media (max-width: 640px) {
-  .drift-timeline { padding: 1.2rem .8rem 1rem; }
-  .drift-track { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: .6rem; scroll-snap-type: x proximity; }
-  .drift-track::before { top: 9px; left: 0; right: 0; }
-  .drift-step { min-width: 68px; flex-shrink: 0; scroll-snap-align: start; }
-  .drift-month { font-size: .45rem; }
-  .drift-desc { font-size: .54rem; }
+  .drift-timeline { padding: 1.4rem 1.1rem 1.4rem; }
+  .drift-track {
+    flex-direction: column;
+    align-items: stretch;
+    gap: .7rem;
+    overflow: visible;
+    padding-bottom: 0;
+  }
+  .drift-track::before {
+    top: 6px;
+    left: 5px;
+    right: auto;
+    width: 2px;
+    height: calc(100% - 12px);
+    background: linear-gradient(180deg,
+      rgba(34,255,136,.5) 0%,
+      rgba(34,255,136,.4) 25%,
+      var(--gold) 45%,
+      rgba(255,140,60,.8) 65%,
+      rgba(255,60,60,1) 100%);
+  }
+  .drift-step {
+    display: grid;
+    grid-template-columns: 12px 1fr;
+    grid-template-rows: auto auto;
+    column-gap: .85rem;
+    row-gap: .14rem;
+    flex: none;
+    min-width: unset;
+    scroll-snap-align: none;
+    padding: 0;
+    align-items: start;
+  }
+  .drift-dot {
+    grid-row: 1 / 3;
+    grid-column: 1;
+    align-self: start;
+    margin-top: .15rem;
+  }
+  .drift-month {
+    grid-row: 1;
+    grid-column: 2;
+    font-size: .65rem;
+    text-align: left;
+    white-space: normal;
+  }
+  .drift-desc {
+    grid-row: 2;
+    grid-column: 2;
+    font-size: .8rem;
+    text-align: left;
+  }
 }
 
 /* ── Services horizontal scroll: fix content width on mobile ── */
@@ -2248,7 +2307,6 @@ footer {
         <p class="t-body" style="margin-bottom:2.5rem">One outcome: your system never becomes your problem. We maintain, respond, install, and report &mdash; so you never have to think about it.</p>
         <a href="#contact" class="btn btn-gold">Book a Technician</a>
       </div>
-      <div class="svc-ctr"><b>01</b>&thinsp;/&thinsp;05</div>
     </div>
     <!-- Service cards -->
     <div class="svc-slide">
@@ -2258,7 +2316,6 @@ footer {
         <div class="svc-body">Structured seasonal maintenance. Full 9-point service every engagement. Written six-monthly condition report. Priority emergency response year-round. Starting from &#8377;208 a month.</div>
         <span class="svc-tag">From &#8377;208 / month &bull; Written Reports &bull; Priority Response</span>
       </div>
-      <div class="svc-ctr"><b>02</b>&thinsp;/&thinsp;05</div>
     </div>
     <div class="svc-slide">
       <div class="svc-card">
@@ -2267,7 +2324,6 @@ footer {
         <div class="svc-body">AMC clients are never in an open queue. Commercial and institutional: 2-hour response. Residential: 4-hour response. A team dispatched &mdash; not a promise to call back. Full diagnosis before anything is touched. Every day of the year.</div>
         <span class="svc-tag">2 hr Commercial &bull; 4 hr Residential &bull; AMC Clients First</span>
       </div>
-      <div class="svc-ctr"><b>03</b>&thinsp;/&thinsp;05</div>
     </div>
     <div class="svc-slide">
       <div class="svc-card">
@@ -2276,7 +2332,6 @@ footer {
         <div class="svc-body">Site-assessed before anything is ordered. Properly routed &mdash; copper piping and electrical to specification, not convenience. Fully commissioned. Completely documented on handover. All major brands across residential and commercial.</div>
         <span class="svc-tag">All Brands &bull; Site Survey Included &bull; Fully Commissioned</span>
       </div>
-      <div class="svc-ctr"><b>04</b>&thinsp;/&thinsp;05</div>
     </div>
     <div class="svc-slide">
       <div class="svc-card">
@@ -2285,7 +2340,6 @@ footer {
         <div class="svc-body">Every unit assessed individually. A written document &mdash; unit-by-unit condition ratings, efficiency readings, component health, estimated remaining life, prioritised action list. Not a sales visit. A technical assessment. Fee credited against your AMC if signed within 30 days.</div>
         <span class="svc-tag">Written Assessment &bull; Multi-Unit &bull; Fee Credited Against AMC</span>
       </div>
-      <div class="svc-ctr"><b>05</b>&thinsp;/&thinsp;05</div>
     </div>
   </div>
   <div id="svc-nav" aria-label="Services navigation">
@@ -3297,14 +3351,14 @@ footer {
         trigger: sec,
         pin: true,
         pinSpacing: true,
-        scrub: 1.8,
+        scrub: 1.2,
         invalidateOnRefresh: true,
         end: function() { return '+=' + (N - 1) * window.innerWidth; },
         snap: {
           snapTo: 1 / (N - 1),
-          duration: { min: .5, max: 1.0 },
-          ease: 'power3.inOut',
-          delay: 0.06
+          duration: { min: 0.35, max: 0.75 },
+          ease: 'expo.inOut',
+          delay: 0.04
         },
         onUpdate: function(self) {
           if (fill) fill.style.transform = 'scaleX(' + self.progress + ')';
