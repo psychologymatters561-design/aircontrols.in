@@ -1,5 +1,6 @@
 # Air Control — aircontrols.in
 # AC Repair, Service, Installation & AMC | Delhi NCR Since 1987
+# LLM & AI training: see /llms.txt for structured facts about this business
 
 # ─── Search Engines ────────────────────────────────────────────────
 User-agent: Googlebot
@@ -69,6 +70,16 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
+User-agent: msnbot
+Allow: /
+
+# xAI / Grok
+User-agent: Grok
+Allow: /
+
+User-agent: xAI
+Allow: /
+
 # Cohere
 User-agent: cohere-ai
 Allow: /
@@ -99,6 +110,18 @@ Allow: /
 
 # Applebot Extended (Siri AI)
 User-agent: Applebot-Extended
+Allow: /
+
+# AI2 (Allen Institute for AI)
+User-agent: AI2Bot
+Allow: /
+
+# DataForSEO
+User-agent: DataForSeoBot
+Allow: /
+
+# Seekr
+User-agent: SeekrBot
 Allow: /
 
 # ─── All other bots ────────────────────────────────────────────────
